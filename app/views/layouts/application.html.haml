@@ -1,0 +1,23 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %meta{:charset => "utf-8"}
+    %meta{:content => "IE=Edge,chrome=1", "http-equiv" => "X-UA-Compatible"}
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}
+    %title Футбол
+
+    /[if lt IE 9]
+      %script(src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript")
+    = stylesheet_link_tag "application", :media => "all"
+    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = javascript_include_tag "application"
+  %body
+    %nav.navbar.navbar-default.navbar-fixed-top.navbar-inverse
+      .navbar-header
+        %a.navbar-brand{:href => "#"} Зеленоград
+      .collapse.navbar-collapse
+    .container
+      = yield
+
+    
+    %footer

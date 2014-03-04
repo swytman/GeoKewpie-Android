@@ -1,0 +1,11 @@
+# Ignore bundler config.
+/.bundle
+.DS_*
+
+# Ignore RubyMine settings
+/.idea
+
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp

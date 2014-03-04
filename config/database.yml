@@ -1,0 +1,26 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  port: 5432
+  database: footmanager_development
+  pool: 5
+  username: postgres
+  password: 123
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  port: 5432
+  database: footmanager_test
+  pool: 5
+  username: postgres
+  password: 123
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  port: 5432
+  database: footmanager_production
+  pool: 5
+  username: postgres
+  password: 123
