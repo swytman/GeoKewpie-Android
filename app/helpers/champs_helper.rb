@@ -1,0 +1,2 @@
+module ChampsHelper
+end

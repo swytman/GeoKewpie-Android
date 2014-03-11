@@ -1,0 +1,24 @@
+= form_for @stage, url: form_action, html: {class: 'form form-horizontal'} do |f|
+  = f.hidden_field :champ_id
+  .form-group
+    %label.col-sm-2 Название
+    .col-sm-6
+      = f.text_field :title, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Формат
+    .col-sm-4
+      = f.select :stage_type, Stage.type, {}, { class: 'chosen-select' }
+  .form-group
+    %label.col-sm-2 Статус
+    .col-sm-4
+      = f.select :status, Stage.status, {}, { class: 'chosen-select' }
+  - unless @stage.new_record?
+    = render partial: 'games_table'
+
+
+  .form-group
+    .col-sm-12
+      - unless @stage.new_record?
+        = link_to 'Удалить', champ_stage_path(@champ,@stage), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
+      = f.submit 'Сохранить', class: 'btn btn-success'
+      %a.btn.btn-default{href: request.referer} Отмена

@@ -1,0 +1,8 @@
+%ul.breadcrumb
+  %li= link_to 'Соревнования', champs_path
+  %li= link_to @champ.title, edit_champ_path(@champ.id)
+  %li Новая команда
+
+%h2 Добавить команду
+%br
+= render partial: 'form', locals: {form_action: champ_teams_path(@champ)}

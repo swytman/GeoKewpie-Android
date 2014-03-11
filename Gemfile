@@ -29,8 +29,8 @@ gem 'activerecord-import', :require => false
 gem 'will_paginate-bootstrap'
 
 gem 'quiet_assets'
-
-
+gem 'chosen-rails'
+gem 'jquery-timepicker-addon-rails'
 
 group :development, :test do
 
@@ -38,6 +38,7 @@ group :development, :test do
 
 end
 group :development do
+  gem 'rails_layout'
   gem 'pry-rails'
   gem 'better_errors'
   gem 'binding_of_caller'

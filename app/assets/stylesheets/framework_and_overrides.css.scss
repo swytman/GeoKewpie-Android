@@ -1,0 +1,54 @@
+// import the CSS framework
+@import "bootstrap";
+
+
+// make all images responsive by default
+img {
+  @extend .img-responsive;
+  margin: 0 auto;
+  }
+// override for the 'Home' navigation link
+.navbar-brand {
+  font-size: inherit;
+  }
+
+// THESE ARE EXAMPLES YOU CAN MODIFY
+// create your own classes
+// to make views framework-neutral
+.form-group {
+  padding: 10px;
+}
+.well{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.breadcrumb{
+  margin-bottom: 0px;
+}
+hr{
+  margin: 5px;
+}
+
+// apply styles to HTML elements
+// to make views framework-neutral
+main {
+  @extend .container;
+  background-color: #eee;
+  padding-bottom: 80px;
+  width: 70%;
+  margin-top: 51px; // accommodate the navbar
+  }
+section {
+  @extend .row;
+  margin-top: 20px;
+  }
+
+.ui-datepicker {
+  width: 200px;
+  height: auto;
+  margin: 5px auto 0;
+  font: 8pt Arial, sans-serif;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
+}

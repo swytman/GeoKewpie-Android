@@ -1,0 +1,44 @@
+.well
+  .row
+    .col-sm-4
+      .h3 Матчи
+    .col-sm-2.pull-right
+      = link_to "Добавить", new_champ_stage_game_path(@champ, @stage), class: "btn btn-default"
+    - if @stage.games.count == 0 && @stage.stage_type == 'круг'
+      .col-sm-2.pull-right
+        = link_to "Создать круг", ring_games_generate_champ_stage_path(@champ, @stage), class: "btn btn-primary pull-right"
+
+- if @stage.games.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th #
+        %th Матч
+        %th Счет
+        %th Дата
+        %th Время
+
+    %tbody
+      - @stage.games.order(:tour_id, :date, :time).each do |game|
+        %tr
+          - unless game.tour_id.nil?
+            %td= tours_titles(@stage)[game.tour_id]
+          - else
+            %td
+          %td= link_to(game.title, edit_champ_stage_game_path(@champ, @stage, game.id))
+          %td= game.game_scores
+          %td= game.date_text
+          %td= game.time_text
+- else
+  .form-group
+    %label.col-sm-2 Создать на основе этапа
+    .col-sm-4
+      = select_tag "parent_stage", options_from_collection_for_select(@champ.stages, 'id', 'title'), { class: 'chosen-select' }
+    .col-sm-2
+      .btn.btn-default.swap-gen Создать
+
+:coffee
+  $ ->
+    $('.swap-gen').click (event) ->
+      event.preventDefault()
+      window.location.href = "#{ring_games_swap_from_stage_champ_stage_path}"+"?parent_stage="+$('#parent_stage').val()

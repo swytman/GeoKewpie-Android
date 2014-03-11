@@ -1,0 +1,8 @@
+.well.row
+  %ul.breadcrumb
+    %li= link_to 'Соревнование', champs_path
+    %li= @champ.title
+  %hr
+  .h2= @champ.title
+
+= render 'form'

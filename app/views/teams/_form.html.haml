@@ -1,0 +1,15 @@
+= form_for @team, url: form_action, html: {class: 'form form-horizontal'} do |f|
+  .form-group
+    %label.col-sm-2 Название
+    .col-sm-4
+      = f.text_field :title, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Статус
+    .col-sm-4
+      = f.select :status, Team.status, {}, { class: 'chosen-select' }
+  .form-group
+    .col-sm-12
+      - unless @team.new_record?
+        = link_to 'Удалить', champ_team_path(@champ, @team), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
+      = f.submit 'Сохранить', class: 'btn btn-success'
+      %a.btn.btn-default{href: request.referer} Отмена

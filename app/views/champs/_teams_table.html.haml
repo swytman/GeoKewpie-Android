@@ -1,0 +1,31 @@
+.well
+  .row
+    .col-sm-4
+      .h3 Таблица
+    .col-sm-3.pull-right
+      = link_to "Добавить команду", new_champ_team_path(@champ), class: "btn btn-default pull-right"
+
+- if @champ.teams.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th #
+        %th Название
+        %th И
+        %th В
+        %th Н
+        %th П
+        %th М
+        %th O
+
+    %tbody
+      - @champ.teams.order("points DESC").each_with_index do |team, index|
+        %tr
+          %td= index+1
+          %td= link_to(team.title, champ_team_path(@champ, team.id))
+          %td= team.win+team.lose+team.draw
+          %td= team.win
+          %td= team.draw
+          %td= team.lose
+          %td= "#{team.scored} - #{team.missed}"
+          %td= team.points

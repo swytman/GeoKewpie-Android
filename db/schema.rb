@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140303204639) do
+ActiveRecord::Schema.define(version: 20140310141137) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,11 +19,10 @@ ActiveRecord::Schema.define(version: 20140303204639) do
   create_table "champs", force: true do |t|
     t.string   "title"
     t.string   "description"
-    t.string   "type"
+    t.string   "champ_type"
     t.date     "start_date"
     t.date     "end_date"
     t.string   "status"
-    t.integer  "parent_champ_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -36,8 +35,8 @@ ActiveRecord::Schema.define(version: 20140303204639) do
   create_table "games", force: true do |t|
     t.integer  "home_id"
     t.integer  "visiting_id"
-    t.integer  "champ_id"
-    t.string   "status"
+    t.integer  "stage_id"
+    t.string   "status",           default: "не сыгран"
     t.date     "date"
     t.integer  "place_id"
     t.integer  "home_scores"
@@ -46,6 +45,11 @@ ActiveRecord::Schema.define(version: 20140303204639) do
     t.integer  "visiting_points"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.time     "time",             default: '2000-01-01 19:00:00'
+    t.integer  "tour_id"
+    t.integer  "winner_id"
+    t.integer  "game_home_id"
+    t.integer  "game_visiting_id"
   end
 
   create_table "games_players_score", force: true do |t|
@@ -100,6 +104,18 @@ ActiveRecord::Schema.define(version: 20140303204639) do
     t.datetime "updated_at"
   end
 
+  create_table "stages", force: true do |t|
+    t.string   "title"
+    t.string   "description"
+    t.string   "stage_type"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "status"
+    t.integer  "champ_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "teams", force: true do |t|
     t.string   "title"
     t.string   "desc"
@@ -107,6 +123,12 @@ ActiveRecord::Schema.define(version: 20140303204639) do
     t.integer  "parent_team_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "win",            default: 0
+    t.integer  "lose",           default: 0
+    t.integer  "draw",           default: 0
+    t.integer  "scored",         default: 0
+    t.integer  "missed",         default: 0
+    t.integer  "points",         default: 0
   end
 
   create_table "users", force: true do |t|

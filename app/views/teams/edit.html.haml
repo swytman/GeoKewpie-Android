@@ -1,0 +1,9 @@
+.well.row
+  %ul.breadcrumb
+    %li= link_to 'Соревнования', champs_path
+    %li= link_to @champ.title, edit_champ_path(@champ.id)
+    %li= @team.title
+  %hr
+  .h2= @team.title
+
+= render partial: 'form',  locals: {form_action: champ_team_path(@champ, @team)}

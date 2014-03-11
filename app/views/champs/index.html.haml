@@ -1,0 +1,20 @@
+
+.row.well
+  .col-sm-3
+    .h2 Соревнование
+  .col-sm-2.pull-right
+    = link_to "Добавить", new_champ_path, class: "btn btn-primary"
+
+- if @champs.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th #
+        %th Название
+    %tbody
+      - @champs.each do |champ|
+        %tr
+          %td= champ.id
+          %td= link_to(champ.title, edit_champ_path(champ.id))
+- else
+  %p Пока нет ни одного соревнования
