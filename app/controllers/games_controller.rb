@@ -16,6 +16,12 @@ class GamesController < ApplicationController
   end
 
   def edit
+    if @game.home_team.present?
+      @home_players = @game.home_team.players
+    end
+    if @game.visiting_team.present?
+      @visiting_players= @game.visiting_team.players
+    end
   end
 
 

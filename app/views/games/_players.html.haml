@@ -1,0 +1,41 @@
+.well.row
+  .h3 Составы команд
+
+.row
+  .col-sm-6
+    %b= @game.home_team.title
+    - if @home_players.present?
+      %table.table.table-stripped.table-hover
+        %thead
+          %tr
+            %th #
+            %th ФИО
+            %th= image_tag('/pict/ico_yellow_red_card.png')
+            %th= image_tag('/pict/ball.png', size: '18')
+        %tbody
+          - @home_players.each_with_index do |player, index|
+            %tr
+              %td= index+1
+              %td= link_to player.full_name, player_path(player.id)
+              %td= image_tag '/pict/no_card.png',
+                {class: 'cards_pict', card: 'no',
+                yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
+  .col-sm-6
+    %b= @game.visiting_team.title
+    - if @visiting_players.present?
+      %table.table.table-stripped.table-hover
+        %thead
+          %tr
+            %th #
+            %th ФИО
+            %th= image_tag('/pict/ico_yellow_red_card.png')
+            %th= image_tag('/pict/ball.png', size: '18')
+        %tbody
+          - @visiting_players.each_with_index do |player, index|
+            %tr
+              %td= index+1
+              %td= link_to player.full_name, player_path(player.id)
+              %td= image_tag '/pict/no_card.png',
+                {class: 'cards_pict', card: 'no',
+                yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
+

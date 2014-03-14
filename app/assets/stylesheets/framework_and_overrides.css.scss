@@ -1,20 +1,15 @@
-// import the CSS framework
+
 @import "bootstrap";
 
 
-// make all images responsive by default
-img {
-  @extend .img-responsive;
-  margin: 0 auto;
-  }
-// override for the 'Home' navigation link
+.table{
+  margin-top: 10px;
+}
 .navbar-brand {
   font-size: inherit;
   }
 
-// THESE ARE EXAMPLES YOU CAN MODIFY
-// create your own classes
-// to make views framework-neutral
+
 .form-group {
   padding: 10px;
 }
@@ -29,8 +24,7 @@ hr{
   margin: 5px;
 }
 
-// apply styles to HTML elements
-// to make views framework-neutral
+
 main {
   @extend .container;
   background-color: #eee;

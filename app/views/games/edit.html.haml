@@ -1,17 +1,16 @@
-%ul.breadcrumb
+%ul.breadcrumb.row
   %li= link_to 'Соревнования', champs_path
   %li= link_to @champ.title, edit_champ_path(@champ.id)
   %li= link_to @stage.title, edit_champ_stage_path(@champ, @stage)
   %li= @game.title
 
-- home_link = visiting_link = "?"
--if @game.home_id.present?
-  - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
--if @game.visiting_id.present?
-  - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
+.well.row
+  - home_link = visiting_link = "?"
+  -if @game.home_id.present?
+    - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
+  -if @game.visiting_id.present?
+    - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
 
-
-  %hr
   .h2!=  "#{home_link} - #{visiting_link}"
 
 = render partial: 'form', locals: {form_action: champ_stage_game_path(@champ, @stage, @game)}

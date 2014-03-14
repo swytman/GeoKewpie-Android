@@ -1,12 +1,9 @@
-.well
-  .row
-    .col-sm-4
-      .h3 Матчи
-    .col-sm-2.pull-right
-      = link_to "Добавить", new_champ_stage_game_path(@champ, @stage), class: "btn btn-default"
-    - if @stage.games.count == 0 && @stage.stage_type == 'круг'
-      .col-sm-2.pull-right
-        = link_to "Создать круг", ring_games_generate_champ_stage_path(@champ, @stage), class: "btn btn-primary pull-right"
+.row.well
+  .col-sm-4
+    .h3 Матчи
+  .col-sm-2.pull-right
+    = link_to "Добавить", new_champ_stage_game_path(@champ, @stage), class: "btn btn-default pull-right"
+
 
 - if @stage.games.any?
   %table.table.table-stripped.table-hover
@@ -30,13 +27,21 @@
           %td= game.date_text
           %td= game.time_text
 - else
-  .form-group
-    %label.col-sm-2 Создать на основе этапа
-    .col-sm-4
-      = select_tag "parent_stage", options_from_collection_for_select(@champ.stages, 'id', 'title'), { class: 'chosen-select' }
-    .col-sm-2
-      .btn.btn-default.swap-gen Создать
-
+  - if @stage.stage_type == 'круг'
+    %h3 Генерация матчей по круговой системе:
+    .row
+      .col-sm-9
+        1.
+        = link_to "Первый круг", ring_games_generate_champ_stage_path(@champ, @stage)
+      .col-sm-2.pull-right
+    %hr
+    .row
+      .col-sm-3
+        2.
+        = link_to "Второй круг на основе", "#", class: 'swap-gen'
+      .col-sm-3
+        = select_tag "parent_stage", options_from_collection_for_select(@champ.stages, 'id', 'title'), { class: 'chosen-select' }
+    %hr
 :coffee
   $ ->
     $('.swap-gen').click (event) ->

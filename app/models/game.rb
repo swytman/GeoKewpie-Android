@@ -1,9 +1,19 @@
 include GamesHelper
 class Game < ActiveRecord::Base
   belongs_to :stage
+  belongs_to :home_team, class_name: 'Team', foreign_key: 'home_id'
+  belongs_to :visiting_team, class_name: 'Team', foreign_key: 'visiting_id'
   scope :finished,  -> {where(status: 'finished')}
   scope :scheduled,  -> {where(status: 'scheduled')}
   scope :empty, -> {where(status: 'empty')}
+
+  def self.cards
+    {   no: '/pict/no_card.png',
+        yellow: '/pict/ico_yellow_card.png',
+        dbl_yellow: '/pict/ico_yellow_red_card.png',
+        red: '/pict/ico_red_card.png'
+    }
+  end
 
   def self.status
     ['empty','scheduled', 'finished']

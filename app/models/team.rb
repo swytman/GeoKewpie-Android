@@ -2,7 +2,7 @@ include ApplicationHelper
 class Team < ActiveRecord::Base
 
   has_many :contracts
-  has_many :players, through: :contracts
+  #has_many :players, through: :contracts
   belongs_to :champ
   has_many :stages, through: :champs
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
@@ -11,12 +11,12 @@ class Team < ActiveRecord::Base
   scope :active,  -> {where(status: 'активна')}
   scope :inactive,  -> {where(status: 'не активна')}
 
-  def current_players
+  def players
     Contract.active.where(team_id: id).collect {|c| c.player}
   end
 
-  def current_player_ids
-    current_players.collect {|i| i.id}
+  def player_ids
+    players.collect {|i| i.id}
   end
 
 

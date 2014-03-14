@@ -1,18 +1,18 @@
 class Champ < ActiveRecord::Base
-  has_many :players, through: :teams
+  #has_many :players, through: :teams
   has_many :stages
   has_many :teams
 
-  def current_players
+  def players
     players = []
     teams.each do |team|
-      players += team.current_players
+      players += team.players
     end
     players
   end
 
-  def current_player_ids
-    current_players.collect {|i| i.id}
+  def player_ids
+    players.collect {|i| i.id}
   end
 
 

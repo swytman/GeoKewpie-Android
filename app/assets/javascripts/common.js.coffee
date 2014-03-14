@@ -1,3 +1,20 @@
+cards_toggle = (object) ->
+
+  val = $(object).attr('card')
+  val =
+  switch val
+    when "no"
+      "yellow"
+    when "yellow"
+      "dbl_yellow"
+    when "dbl_yellow"
+      "red"
+    when "red"
+      "no"
+  $(object).attr('card', val)
+  $(object).attr('src', $(object).attr(val))
+
+
 
 $ ->
   if champ_id == undefined
@@ -23,3 +40,6 @@ $ ->
       $('#contract_player_id').val(ui.item.player_id)
 
   })
+
+  $('.cards_pict').click (event)->
+    cards_toggle(this)
