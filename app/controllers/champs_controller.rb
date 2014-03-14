@@ -1,8 +1,11 @@
 class ChampsController < ApplicationController
-  before_action :set_champ, only: [:edit, :update, :destroy]
+  before_action :set_champ, only: [:show, :edit, :update, :destroy]
 
   def index
     @champs = Champ.all
+  end
+  def show
+
   end
 
   def new
@@ -15,7 +18,7 @@ class ChampsController < ApplicationController
   def create
     @champ = Champ.new(champ_params)
     if @champ.save
-      redirect_to champ_path(@champ), notice: 'OK'
+      redirect_to edit_champ_path(@champ), notice: 'OK'
     else
       render action: 'new', error: 'Ошибка при добавлении'
     end

@@ -6,4 +6,9 @@ module ApplicationHelper
         draw: 1
     }
   end
+
+  def pretty_date date,format
+    I18n.l date, format: format.to_sym if date.present?
+  end
+
 end

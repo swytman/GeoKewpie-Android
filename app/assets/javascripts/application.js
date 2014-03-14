@@ -14,8 +14,10 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require chosen-jquery
+//= require jquery.ui.autocomplete
 //= require jquery.ui.datepicker
 //= require jquery.ui.datepicker-ru
+//= require jquery.maskedinput
 //= require jquery-ui-timepicker-addon
 //= require_tree .
 

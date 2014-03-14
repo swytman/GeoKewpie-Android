@@ -1,0 +1,9 @@
+%ul.breadcrumb
+  %li= link_to 'Соревнования', champs_path
+  %li= link_to @champ.title, edit_champ_path(@champ.id)
+  %li= link_to @team.title, edit_champ_team_path(@champ, @team)
+  %li Добавить игрока
+
+%h2 Добавить игрока
+%br
+= render partial: 'form', locals: {form_action: champ_contracts_path(@champ, @team)}

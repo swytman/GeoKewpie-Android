@@ -1,0 +1,25 @@
+= form_for @player, url: form_action, html: {class: 'form form-horizontal'} do |f|
+  .form-group
+    .col-sm-4
+      %label Фамилия
+      = f.text_field :surname, class: 'form-control'
+    .col-sm-3
+      %label Имя
+      = f.text_field :name, class: 'form-control'
+    .col-sm-4
+      %label Отчество
+      = f.text_field :middlename, class: 'form-control'
+  .form-group
+    .col-sm-4
+      %label Дата рождения
+      = f.text_field :birthdate,
+                     :value => "#{@player.birthdate.present? ? l(@player.birthdate, :format => :slashes) : ''}",
+                     :class => 'form-control datemask'
+  - unless @player.new_record?
+    = render 'contracts_list'
+  .form-group
+    .col-sm-12
+      - unless @player.new_record?
+        = link_to 'Удалить', player_path(@player), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
+      = f.submit 'Сохранить', class: 'btn btn-success'
+      %a.btn.btn-default{href: request.referer} Отмена

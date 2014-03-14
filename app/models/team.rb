@@ -1,15 +1,23 @@
 include ApplicationHelper
 class Team < ActiveRecord::Base
 
-
-  has_and_belongs_to_many :players
-  has_and_belongs_to_many :champs
+  has_many :contracts
+  has_many :players, through: :contracts
+  belongs_to :champ
   has_many :stages, through: :champs
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
   has_many :visiting_games, class_name: "Game", foreign_key: "visiting_id"
 
   scope :active,  -> {where(status: 'активна')}
   scope :inactive,  -> {where(status: 'не активна')}
+
+  def current_players
+    Contract.active.where(team_id: id).collect {|c| c.player}
+  end
+
+  def current_player_ids
+    current_players.collect {|i| i.id}
+  end
 
 
   def self.status

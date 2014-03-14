@@ -1,0 +1,15 @@
+- if @player.current_contracts.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th Команда
+        %th Соревнование
+        %th Заявлен
+    %tbody
+      - @player.current_contracts.each do |contract|
+        %tr
+          %td= link_to contract.team.title, champ_team_path(contract.champ.id, contract.team.id)
+          %td= link_to contract.champ.title, champ_path(contract.champ.id)
+          %td= l contract.join_date, format: :long if contract.join_date.present?
+- else
+  %p Пока не заявлен ни за одну команду

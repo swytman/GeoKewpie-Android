@@ -1,0 +1,9 @@
+
+.row.well
+  .col-sm-3
+    .h2 Игроки
+  .col-sm-2.pull-right
+    = link_to "Добавить", new_player_path, class: "btn btn-primary"
+
+  = render partial: "shared/players_table", locals:{players: @players}
+

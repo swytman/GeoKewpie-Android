@@ -34,6 +34,7 @@ ru:
       default: ! '%d.%m.%Y'
       long: ! '%-d %B %Y'
       short: ! '%-d %b'
+      slashes: "%d/%m/%Y"
     month_names:
     -
     - января

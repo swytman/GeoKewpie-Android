@@ -7,6 +7,9 @@
     %label.col-sm-2 Статус
     .col-sm-4
       = f.select :status, Team.status, {}, { class: 'chosen-select' }
+
+  - unless @team.new_record?
+    = render partial: 'players_list', locals: {mode: :edit}
   .form-group
     .col-sm-12
       - unless @team.new_record?

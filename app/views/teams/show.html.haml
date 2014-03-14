@@ -9,5 +9,5 @@
       .h2= @team.title
     .col-sm-2.pull-right
       = link_to "Редактировать", edit_champ_team_path(@champ, @team), class: "btn btn-primary"
-
+= render partial: 'players_list', locals:{mode: :show}
 = render partial: 'team_games'

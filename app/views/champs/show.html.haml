@@ -1,0 +1,10 @@
+.well.row
+  %ul.breadcrumb
+    %li= link_to 'Соревнование', champs_path
+    %li= @champ.title
+  %hr
+.row
+  .col-sm-10
+    .h2= @champ.title
+  .col-sm-2.pull-right
+    = link_to "Редактировать", edit_champ_path(@champ), class: "btn btn-primary"

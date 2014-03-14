@@ -2,6 +2,11 @@ Footmanager::Application.routes.draw do
 
   devise_for :users
   root 'champs#index'
+  resource :api, controller: :api do
+    get :find_player
+  end
+
+  resources :players
   resources :champs do
     resources :stages do
       member do
@@ -10,7 +15,11 @@ Footmanager::Application.routes.draw do
       end
       resources :games
     end
-    resources :teams
+    resources :teams do
+      member do
+        resources :contracts
+      end
+    end
   end
 
 

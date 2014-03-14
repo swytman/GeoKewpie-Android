@@ -1,0 +1,17 @@
+- if players.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th ФИО
+        %th Дата рождения
+        - if @team.present?
+          %th Заявлен
+    %tbody
+      - players.each do |player|
+        %tr
+          %td= link_to player.full_name, player_path(player.id)
+          %td= pretty_date player.birthdate, :slashes
+          - if @team.present?
+            %td= pretty_date player.contracts.where(team_id: @team.id).first.join_date, :slashes
+- else
+  %p Пока нет ни одного игрока

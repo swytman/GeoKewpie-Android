@@ -1,0 +1,8 @@
+.well.row
+  %ul.breadcrumb
+    %li= link_to 'Все игроки', players_path
+    %li= @player.full_name
+  %hr
+  .h2= @player.full_name
+
+= render partial: 'form',  locals: {form_action: player_path(@player)}

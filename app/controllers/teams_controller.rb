@@ -46,13 +46,16 @@ class TeamsController < ApplicationController
   end
 
   private
+    def set_champ
+      @champ = Champ.find(params[:champ_id])
+    end
     def set_team
       @team = Team.find(params[:id])
     end
     def team_params
       params[:team].permit(:title, :status)
     end
-    def set_champ
-      @champ = Champ.find(params[:champ_id])
-    end
+
+
+
 end

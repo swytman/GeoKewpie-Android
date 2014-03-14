@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140310141137) do
+ActiveRecord::Schema.define(version: 20140313190500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 20140310141137) do
   create_table "champs_teams", force: true do |t|
     t.integer "champ_id"
     t.integer "team_id"
+  end
+
+  create_table "contracts", force: true do |t|
+    t.integer  "player_id"
+    t.integer  "team_id"
+    t.date     "join_date"
+    t.date     "leave_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "games", force: true do |t|
@@ -79,20 +88,11 @@ ActiveRecord::Schema.define(version: 20140310141137) do
     t.string   "name"
     t.string   "surname"
     t.string   "middlename"
-    t.integer  "team_id"
     t.string   "phone"
     t.date     "birthdate"
-    t.date     "drafted"
     t.integer  "number"
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "players_teams", force: true do |t|
-    t.integer "player_id"
-    t.integer "team_id"
-    t.date    "join_date"
-    t.date    "leave_date"
   end
 
   create_table "referees", force: true do |t|
@@ -129,6 +129,7 @@ ActiveRecord::Schema.define(version: 20140310141137) do
     t.integer  "scored",         default: 0
     t.integer  "missed",         default: 0
     t.integer  "points",         default: 0
+    t.integer  "champ_id"
   end
 
   create_table "users", force: true do |t|
