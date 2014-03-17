@@ -1,41 +1,21 @@
-.well.row
-  .h3 Составы команд
-
-.row
-  .col-sm-6
-    %b= @game.home_team.title
-    - if @home_players.present?
-      %table.table.table-stripped.table-hover
-        %thead
-          %tr
-            %th #
-            %th ФИО
-            %th= image_tag('/pict/ico_yellow_red_card.png')
-            %th= image_tag('/pict/ball.png', size: '18')
-        %tbody
-          - @home_players.each_with_index do |player, index|
-            %tr
-              %td= index+1
-              %td= link_to player.full_name, player_path(player.id)
-              %td= image_tag '/pict/no_card.png',
-                {class: 'cards_pict', card: 'no',
-                yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
-  .col-sm-6
-    %b= @game.visiting_team.title
-    - if @visiting_players.present?
-      %table.table.table-stripped.table-hover
-        %thead
-          %tr
-            %th #
-            %th ФИО
-            %th= image_tag('/pict/ico_yellow_red_card.png')
-            %th= image_tag('/pict/ball.png', size: '18')
-        %tbody
-          - @visiting_players.each_with_index do |player, index|
-            %tr
-              %td= index+1
-              %td= link_to player.full_name, player_path(player.id)
-              %td= image_tag '/pict/no_card.png',
-                {class: 'cards_pict', card: 'no',
-                yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
-
+%b= title
+- if players.present?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th= check_box_tag "players_all", 1, false, 'from'=>".#{from}_players"
+        %th ФИО
+        %th= image_tag('/pict/ico_yellow_red_card.png')
+        %th= image_tag('/pict/ball.png', size: '18')
+    %tbody
+      - players.each_with_index do |player, index|
+        %tr
+          %td= check_box_tag "player_#{player.id}", 1, fetch_players(from, player.id), 'player-id'=> player.id,
+            class: "#{from}_players"
+          %td= link_to player.full_name, player_path(player.id),
+            'player-id'=> player.id, class: ('inactive' unless fetch_players(from, player.id))
+          %td= image_tag Game.cards[fetch_card(@game, player.id)],
+            {class: 'cards_pict', card: fetch_card(@game, player.id), 'player-id'=> player.id,
+            yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
+          %th= text_field_tag "scores_player_#{player.id}", '', 'player-id'=> player.id, class: 'ball-count mask-number',
+            disabled: !fetch_players(from, player.id)

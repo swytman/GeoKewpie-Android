@@ -14,3 +14,57 @@
   .h2!=  "#{home_link} - #{visiting_link}"
 
 = render partial: 'form', locals: {form_action: champ_stage_game_path(@champ, @stage, @game)}
+
+:coffee
+  $('form').submit (event) ->
+    ids =
+    $( ".cards_pict[card='yellow']" ).map () ->
+      $(this).attr('player-id');
+    .get()
+    $('#game_yellow_cards').val(ids)
+    ids =
+    $( ".cards_pict[card='dbl_yellow']" ).map () ->
+      $(this).attr('player-id');
+    .get()
+    $('#game_dbl_yellow_cards').val(ids)
+    ids =
+    $( ".cards_pict[card='red']" ).map () ->
+      $(this).attr('player-id');
+    .get()
+    $('#game_red_cards').val(ids)
+    ids =
+    $( ".home_players:checked" ).map () ->
+      $(this).attr('player-id');
+    .get()
+    $('#game_home_players').val(ids)
+    ids =
+    $( ".visiting_players:checked" ).map () ->
+      $(this).attr('player-id');
+    .get()
+    $('#game_visiting_players').val(ids)
+    ids =
+    $( ".ball-count[value!='']" ).map () ->
+      alert($(this).attr('player-id'))
+    .get()
+    $('#game_visiting_players').val(ids)
+
+  $(".home_players, .visiting_players").change () ->
+    target = $(this).attr('player-id')
+    if $(this).prop("checked") == false
+      object = $(".cards_pict[player-id='"+target+"']")
+      cards_toggle(object, 'no')
+      $("a[player-id='"+target+"']").addClass('inactive')
+      $("input[type=text][player-id='"+target+"']").val('')
+      $("input[type=text][player-id='"+target+"']").prop('disabled', true)
+    else
+      $("a[player-id='"+target+"']").removeClass('inactive')
+      $("input[type=text][player-id='"+target+"']").prop('disabled', false)
+
+  $("input[type='checkbox'][name='players_all']").change () ->
+    target = $(this).attr('from')
+    if $(this).prop("checked")
+      $(target).prop('checked', true)
+      $(target).trigger('change')
+    else
+      $(target).prop('checked', false)
+      $(target).trigger('change')

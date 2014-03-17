@@ -7,9 +7,9 @@
         = f.select :home_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
 
       .col-sm-1
-        = f.text_field :home_scores, {class: 'score_field'}
+        = f.text_field :home_scores, {class: 'score_field mask-number'}
       .col-sm-1
-        = f.text_field :visiting_scores, {class: 'score_field'}
+        = f.text_field :visiting_scores, {class: 'score_field mask-number'}
       .col-sm-3
         %label Гости
         = f.select :visiting_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
@@ -26,7 +26,22 @@
     .col-sm-3
       = f.time_select :time, start_hour: 9, end_hour: 23, minute_step: 5
 
-  = render 'players'
+  .well.row
+    .h3 Составы команд
+  .row
+    .col-sm-6
+      = render partial: 'players', locals: {title: @game.home_team.title, players:@home_players, from: 'home'}
+    .col-sm-6
+      = render partial: 'players', locals: {title: @game.visiting_team.title, players:@visiting_players, from: 'visiting'}
+
+  =f.hidden_field :yellow_cards
+  =f.hidden_field :dbl_yellow_cards
+  =f.hidden_field :red_cards
+  =f.hidden_field :home_players
+  =f.hidden_field :visiting_players
+  =f.hidden_field :player_scores
+
+
 
   .form-group
     .col-sm-12
@@ -34,3 +49,5 @@
         = link_to 'Удалить', champ_stage_game_path(@champ,@stage,@game), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
       = f.submit 'Сохранить', class: 'btn btn-success'
       %a.btn.btn-default{href: request.referer} Отмена
+
+

@@ -48,7 +48,7 @@ class GamesController < ApplicationController
 
   def update
     trigger_status
-    if @game.update_attributes(game_params)
+    if @game.update_attributes(prepared_params game_params)
       if @game.status == Game.status[2]
         calculate
       end
@@ -119,7 +119,18 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params[:game].permit(:date, :time, :home_id, :visiting_id, :tour_id, :home_scores, :visiting_scores)
+
+    params[:game].permit( :date, :time, :home_id, :visiting_id, :tour_id, :home_scores, :visiting_scores,
+                          :yellow_cards, :dbl_yellow_cards, :red_cards, :home_players, :visiting_players )
+  end
+
+  def prepared_params p
+    p[:yellow_cards] = p[:yellow_cards].split(',').collect{|i| i.to_i} unless p[:yellow_cards].class == Array
+    p[:dbl_yellow_cards] = p[:dbl_yellow_cards].split(',').collect{|i| i.to_i} unless p[:dbl_yellow_cards].class == Array
+    p[:red_cards] = p[:red_cards].split(',').collect{|i| i.to_i} unless p[:red_cards].class == Array
+    p[:home_players] = p[:home_players].split(',').collect{|i| i.to_i} unless p[:home_players].class == Array
+    p[:visiting_players] = p[:visiting_players].split(',').collect{|i| i.to_i} unless p[:visiting_players].class == Array
+    p
   end
 
 end

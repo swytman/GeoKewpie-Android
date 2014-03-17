@@ -1,16 +1,16 @@
-cards_toggle = (object) ->
-
-  val = $(object).attr('card')
-  val =
-  switch val
-    when "no"
-      "yellow"
-    when "yellow"
-      "dbl_yellow"
-    when "dbl_yellow"
-      "red"
-    when "red"
-      "no"
+window.cards_toggle = (object, val = null) ->
+  if val == null
+    val = $(object).attr('card')
+    val =
+    switch val
+      when "no"
+        "yellow"
+      when "yellow"
+        "dbl_yellow"
+      when "dbl_yellow"
+        "red"
+      when "red"
+        "no"
   $(object).attr('card', val)
   $(object).attr('src', $(object).attr(val))
 
@@ -30,6 +30,7 @@ $ ->
     showButtonPanel: true
 
   $('.datemask').mask("99/99/9999")
+  $(".mask-number").mask("9?9", {placeholder:""});
 
   $('#player-search').autocomplete({
     source: "/api/find_player?champ_id=#{champ_id}"
@@ -42,4 +43,6 @@ $ ->
   })
 
   $('.cards_pict').click (event)->
-    cards_toggle(this)
+    target = $(this).attr('player-id')
+    if $("input[type='checkbox'][player-id="+target+"]").prop('checked') == true
+      cards_toggle(this)
