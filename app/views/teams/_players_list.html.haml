@@ -5,4 +5,4 @@
     .col-sm-2.pull-right
       = link_to "Добавить", new_champ_contract_path(@champ, @team), class: "btn btn-default pull-right"
 
-= render partial:'shared/players_table', locals:{players: @team.players}
+= render partial:'shared/champ_players_table', locals:{players: @team.players}

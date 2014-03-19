@@ -17,6 +17,10 @@ window.cards_toggle = (object, val = null) ->
 
 
 $ ->
+  $('input').keyup ->
+    value = $(this).val()
+    $(this).attr('value', value)
+
   if champ_id == undefined
     champ_id = null
   # enable chosen js
@@ -33,7 +37,7 @@ $ ->
   $(".mask-number").mask("9?9", {placeholder:""});
 
   $('#player-search').autocomplete({
-    source: "/api/find_player?champ_id=#{champ_id}"
+    source: "/api/find_player?champ_id=#{window.champ_id}"
     select: (event, ui)->
       $('#player-info').html(ui.item.signed[0])
       $('.customtext').prop('value',ui.item.signed[1])

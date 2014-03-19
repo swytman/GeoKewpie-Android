@@ -22,16 +22,19 @@
       $(this).attr('player-id');
     .get()
     $('#game_yellow_cards').val(ids)
+
     ids =
     $( ".cards_pict[card='dbl_yellow']" ).map () ->
       $(this).attr('player-id');
     .get()
     $('#game_dbl_yellow_cards').val(ids)
+
     ids =
     $( ".cards_pict[card='red']" ).map () ->
       $(this).attr('player-id');
     .get()
     $('#game_red_cards').val(ids)
+
     ids =
     $( ".home_players:checked" ).map () ->
       $(this).attr('player-id');
@@ -42,11 +45,14 @@
       $(this).attr('player-id');
     .get()
     $('#game_visiting_players').val(ids)
-    ids =
-    $( ".ball-count[value!='']" ).map () ->
-      alert($(this).attr('player-id'))
-    .get()
-    $('#game_visiting_players').val(ids)
+
+    ids = []
+    $( ".ball-count" ).each () ->
+      el = $(this)
+      if el.val()!='' && el.val()!=undefined
+        item = el.attr('player-id') + "#" + el.val()
+        ids.push(item)
+    $('#game_player_scores').val(ids)
 
   $(".home_players, .visiting_players").change () ->
     target = $(this).attr('player-id')

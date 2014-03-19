@@ -17,5 +17,5 @@
           %td= image_tag Game.cards[fetch_card(@game, player.id)],
             {class: 'cards_pict', card: fetch_card(@game, player.id), 'player-id'=> player.id,
             yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
-          %th= text_field_tag "scores_player_#{player.id}", '', 'player-id'=> player.id, class: 'ball-count mask-number',
+          %th= text_field_tag "scores_player_#{player.id}", @game.player_goals(player.id), 'player-id'=> player.id, class: 'ball-count mask-number',
             disabled: !fetch_players(from, player.id)

@@ -1,0 +1,28 @@
+- if players.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th ФИО
+        %th Игры
+        %th= image_tag('/pict/ball.png', size: '18')
+        %th= image_tag Game.cards[:yellow]
+        %th= image_tag Game.cards[:dbl_yellow]
+        %th= image_tag Game.cards[:red]
+        %th Дата рождения
+        - if @team.present?
+          %th Заявлен
+    %tbody
+      - players.each do |player|
+        - cards = player_total_cards(@champ, player.id)
+        %tr
+          %td= link_to player.full_name, player_path(player.id)
+          %td= player_total_games(@champ, player.id)
+          %td= player_total_goals(@champ, player.id)
+          %td= cards[:yellow_cards]
+          %td= cards[:dbl_yellow_cards]
+          %td= cards[:red_cards]
+          %td= pretty_date player.birthdate, :slashes
+          - if @team.present?
+            %td= pretty_date player.contracts.where(team_id: @team.id).first.join_date, :slashes
+- else
+  %p Пока нет ни одного игрока

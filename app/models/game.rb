@@ -48,6 +48,41 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def player_goals player_id
+    player_scores.each do |i|
+      return i.split('#')[1] if i.split('#')[0].to_i == player_id
+    end if player_scores.present?
+    return nil
+  end
+
+  def player? player_id
+    return 1 if home_players.present? && home_players.include?(player_id) ||
+                visiting_players.present? && visiting_players.include?(player_id)
+    return 0
+  end
+
+  def fill_result_ring
+    if home_scores > visiting_scores
+      home_points = result_points[:win]
+      visiting_points = result_points[:lose]
+      winner_id = home_id
+    elsif home_scores < visiting_scores
+      home_points = result_points[:lose]
+      visiting_points = result_points[:win]
+      winner_id = visiting_id
+    elsif home_scores == visiting_scores
+      home_points = result_points[:draw]
+      visiting_points = result_points[:draw]
+      winner_id = 0
+    end
+  end
+
+  def reset_result
+    home_points = nil
+    visiting_points = nil
+    winner_id = nil
+  end
+
 
 
 

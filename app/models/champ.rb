@@ -1,6 +1,8 @@
 class Champ < ActiveRecord::Base
-  #has_many :players, through: :teams
+  #has_many :players, through: Games:teams
   has_many :stages
+  has_many :games, through: :stages
+
   has_many :teams
 
   def players

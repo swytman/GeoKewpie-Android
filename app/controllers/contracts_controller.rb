@@ -60,7 +60,7 @@ class ContractsController < ApplicationController
   end
 
   def close_contract
-    contract = Contract.active.where(player_id: contract_params[:player_id]).reject!{|c| c.champ.id!=@champ.id}
+    contract = Contract.active.where(player_id: contract_params[:player_id]).reject{|c| c.champ.id!=@champ.id}
     if contract.present?
       contract = contract[0]
       contract.leave_date = Time.now

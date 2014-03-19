@@ -10,7 +10,7 @@ class Player < ActiveRecord::Base
 
 
   def team_in_champ champ_id
-    if Champ.find(champ_id).current_player_ids.include? id
+    if Champ.find(champ_id).player_ids.include? id
       id = team_ids & Champ.find(champ_id).team_ids
       Team.find(id[0])
     else

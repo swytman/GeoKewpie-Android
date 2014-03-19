@@ -13,6 +13,7 @@ class GamesController < ApplicationController
   end
 
   def show
+
   end
 
   def edit
@@ -27,8 +28,10 @@ class GamesController < ApplicationController
 
   def create
     @game = @stage.games.new(game_params)
-    trigger_status
+
     if @game.save
+      @game.trigger_status
+      @game.save
       if @game.status == Game.status[2]
         calculate
       end
@@ -47,8 +50,9 @@ class GamesController < ApplicationController
   end
 
   def update
-    trigger_status
     if @game.update_attributes(prepared_params game_params)
+      @game.trigger_status
+      @game.save
       if @game.status == Game.status[2]
         calculate
       end
@@ -72,11 +76,7 @@ class GamesController < ApplicationController
     end
   end
 
-  def reset_result
-    @game.home_points = nil
-    @game.visiting_points = nil
-    @game.winner_id = nil
-  end
+
 
   def calculate
     if @stage.stage_type == 'круг'
@@ -85,27 +85,13 @@ class GamesController < ApplicationController
     end
   end
 
-  def fill_result home_scores, visiting_scores
+  def fill_result
     if @stage.stage_type == 'круг'
-      fill_result_ring home_scores, visiting_scores
+      @game.fill_result_ring
     end
   end
 
-  def fill_result_ring home_scores, visiting_scores
-    if home_scores > visiting_scores
-      @game.home_points = result_points[:win]
-      @game.visiting_points = result_points[:lose]
-      @game.winner_id = @game.home_id
-    elsif home_scores < visiting_scores
-      @game.home_points = result_points[:lose]
-      @game.visiting_points = result_points[:win]
-      @game.winner_id = @game.visiting_id
-    elsif home_scores == visiting_scores
-      @game.home_points = result_points[:draw]
-      @game.visiting_points = result_points[:draw]
-      @game.winner_id = 0
-    end
-  end
+
 
 
   def set_champ
@@ -121,7 +107,8 @@ class GamesController < ApplicationController
   def game_params
 
     params[:game].permit( :date, :time, :home_id, :visiting_id, :tour_id, :home_scores, :visiting_scores,
-                          :yellow_cards, :dbl_yellow_cards, :red_cards, :home_players, :visiting_players )
+                          :yellow_cards, :dbl_yellow_cards, :red_cards, :home_players, :visiting_players,
+                          :player_scores )
   end
 
   def prepared_params p
@@ -130,6 +117,7 @@ class GamesController < ApplicationController
     p[:red_cards] = p[:red_cards].split(',').collect{|i| i.to_i} unless p[:red_cards].class == Array
     p[:home_players] = p[:home_players].split(',').collect{|i| i.to_i} unless p[:home_players].class == Array
     p[:visiting_players] = p[:visiting_players].split(',').collect{|i| i.to_i} unless p[:visiting_players].class == Array
+    p[:player_scores] = p[:player_scores].split(',')
     p
   end
 

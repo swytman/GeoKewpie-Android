@@ -38,6 +38,8 @@ module GamesHelper
     return :no
   end
 
+
+
   def fetch_players from, player_id
     @game.send("#{from}_players").present? && @game.send("#{from}_players").include?(player_id)
   end
