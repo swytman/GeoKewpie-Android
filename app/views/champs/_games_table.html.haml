@@ -1,9 +1,13 @@
 .row.well
-  .h2 Матчи
+  .h2 Календарь
 
 - if @champ.stages.count>0
   - @champ.stages.each do |stage|
-    %h3= stage.title
+    .row.well
+      .col-sm-4
+        .h3= stage.title
+      .col-sm-3.pull-right
+        = link_to "Добавить матч", new_champ_stage_game_path(@champ, stage), class: "btn btn-default pull-right"
     %hr
     - tour_ids= stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
     - tour_ids.each do |tour_id|

@@ -26,13 +26,14 @@
     .col-sm-3
       = f.time_select :time, start_hour: 9, end_hour: 23, minute_step: 5
 
-  .well.row
-    .h3 Составы команд
-  .row
-    .col-sm-6
-      = render partial: 'players', locals: {title: @game.home_team.title, players:@home_players, from: 'home'}
-    .col-sm-6
-      = render partial: 'players', locals: {title: @game.visiting_team.title, players:@visiting_players, from: 'visiting'}
+  - unless @game.new_record?
+    .well.row
+      .h3 Составы команд
+    .row
+      .col-sm-6
+        = render partial: 'players', locals: {title: @game.home_team.title, players:@home_players, from: 'home'}
+      .col-sm-6
+        = render partial: 'players', locals: {title: @game.visiting_team.title, players:@visiting_players, from: 'visiting'}
 
   =f.hidden_field :yellow_cards
   =f.hidden_field :dbl_yellow_cards

@@ -1,31 +1,30 @@
 .row.well
   .col-sm-4
-    .h3 Матчи
+    .h3 Календарь
   .col-sm-2.pull-right
     = link_to "Добавить", new_champ_stage_game_path(@champ, @stage), class: "btn btn-default pull-right"
 
+-if @stage.games.any?
+  - tour_ids= @stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
+  - tour_ids.each do |tour_id|
+    - games = @stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id, g.date, g.time]}
+    - if games.any?
+      .h4.well.row #{tour_id}-й тур
+      %table.table.table-stripped.table-hover
+        %thead
+          %tr
+            %th Матч
+            %th Счет
+            %th Дата
+            %th Время
 
-- if @stage.games.any?
-  %table.table.table-stripped.table-hover
-    %thead
-      %tr
-        %th #
-        %th Матч
-        %th Счет
-        %th Дата
-        %th Время
-
-    %tbody
-      - @stage.games.order(:tour_id, :date, :time).each do |game|
-        %tr
-          - unless game.tour_id.nil?
-            %td #{game.tour_id}-й тур
-          - else
-            %td
-          %td= link_to(game.title, edit_champ_stage_game_path(@champ, @stage, game.id))
-          %td= game.game_scores
-          %td= game.date_text
-          %td= game.time_text
+        %tbody
+          -games.each do |game|
+            %tr
+              %td= link_to(game.title, edit_champ_stage_game_path(@champ, @stage, game.id))
+              %td= game.game_scores
+              %td= game.date_text
+              %td= game.time_text
 - else
   - if @stage.stage_type == 'круг'
     %h3 Генерация матчей по круговой системе:

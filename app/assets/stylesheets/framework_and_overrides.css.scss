@@ -62,7 +62,16 @@ section {
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .5);
 }
 
-a.inactive {
-  color: dimgray;
+a{
+  color: darkgreen;
+   &.inactive {
+    color: dimgray;
+   }
+   &:hover {
+     color: dimgray;
+   }
 }
+
+
+
 
