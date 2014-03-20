@@ -20,6 +20,8 @@
     = render partial: 'stage_table'
   - unless @champ.new_record?
     = render partial: 'teams_table'
+  - unless @champ.new_record?
+    = render partial: 'games_table'
 
   .form-group
     .col-sm-12

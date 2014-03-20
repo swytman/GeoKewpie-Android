@@ -17,10 +17,9 @@
         %th П
         %th М
         %th O
-
     %tbody
       - @champ.teams.order("points DESC").each_with_index do |team, index|
-        %tr
+        %tr{class: ('text-crossed' if team.status=='снята')}
           %td= index+1
           %td= link_to(team.title, champ_team_path(@champ, team.id))
           %td= team.win+team.lose+team.draw

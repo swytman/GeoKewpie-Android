@@ -7,6 +7,7 @@ class Game < ActiveRecord::Base
   scope :scheduled,  -> {where(status: 'scheduled')}
   scope :empty, -> {where(status: 'empty')}
 
+  # пути к картинка с карточками
   def self.cards
     {   no: '/pict/no_card.png',
         yellow: '/pict/ico_yellow_card.png',
@@ -15,6 +16,16 @@ class Game < ActiveRecord::Base
     }
   end
 
+  #добавлено для избыточности чтобы не вызывать из конслои
+  def result_points
+    {
+        win: 3,
+        lose: 0,
+        draw: 1
+    }
+  end
+
+  #cтатус игры
   def self.status
     ['empty','scheduled', 'finished']
   end
@@ -42,7 +53,13 @@ class Game < ActiveRecord::Base
 
   def game_scores
     if visiting_scores.present? && home_scores.present?
-      "#{home_scores} : #{visiting_scores}"
+      if home_scores > visiting_scores
+        "<span class='green'>#{home_scores}</span> : <span class='red'>#{visiting_scores}</span>".html_safe
+      elsif home_scores < visiting_scores
+        "<span class='red'>#{home_scores}</span> : <span class='green'>#{visiting_scores}</span>".html_safe
+      else
+        "<b>#{home_scores}</b> : <b>#{visiting_scores}</b>".html_safe
+      end
     else
       " - : - "
     end
@@ -61,30 +78,33 @@ class Game < ActiveRecord::Base
     return 0
   end
 
+  def fill_result
+    if stage.stage_type == 'круг'
+      fill_result_ring
+    end
+  end
+
   def fill_result_ring
+    return unless self.status == Game.status[2]
     if home_scores > visiting_scores
-      home_points = result_points[:win]
-      visiting_points = result_points[:lose]
-      winner_id = home_id
+      self.home_points = result_points[:win]
+      self.visiting_points = result_points[:lose]
+      self.winner_id = home_id
     elsif home_scores < visiting_scores
-      home_points = result_points[:lose]
-      visiting_points = result_points[:win]
-      winner_id = visiting_id
+      self.home_points = result_points[:lose]
+      self.visiting_points = result_points[:win]
+      self.winner_id = visiting_id
     elsif home_scores == visiting_scores
-      home_points = result_points[:draw]
-      visiting_points = result_points[:draw]
-      winner_id = 0
+      self.home_points = result_points[:draw]
+      self.visiting_points = result_points[:draw]
+      self.winner_id = 0
     end
   end
 
   def reset_result
-    home_points = nil
-    visiting_points = nil
-    winner_id = nil
+    self.home_points = nil
+    self.visiting_points = nil
+    self.winner_id = nil
   end
-
-
-
-
 
 end

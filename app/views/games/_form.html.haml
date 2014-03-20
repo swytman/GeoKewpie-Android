@@ -16,7 +16,7 @@
   .form-group
     %label.col-sm-1 Тур
     .col-sm-3
-      = f.select :tour_id, tours_titles(@stage).enum_for(:each_with_index).collect {|item, index| [item, index]},
+      = f.select :tour_id, tours_titles(@stage).map {|item| [item, item.split('-')[0].to_i]},
                  {include_blank: true}, { class: 'chosen-select' }
   .form-group
     %label.col-sm-1 Дата

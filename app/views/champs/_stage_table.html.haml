@@ -14,9 +14,9 @@
         %th Формат
         %th Статус
     %tbody
-      - @champ.stages.each do |stage|
+      - @champ.stages.each_with_index do |stage, i|
         %tr
-          %td= stage.id
+          %td= i+1
           %td= link_to(stage.title, edit_champ_stage_path(@champ.id, stage.id))
           %td= stage.stage_type
           %td= stage.status

@@ -1,0 +1,27 @@
+.row.well
+  .h2 Матчи
+
+- if @champ.stages.count>0
+  - @champ.stages.each do |stage|
+    %h3= stage.title
+    %hr
+    - tour_ids= stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
+    - tour_ids.each do |tour_id|
+      - games = stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id, g.date, g.time]}
+      - if games.any?
+        .h4.well.row #{tour_id}-й тур
+        %table.table.table-stripped.table-hover
+          %thead
+            %tr
+              %th Матч
+              %th Счет
+              %th Дата
+              %th Время
+
+          %tbody
+            -games.each do |game|
+              %tr
+                %td= link_to(game.title, edit_champ_stage_game_path(@champ, stage, game.id))
+                %td= game.game_scores
+                %td= game.date_text
+                %td= game.time_text

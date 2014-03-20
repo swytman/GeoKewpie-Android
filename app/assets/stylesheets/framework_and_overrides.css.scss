@@ -24,6 +24,21 @@ hr{
   margin: 5px;
 }
 
+span.green{
+  color: green;
+  font-weight: bold;
+}
+
+span.red{
+  color: darkred;
+  font-weight: bold;
+}
+
+
+
+.text-crossed td{
+  text-decoration:line-through;
+}
 
 main {
   @extend .container;

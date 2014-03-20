@@ -22,9 +22,11 @@ module StagesHelper
   end
 
   def ring_games_swap stage, parent_stage_id
+    n = stage.teams.count - 1
+    k = tour_correction stage, n
     games = Stage.find(parent_stage_id).games
-    games.each do |g|
-      Game.create(home_id: g.visiting_id, visiting_id: g.home_id, tour_id: g.tour_id, stage_id: stage.id)
+    games.order(:tour_id).each do |g|
+      Game.create(home_id: g.visiting_id, visiting_id: g.home_id, tour_id: g.tour_id + k, stage_id: stage.id)
     end
   end
 

@@ -18,7 +18,7 @@
           -games.each do |game|
             %tr
               - unless game.tour_id.nil?
-                %td= tours_titles(stage)[game.tour_id]
+                %td #{game.tour_id}-й тур
               - else
                 %td
               %td= link_to(game.title, edit_champ_stage_game_path(@champ, stage, game.id))

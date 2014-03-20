@@ -8,7 +8,7 @@ class Team < ActiveRecord::Base
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
   has_many :visiting_games, class_name: "Game", foreign_key: "visiting_id"
 
-  scope :active,  -> {where(status: 'активна')}
+  scope :active,  -> {where(status: ['активна', 'снята'])}
   scope :inactive,  -> {where(status: 'не активна')}
 
   def players
@@ -21,7 +21,7 @@ class Team < ActiveRecord::Base
 
 
   def self.status
-    ['активна', 'не активна']
+    ['активна', 'не активна', 'снята']
   end
 
   def self.calculate_ring id

@@ -3,6 +3,7 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :set_stage
   before_action :set_champ
+  after_action :trigger_status, only: [:create, :update]
 
   def index
     @games = Game.all
@@ -28,13 +29,7 @@ class GamesController < ApplicationController
 
   def create
     @game = @stage.games.new(game_params)
-
     if @game.save
-      @game.trigger_status
-      @game.save
-      if @game.status == Game.status[2]
-        calculate
-      end
       redirect_to champ_stage_path(@champ, @stage), notice: 'OK'
     else
       render action: 'new', error: 'Ошибка при добавлении'
@@ -51,11 +46,6 @@ class GamesController < ApplicationController
 
   def update
     if @game.update_attributes(prepared_params game_params)
-      @game.trigger_status
-      @game.save
-      if @game.status == Game.status[2]
-        calculate
-      end
       redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
     else
       render action: 'show', error: 'Ошибка при обновлении'
@@ -65,15 +55,17 @@ class GamesController < ApplicationController
 
   private
   def trigger_status
-    reset_result
+    @game.reset_result
     if game_params[:home_scores].present? && game_params[:visiting_scores].present?
       @game.status = Game.status[2]
-      fill_result game_params[:home_scores].to_i, game_params[:visiting_scores].to_i
+      @game.fill_result
     elsif game_params[:date].present?
       @game.status = Game.status[1]
     else
       @game.status = Game.status[0]
     end
+    @game.save
+    calculate if @game.status == Game.status[2]
   end
 
 
@@ -85,11 +77,6 @@ class GamesController < ApplicationController
     end
   end
 
-  def fill_result
-    if @stage.stage_type == 'круг'
-      @game.fill_result_ring
-    end
-  end
 
 
 
