@@ -31,7 +31,7 @@ gem 'will_paginate-bootstrap'
 gem 'quiet_assets'
 gem 'chosen-rails'
 gem 'jquery-timepicker-addon-rails'
-
+gem 'sqlite3'
 group :development, :test do
 
   gem 'rspec-rails', '~> 3.0.0.beta'
