@@ -15,6 +15,6 @@
       - @champs.each do |champ|
         %tr
           %td= champ.id
-          %td= link_to(champ.title, edit_champ_path(champ.id))
+          %td= link_to(champ.title, champ_path(champ.id))
 - else
   %p Пока нет ни одного соревнования

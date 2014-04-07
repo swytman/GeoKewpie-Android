@@ -19,10 +19,10 @@ class GamesController < ApplicationController
 
   def edit
     if @game.home_team.present?
-      @home_players = @game.home_team.players
+      @home_players = @game.home_team.players | @game.home_team.old_players
     end
     if @game.visiting_team.present?
-      @visiting_players= @game.visiting_team.players
+      @visiting_players= @game.visiting_team.players | @game.visiting_team.old_players
     end
   end
 

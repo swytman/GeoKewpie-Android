@@ -36,17 +36,22 @@ $ ->
   $('.datemask').mask("99/99/9999")
   $(".mask-number").mask("9?9", {placeholder:""});
 
-  $('#player-search').autocomplete({
-    source: "/api/find_player?champ_id=#{window.champ_id}"
-    select: (event, ui)->
-      $('#player-info').html(ui.item.signed[0])
-      $('.customtext').prop('value',ui.item.signed[1])
-      $('.customtext').removeClass('disabled')
-      $('#contract_player_id').val(ui.item.player_id)
-
-  })
+#  $('#player-search').autocomplete({
+#    source: "/api/find_player?champ_id=#{window.champ_id}"
+#    select: (event, ui)->
+#      $('#player-info').html(ui.item.signed[0])
+#      $('.customtext').prop('value',ui.item.signed[1])
+#      $('.customtext').removeClass('disabled')
+#      $('#contract_player_id').val(ui.item.player_id)
+#
+#  })
 
   $('.cards_pict').click (event)->
     target = $(this).attr('player-id')
-    if $("input[type='checkbox'][player-id="+target+"]").prop('checked') == true
-      cards_toggle(this)
+    card = this
+    $("input[type='checkbox'][player-id="+target+"]").each ->
+      if $(this).prop('checked') == true
+        cards_toggle(card)
+  $('.nav.nav-tabs a').click (e) ->
+    e.preventDefault()
+    $(this).tab('show')

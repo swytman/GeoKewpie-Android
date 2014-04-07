@@ -7,7 +7,19 @@
   .row
     .col-sm-6
       .h2= @team.title
-    .col-sm-2.pull-right
-      = link_to "Редактировать", edit_champ_team_path(@champ, @team), class: "btn btn-primary"
-= render partial: 'players_list', locals:{mode: :show}
-= render partial: 'team_games'
+    .col-sm-4.pull-right
+      = link_to "Редактировать", edit_champ_team_path(@champ, @team), class: "btn btn-primary pull-right"
+
+
+%ul.nav.nav-tabs.top20
+  %li.active
+    %a{href: '#games', 'data-target' => '#games', 'data-toggle'=>'tab'} Календарь
+  %li
+    %a{href: '#players', 'data-target' => '#players', 'data-toggle'=>'tab'} Игроки
+
+
+.tab-content
+  .tab-pane.active#games
+    = render partial: 'team_games'
+  .tab-pane.active#players
+    = render partial: 'players_list', locals:{mode: :show}

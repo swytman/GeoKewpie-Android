@@ -8,3 +8,18 @@
     .h2= @champ.title
   .col-sm-2.pull-right
     = link_to "Редактировать", edit_champ_path(@champ), class: "btn btn-primary"
+
+%ul.nav.nav-tabs.top20
+  %li.active
+    %a{href: '#table', 'data-target' => '#table', 'data-toggle'=>'tab'} Таблица
+  %li
+    %a{href: '#schedule', 'data-target' => '#schedule', 'data-toggle'=>'tab'} Календарь
+  %li
+    %a{href: '#stats', 'data-target' => '#stats', 'data-toggle'=>'tab'} Статистика
+
+.tab-content
+  .tab-pane.active#table
+    = render partial: 'teams_table'
+  .tab-pane#schedule
+    = render partial: 'games_table'
+  .tab-pane#stats

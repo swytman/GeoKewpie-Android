@@ -16,13 +16,6 @@
     .col-sm-4
       = f.select :status, Champ.status, {}, { class: 'chosen-select' }
 
-  - unless @champ.new_record?
-    = render partial: 'stage_table'
-  - unless @champ.new_record?
-    = render partial: 'teams_table'
-  - unless @champ.new_record?
-    = render partial: 'games_table'
-
   .form-group
     .col-sm-12
       - unless @champ.new_record?

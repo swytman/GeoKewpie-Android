@@ -31,9 +31,9 @@
       .h3 Составы команд
     .row
       .col-sm-6
-        = render partial: 'players', locals: {title: @game.home_team.title, players:@home_players, from: 'home'}
+        = render partial: 'players', locals: {team: @game.home_team, players:@home_players, from: 'home'}
       .col-sm-6
-        = render partial: 'players', locals: {title: @game.visiting_team.title, players:@visiting_players, from: 'visiting'}
+        = render partial: 'players', locals: {team: @game.visiting_team, players:@visiting_players, from: 'visiting'}
 
   =f.hidden_field :yellow_cards
   =f.hidden_field :dbl_yellow_cards

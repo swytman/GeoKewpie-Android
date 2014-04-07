@@ -3,6 +3,8 @@ class Player < ActiveRecord::Base
   has_many :contracts
   has_many :champs, through: :teams
 
+  scope :default_scope,  -> {order([:surname, :name])}
+
   def full_name
     "#{surname} #{name} #{middlename}"
   end
@@ -23,6 +25,10 @@ class Player < ActiveRecord::Base
 
   def current_contracts
     contracts.active
+  end
+
+  def old_contracts
+    contracts.old
   end
 
 

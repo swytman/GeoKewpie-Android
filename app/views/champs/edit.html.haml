@@ -3,6 +3,31 @@
     %li= link_to 'Соревнование', champs_path
     %li= @champ.title
   %hr
-  .h2= @champ.title
+  .row
+    .col-sm-10
+      .h2= @champ.title
+    .col-sm-2.pull-right
+      = link_to "Просмотр", champ_path(@champ), class: "btn btn-primary"
 
-= render 'form'
+%ul.nav.nav-tabs.top20
+  %li.active
+    %a{href: '#base', 'data-target' => '#base', 'data-toggle'=>'tab'} Общая
+  %li
+    %a{href: '#stages', 'data-target' => '#stages', 'data-toggle'=>'tab'} Круги
+  %li
+    %a{href: '#table', 'data-target' => '#table', 'data-toggle'=>'tab'} Таблица
+  %li
+    %a{href: '#schedule', 'data-target' => '#schedule', 'data-toggle'=>'tab'} Календарь
+  %li
+    %a{href: '#stats', 'data-target' => '#stats', 'data-toggle'=>'tab'} Статистика
+
+.tab-content
+  .tab-pane.active#base
+    = render 'form'
+  .tab-pane.active#stages
+    = render partial: 'stage_table'
+  .tab-pane#table
+    = render partial: 'teams_table'
+  .tab-pane#schedule
+    = render partial: 'games_table'
+  .tab-pane#stats

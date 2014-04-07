@@ -19,7 +19,7 @@ class PlayersController < ApplicationController
 
   def create
     if @player = Player.create(player_params)
-      redirect_to edit_player_path(@player), notice: 'Игрок добавлен'
+      redirect_to new_player_path, notice: 'Игрок добавлен'
     else
       render action: 'new', error: 'Ошибка при добавлении'
     end

@@ -56,15 +56,16 @@
 
   $(".home_players, .visiting_players").change () ->
     target = $(this).attr('player-id')
+    tr = $(this).closest('tr')
     if $(this).prop("checked") == false
-      object = $(".cards_pict[player-id='"+target+"']")
+      object = tr.find(".cards_pict[player-id='"+target+"']")
       cards_toggle(object, 'no')
-      $("a[player-id='"+target+"']").addClass('inactive')
-      $("input[type=text][player-id='"+target+"']").val('')
-      $("input[type=text][player-id='"+target+"']").prop('disabled', true)
+      tr.find("a[player-id='"+target+"']").addClass('inactive')
+      tr.find("input[type=text][player-id='"+target+"']").val('')
+      tr.find("input[type=text][player-id='"+target+"']").prop('disabled', true)
     else
-      $("a[player-id='"+target+"']").removeClass('inactive')
-      $("input[type=text][player-id='"+target+"']").prop('disabled', false)
+      tr.find("a[player-id='"+target+"']").removeClass('inactive')
+      tr.find("input[type=text][player-id='"+target+"']").prop('disabled', false)
 
   $("input[type='checkbox'][name='players_all']").change () ->
     target = $(this).attr('from')

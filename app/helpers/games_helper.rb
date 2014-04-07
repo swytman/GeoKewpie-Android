@@ -39,7 +39,9 @@ module GamesHelper
     end
   end
 
-  def fetch_card game, player_id
+  def fetch_card game, from, player_id
+    players = (from == "home") ? game.home_players : game.visiting_players
+    return :no unless players.blank? || players.include?(player_id)
     return :yellow if game.yellow_cards.present? && game.yellow_cards.include?(player_id)
     return :dbl_yellow if game.dbl_yellow_cards.present? && game.dbl_yellow_cards.include?(player_id)
     return :red if game.red_cards.present? && game.red_cards.include?(player_id)

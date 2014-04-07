@@ -7,7 +7,7 @@ module ApplicationHelper
     }
   end
 
-  def pretty_date date,format
+  def pretty_date date,format = 'slashes'
     I18n.l date, format: format.to_sym if date.present?
   end
 

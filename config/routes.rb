@@ -6,6 +6,11 @@ Footmanager::Application.routes.draw do
     get :find_player
   end
 
+  get 'contracts/destroy/:id', to: 'contracts#destroy'
+  get 'contracts/destroy/:team_id/:player_id', to: 'contracts#destroy'
+  get 'contracts/close/:id', to: 'contracts#close'
+  get 'contracts/close/:team_id/:player_id', to: 'contracts#destroy'
+
   resources :players
   resources :champs do
     resources :stages do

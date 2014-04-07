@@ -14,4 +14,7 @@
       .col-sm-6
         %label Дата рождения:
         = l(@player.birthdate, :format => :long)
-  = render 'contracts_list'
+.row.well.h3 Заявлен
+= render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}
+.row.well.h4 Предыдущие команды
+= render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}

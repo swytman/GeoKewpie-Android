@@ -24,5 +24,3 @@
           %td= pretty_date player.birthdate, :slashes
           - if @team.present?
             %td= pretty_date player.contracts.where(team_id: @team.id).first.join_date, :slashes
-- else
-  %p Пока нет ни одного игрока

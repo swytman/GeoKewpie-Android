@@ -65,7 +65,11 @@ class Game < ActiveRecord::Base
     end
   end
 
-  def player_goals player_id
+  def player_goals player_id, from = nil
+    unless from.nil?
+      players = (from == "home") ? home_players : visiting_players
+      return nil unless players.blank? || players.include?(player_id)
+    end
     player_scores.each do |i|
       return i.split('#')[1] if i.split('#')[0].to_i == player_id
     end if player_scores.present?

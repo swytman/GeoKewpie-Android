@@ -2,7 +2,7 @@
   .form-group
     .col-sm-4
       %label Фамилия
-      = f.text_field :surname, class: 'form-control'
+      = f.text_field :surname, class: 'form-control',  :autofocus=>true
     .col-sm-3
       %label Имя
       = f.text_field :name, class: 'form-control'
@@ -16,7 +16,10 @@
                      :value => "#{@player.birthdate.present? ? l(@player.birthdate, :format => :slashes) : ''}",
                      :class => 'form-control datemask'
   - unless @player.new_record?
-    = render 'contracts_list'
+    .row.well.h3 Заявлен
+    = render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}
+    .row.well.h4 Предыдущие команды
+    = render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}
   .form-group
     .col-sm-12
       - unless @player.new_record?
