@@ -30,6 +30,18 @@ class Game < ActiveRecord::Base
     ['empty','scheduled', 'finished']
   end
 
+  def text_status
+    case self.status
+      when 'empty'
+        "нет даты"
+      when 'scheduled'
+        "матч не сыгран"
+      when 'finished'
+        "матч завершен"
+    end
+  end
+
+
   def title
     "#{team_title(home_id)} - #{team_title(visiting_id)}"
   end

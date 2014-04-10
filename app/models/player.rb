@@ -9,6 +9,18 @@ class Player < ActiveRecord::Base
     "#{surname} #{name} #{middlename}"
   end
 
+  def short_name
+    "#{surname} #{letter_name} #{letter_middlename} "
+  end
+
+  def letter_name
+    self.name.capitalize[0]+'.' unless name.blank?
+  end
+
+  def letter_middlename
+    self.middlename.capitalize[0]+'.' unless middlename.blank?
+  end
+
 
 
   def team_in_champ champ_id

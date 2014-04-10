@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140318175318) do
+ActiveRecord::Schema.define(version: 20140409192546) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20140318175318) do
     t.integer  "home_id"
     t.integer  "visiting_id"
     t.integer  "stage_id"
-    t.string   "status",           default: "не сыгран"
+    t.string   "status",           default: "empty"
     t.date     "date"
     t.integer  "place_id"
     t.integer  "home_scores"

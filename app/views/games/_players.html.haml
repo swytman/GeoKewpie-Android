@@ -12,7 +12,7 @@
         %tr{class: ('text-crossed' unless player.current_teams.include? team)}
           %td= check_box_tag "player_#{player.id}", 1, fetch_players(from, player.id), 'player-id'=> player.id,
             class: "#{from}_players"
-          %td= link_to player.full_name, player_path(player.id),
+          %td= link_to player.short_name, player_path(player.id),
             'player-id'=> player.id, class: ('inactive' unless fetch_players(from, player.id))
           %td= image_tag Game.cards[fetch_card(@game, from, player.id)],
             {class: 'cards_pict', card: fetch_card(@game, from, player.id), 'player-id'=> player.id,

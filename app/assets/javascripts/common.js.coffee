@@ -14,9 +14,20 @@ window.cards_toggle = (object, val = null) ->
   $(object).attr('card', val)
   $(object).attr('src', $(object).attr(val))
 
+resizeInput = () ->
+
+  $(this).width($(this).val().length*23)
+
 
 
 $ ->
+
+
+
+  $('input[type="text"].score_field')
+    .keyup(resizeInput)
+    .each(resizeInput)
+
   $('input').keyup ->
     value = $(this).val()
     $(this).attr('value', value)

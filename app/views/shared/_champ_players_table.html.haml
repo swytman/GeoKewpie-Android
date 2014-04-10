@@ -12,7 +12,7 @@
         - if @team.present?
           %th Заявлен
     %tbody
-      - players.each do |player|
+      - players.sort_by{|i| [i.surname, i.name, i.middlename]}.each do |player|
         - cards = player_total_cards(@champ, player.id)
         %tr
           %td= link_to player.full_name, player_path(player.id)

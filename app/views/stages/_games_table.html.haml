@@ -7,7 +7,7 @@
 -if @stage.games.any?
   - tour_ids= @stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
   - tour_ids.each do |tour_id|
-    - games = @stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id, g.date, g.time]}
+    - games = @stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id || 0, g.date || Time.now , g.time || Time.now]}
     - if games.any?
       .h4.well.row #{tour_id}-й тур
       %table.table.table-stripped.table-hover

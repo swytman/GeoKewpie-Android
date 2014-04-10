@@ -25,9 +25,9 @@
   .tab-pane.active#base
     = render 'form'
   .tab-pane.active#stages
-    = render partial: 'stage_table'
+    = render partial: 'stage_table', locals: {mode: :edit}
   .tab-pane#table
-    = render partial: 'teams_table'
+    = render partial: 'teams_table', locals: {mode: :edit}
   .tab-pane#schedule
-    = render partial: 'games_table'
+    = render partial: 'games_table', locals: {mode: :edit}
   .tab-pane#stats

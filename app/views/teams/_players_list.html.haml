@@ -1,7 +1,7 @@
 .row.well
   .col-sm-4
     .h3 Игроки
-  - unless mode == :show
+  - if mode == :edit
     .col-sm-2.pull-right
       = link_to "Добавить", new_champ_contract_path(@champ, @team), class: "btn btn-default pull-right"
 

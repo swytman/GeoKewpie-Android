@@ -19,7 +19,7 @@
 
 .tab-content
   .tab-pane.active#table
-    = render partial: 'teams_table'
+    = render partial: 'teams_table', locals: {mode: :show}
   .tab-pane#schedule
-    = render partial: 'games_table'
+    = render partial: 'games_table', locals: {mode: :show}
   .tab-pane#stats

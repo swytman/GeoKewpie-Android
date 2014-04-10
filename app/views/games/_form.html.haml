@@ -7,9 +7,11 @@
         = f.select :home_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
 
       .col-sm-1
-        = f.text_field :home_scores, {class: 'score_field mask-number'}
+        .scorebox
+          = f.text_field :home_scores, {class: 'score_field mask-number'}
       .col-sm-1
-        = f.text_field :visiting_scores, {class: 'score_field mask-number'}
+        .scorebox
+          = f.text_field :visiting_scores, {class: 'score_field mask-number'}
       .col-sm-3
         %label Гости
         = f.select :visiting_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
@@ -41,8 +43,6 @@
   =f.hidden_field :home_players
   =f.hidden_field :visiting_players
   =f.hidden_field :player_scores
-
-
 
   .form-group
     .col-sm-12
