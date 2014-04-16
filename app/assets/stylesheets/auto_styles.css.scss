@@ -24,5 +24,10 @@ $steps: 10;
 }
 
 @for $i from 0 through $steps {
+  .padding-bottom#{$i*5} { padding-bottom: #{5 * $i}px !important; }
+}
+
+
+@for $i from 0 through $steps {
   .margin-right#{$i*5} { margin-right: #{5 * $i}px; }
 }

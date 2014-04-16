@@ -50,7 +50,7 @@ class Game < ActiveRecord::Base
     if date.nil?
       "?"
     else
-      I18n.l(date, format: :long)
+      I18n.l(date, format: :default)
     end
   end
 
