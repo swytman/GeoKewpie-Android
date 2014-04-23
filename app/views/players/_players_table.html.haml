@@ -2,9 +2,9 @@
   %table.table.table-stripped.table-hover
     %thead
       %tr
-        %th #
+        %th.col-sm-1 #
         %th ФИО
-        %th Дата рождения
+        %th.col-sm-2 Дата рождения
     %tbody
       - players.sort_by{|i| [i.surname, i.name, i.middlename]}.each_with_index do |player, index|
         %tr

@@ -1,14 +1,14 @@
-.well.row
+.row
   %ul.breadcrumb
     %li= link_to 'Соревнования', champs_path
     %li= link_to @champ.title, edit_champ_path(@champ.id)
     %li= @team.title
-  %hr
-  .row
-    .col-sm-6
-      .h2= @team.title
-    .col-sm-4.pull-right
-      = link_to "Редактировать", edit_champ_team_path(@champ, @team), class: "btn btn-primary pull-right"
+
+.row
+  .col-sm-6
+    %h2= @team.title
+  .col-sm-4.pull-right.top20
+    = link_to "Редактировать", edit_champ_team_path(@champ, @team), class: "btn btn-primary pull-right"
 
 
 %ul.nav.nav-tabs.top20
@@ -21,5 +21,5 @@
 .tab-content
   .tab-pane.active#games
     = render partial: 'team_games'
-  .tab-pane.active#players
+  .tab-pane#players
     = render partial: 'players_list', locals:{mode: :show}

@@ -1,12 +1,11 @@
-.well.row
+.row
   %ul.breadcrumb
     %li= link_to 'Все игроки', players_path
     %li= @player.full_name
-  %hr
 .row
   .col-sm-10
-    .h2= @player.full_name
-  .col-sm-2.pull-right
+    %h2= @player.full_name
+  .col-sm-2.pull-right.text-right.top20
     = link_to "Редактировать", edit_player_path(@player), class: "btn btn-primary"
 .row
   -if @player.birthdate.present?
@@ -14,7 +13,7 @@
       .col-sm-6
         %label Дата рождения:
         = l(@player.birthdate, :format => :long)
-.row.well.h3 Заявлен
+%h4.gray-title Заявлен
 = render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}
-.row.well.h4 Предыдущие команды
+%h4.gray-title Предыдущие команды
 = render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}

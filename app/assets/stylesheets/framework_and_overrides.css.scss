@@ -8,6 +8,12 @@
   font-size: inherit;
   }
 
+.navbar-inverse{
+//  background-color: forestgreen;
+  a{
+    padding: 10px;
+  }
+}
 
 .form-group {
   padding: 10px;
@@ -18,7 +24,10 @@
   margin-bottom: 0px;
 }
 .breadcrumb{
-  margin-bottom: 0px;
+  margin-bottom: 8px;
+  margin-top: 0;
+  padding: 5px;
+  background-color: white;
 }
 hr{
   margin: 5px;
@@ -34,22 +43,22 @@ span.red{
   font-weight: bold;
 }
 
-
-
 .text-crossed td{
   text-decoration:line-through;
 }
 
 main {
-  @extend .container;
+  @extend .col-sm-9;
+  background-color: whitesmoke;
+}
+.container {
+  padding-top: 20px;
   background-color: #eee;
   padding-bottom: 80px;
-  width: 70%;
+  padding-left:35px;
+  padding-right: 35px;
+  width: 100%;
   margin-top: 51px; // accommodate the navbar
-  }
-section {
-  @extend .row;
-  margin-top: 20px;
   }
 
 .ui-datepicker {
@@ -72,6 +81,34 @@ a{
    }
 }
 
+#top-right{
+  position: absolute;
+  right:5px;
+  top: -50px;
+}
+
+.gray-title{
+  @extend .row;
+  text-align: center;
+  background-color: #dadada;
+  padding: 5px;
+}
+
+.short-table{
+  .panel-body{
+    padding: 5px;
+  }
+  .panel-heading{
+    padding: 5px;
+    padding-left: 10px;
+
+  }
+  td, th{
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+}
 
 
 

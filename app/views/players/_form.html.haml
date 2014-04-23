@@ -16,10 +16,11 @@
                      :value => "#{@player.birthdate.present? ? l(@player.birthdate, :format => :slashes) : ''}",
                      :class => 'form-control datemask'
   - unless @player.new_record?
-    .row.well.h3 Заявлен
+    %h4.gray-title Заявлен
     = render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}
-    .row.well.h4 Предыдущие команды
-    = render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}
+    - if @player.old_contracts.any?
+      %h4.gray-title Предыдущие команды
+      = render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}
   .form-group
     .col-sm-12
       - unless @player.new_record?

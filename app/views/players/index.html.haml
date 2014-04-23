@@ -1,8 +1,8 @@
 
-.row.well
+.row
   .col-sm-3
-    .h2 Игроки
-  .col-sm-2.pull-right
+    %h2 Игроки
+  .col-sm-2.pull-right.top20.text-right
     = link_to "Добавить", new_player_path, class: "btn btn-primary"
 
   = render partial: "players_table", locals:{players: @players}

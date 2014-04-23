@@ -1,8 +1,6 @@
 - if @stages.count>0
   - @stages.each do |stage|
-    .row.well
-      .col-sm-4
-        .h3= stage.title
+    .h3.text-center.gray-title= stage.title
     - games = @team.games_in_stage(stage.id).sort_by {|g| [g.tour_id || 0, g.date || 0, g.time || 0]}
     - if games.any?
       %table.table.table-stripped.table-hover

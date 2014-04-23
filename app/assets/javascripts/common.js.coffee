@@ -23,7 +23,6 @@ resizeInput = () ->
 $ ->
 
 
-
   $('input[type="text"].score_field')
     .keyup(resizeInput)
     .each(resizeInput)

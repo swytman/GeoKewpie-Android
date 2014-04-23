@@ -1,8 +1,6 @@
-.row.well
-  .col-sm-4
-    .h2 Таблица
-  - if mode == :edit
-    .col-sm-3.pull-right
+- if mode == :edit
+  %div{style: "position:relative"}
+    #top-right
       = link_to "Добавить команду", new_champ_team_path(@champ), class: "btn btn-default pull-right"
 
 - if @champ.teams.any?
