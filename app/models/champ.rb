@@ -42,6 +42,9 @@ class Champ < ActiveRecord::Base
     end
   end
 
+  def full_title
+    "#{champ_type} #{title}"
+  end
 
   def self.type
     ['5x5', '8x8', '11x11']

@@ -1,6 +1,6 @@
 %ul.breadcrumb
   %li= link_to 'Соревнования', champs_path
-  %li= link_to @champ.title, edit_champ_path(@champ.id)
+  %li= link_to @champ.full_title, edit_champ_path(@champ.id)
   %li= link_to @team.title, edit_champ_team_path(@champ, @team)
   %li Добавить игрока
 

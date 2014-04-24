@@ -21,7 +21,7 @@ resizeInput = () ->
 
 
 $ ->
-
+  $('table.sortable').tablesorter();
 
   $('input[type="text"].score_field')
     .keyup(resizeInput)

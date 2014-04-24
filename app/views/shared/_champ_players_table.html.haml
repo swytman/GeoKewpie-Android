@@ -1,26 +1,33 @@
 - if players.any?
-  %table.table.table-stripped.table-hover
+  %table.table.table-stripped.table-hover.sortable
     %thead
       %tr
         %th ФИО
+        - if options.include?(:team)
+          %th Команда
         %th Игры
         %th= image_tag('/pict/ball.png', size: '18')
         %th= image_tag Game.cards[:yellow]
         %th= image_tag Game.cards[:dbl_yellow]
         %th= image_tag Game.cards[:red]
-        %th Дата рождения
-        - if @team.present?
+        -if options.include?(:birthday)
+          %th Дата рождения, options: []
+        - if @team.present? && options.include?(:joined)
           %th Заявлен
     %tbody
-      - players.sort_by{|i| [i.surname, i.name, i.middlename]}.each do |player|
+      - players.sort_by{|i| player_total_goals(@champ, i.id)}.reverse.each do |player|
         - cards = player_total_cards(@champ, player.id)
         %tr
-          %td= link_to player.full_name, player_path(player.id)
+          %td= link_to player.short_name, player_path(player.id)
+          - if options.include?(:team)
+            - team = player.team_in_champ(@champ)
+            %td= link_to team.title, champ_team_path(@champ, team)
           %td= player_total_games(@champ, player.id)
           %td= player_total_goals(@champ, player.id)
           %td= cards[:yellow_cards]
           %td= cards[:dbl_yellow_cards]
           %td= cards[:red_cards]
-          %td= pretty_date player.birthdate, :slashes
-          - if @team.present?
+          -if options.include?(:birthday)
+            %td= pretty_date player.birthdate, :slashes
+          - if @team.present?  && options.include?(:joined)
             %td= pretty_date player.contracts.where(team_id: @team.id).first.join_date, :slashes

@@ -29,8 +29,8 @@
       = f.time_select :time, start_hour: 9, end_hour: 23, minute_step: 5
 
   - unless @game.new_record?
-    .well.row
-      .h3 Составы команд
+
+    %h3.gray-title Составы команд
     .row
       .col-sm-6
         = render partial: 'players', locals: {team: @game.home_team, players:@home_players, from: 'home'}

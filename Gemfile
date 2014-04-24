@@ -6,6 +6,7 @@ gem 'unicorn', group: :production
 
 gem 'pg'
 gem 'devise'
+gem 'jquery-tablesorter'
 
 gem 'haml'
 gem 'haml-rails'

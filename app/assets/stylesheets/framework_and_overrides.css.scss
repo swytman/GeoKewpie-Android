@@ -110,5 +110,16 @@ a{
 
 }
 
+.table.sortable{
+  th{
+    cursor: pointer;
+  }
+}
 
+#champ_type.label{
+  font-size: 100%;
+  padding: 0.1em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
 

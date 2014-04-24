@@ -1,13 +1,15 @@
-.well.row
+.row
   %ul.breadcrumb
     %li= link_to 'Турниры', champs_path
-    %li= @champ.title
-  %hr
-  .row
-    .col-sm-10
-      .h2= @champ.title
-    .col-sm-2.pull-right.text-right
-      = link_to "Просмотр", champ_path(@champ), class: "btn btn-primary"
+    %li= @champ.full_title
+
+.row
+  .col-sm-10
+    %h2
+      .label.label-default#champ_type= @champ.champ_type
+      = @champ.title
+  .col-sm-2.pull-right.text-right.top20
+    = link_to "Просмотр", champ_path(@champ), class: "btn btn-primary"
 
 %ul.nav.nav-tabs.top20
   %li.active
@@ -18,8 +20,6 @@
     %a{href: '#table', 'data-target' => '#table', 'data-toggle'=>'tab'} Таблица
   %li
     %a{href: '#schedule', 'data-target' => '#schedule', 'data-toggle'=>'tab'} Календарь
-  %li
-    %a{href: '#stats', 'data-target' => '#stats', 'data-toggle'=>'tab'} Статистика
 
 .tab-content
   .tab-pane.active#base
@@ -30,4 +30,3 @@
     = render partial: 'teams_table', locals: {mode: :edit}
   .tab-pane#schedule
     = render partial: 'games_table', locals: {mode: :edit}
-  .tab-pane#stats

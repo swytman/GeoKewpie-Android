@@ -1,8 +1,8 @@
-.row.well
+.row
   .col-sm-3
-    .h2 Этапы
+    %h3 Этапы
   - if mode == :edit
-    .col-sm-2.pull-right
+    .col-sm-2.pull-right.top20
       = link_to "Добавить этап", new_champ_stage_path(@champ), class: "btn btn-default pull-right"
 
 - if @champ.stages.any?

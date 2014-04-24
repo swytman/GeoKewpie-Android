@@ -1,6 +1,6 @@
 %ul.breadcrumb.row
   %li= link_to 'Соревнования', champs_path
-  %li= link_to @champ.title, edit_champ_path(@champ.id)
+  %li= link_to @champ.full_title, edit_champ_path(@champ.id)
   %li= link_to @stage.title, edit_champ_stage_path(@champ, @stage)
   %li= @game.title
 

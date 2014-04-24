@@ -1,10 +1,12 @@
 .row
   %ul.breadcrumb
     %li= link_to 'Турниры', champs_path
-    %li= @champ.title
+    %li= @champ.full_title
 .row
   .col-sm-10
-    %h2= @champ.title
+    %h2
+      .label.label-default#champ_type= @champ.champ_type
+      = @champ.title
   .col-sm-2.pull-right.top20
     = link_to "Редактировать", edit_champ_path(@champ), class: "btn btn-primary"
 
@@ -22,3 +24,4 @@
   .tab-pane#schedule
     = render partial: 'games_table', locals: {mode: :show}
   .tab-pane#stats
+    = render partial: 'shared/champ_players_table', locals: {players: @champ.players, options: [:team]}
