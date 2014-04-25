@@ -4,26 +4,26 @@
   %li= link_to @stage.title, edit_champ_stage_path(@champ, @stage)
   %li= @game.title
 
-.well.row
-  .col-sm-5
+.row
+  .col-sm-7
     - home_link = visiting_link = "?"
     -if @game.home_id.present?
       - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
     -if @game.visiting_id.present?
       - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
-    .h2.center
-      !=  "#{home_link} - #{visiting_link}"
-  .col-sm-4.pull-right
-    .h4
-      %a{href: edit_champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs pull-right"}
-        .glyphicon.glyphicon-pencil
-      .label.label-default.pull-right= @game.text_status
 
-.form-group.padding-bottom20
-  %label.col-sm-12 #{@game.tour_id}-й тур, #{@game.date_text} #{@game.time_text}
-.well.row
-  .h4 Составы команд
-.row.top10
+    %h2.center
+      %a{href: edit_champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs"}
+        .glyphicon.glyphicon-pencil
+      !=  "#{home_link} - #{visiting_link}"
+
+  .col-sm-5.pull-right
+    %h2.text-right
+      #{@game.tour_id}-й тур, #{@game.date_text} #{@game.time_text}
+
+  %label.col-sm-12
+%h4.gray-title Составы команд
+.top10
   .col-sm-6
     = render partial: 'list', locals: {team: @game.home_team}
   .col-sm-6

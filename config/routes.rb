@@ -13,6 +13,11 @@ Footmanager::Application.routes.draw do
 
   resources :players
   resources :champs do
+    member do
+      get :teams
+      get :stages
+      get :schedule
+    end
     resources :stages do
       member do
         get :ring_games_generate

@@ -24,7 +24,7 @@
 .tab-content
   .tab-pane.active#base
     = render 'form'
-  .tab-pane.active#stages
+  .tab-pane#stages
     = render partial: 'stage_table', locals: {mode: :edit}
   .tab-pane#table
     = render partial: 'teams_table', locals: {mode: :edit}

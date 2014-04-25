@@ -94,6 +94,13 @@ a{
   padding: 5px;
 }
 
+.blue-title{
+  @extend .row;
+  text-align: center;
+  background-color: lightblue;
+  padding: 5px;
+}
+
 .short-table{
   .panel-body{
     padding: 5px;

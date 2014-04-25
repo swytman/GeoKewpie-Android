@@ -1,15 +1,15 @@
-.row.well
+.row
   .col-sm-4
-    .h3 Календарь
-  .col-sm-2.pull-right
-    = link_to "Добавить", new_champ_stage_game_path(@champ, @stage), class: "btn btn-default pull-right"
+    %h3 Календарь
+  .col-sm-2.pull-right.top15
+    = link_to "Добавить матч", new_champ_stage_game_path(@champ, @stage), class: "btn btn-primary pull-right"
 
 -if @stage.games.any?
   - tour_ids= @stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
   - tour_ids.each do |tour_id|
     - games = @stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id || 0, g.date || Time.now , g.time || Time.now]}
     - if games.any?
-      .h4.well.row #{tour_id}-й тур
+      .h4.gray-title #{tour_id}-й тур
       %table.table.table-stripped.table-hover
         %thead
           %tr
@@ -26,8 +26,9 @@
               %td= game.date_text
               %td= game.time_text
 - else
+  Нет матчей
   - if @stage.stage_type == 'круг'
-    %h3 Генерация матчей по круговой системе:
+    %h4.gray-title Генерация матчей по круговой системе:
     .row
       .col-sm-9
         1.

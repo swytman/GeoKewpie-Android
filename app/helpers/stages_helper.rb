@@ -7,7 +7,7 @@ module StagesHelper
     team_array = teams.collect {|t| t.id}
     first_team = team_array.shift
     (n-1).times do |i|
-      tour_id = i
+      tour_id = i+1
       if i.even?
         Game.create(home_id: first_team, visiting_id: team_array[0], tour_id: tour_id, stage_id: stage.id)
       else

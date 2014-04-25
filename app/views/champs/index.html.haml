@@ -1,8 +1,8 @@
 .row
   .col-sm-3
     %h2 Турниры
-  .col-sm-2.pull-right.top20
-    = link_to "Добавить", new_champ_path, class: "btn btn-primary"
+  .col-sm-2.pull-right.top20.text-right
+    = link_to "Создать", new_champ_path, class: "btn btn-primary"
 
 - if @champs.any?
   %table.table.table-stripped.table-hover

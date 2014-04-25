@@ -4,23 +4,20 @@
   %li= link_to @stage.title, edit_champ_stage_path(@champ, @stage)
   %li= @game.title
 
-.row.top20.bottom10
-  .col-sm-6
+.row.bottom20
+  .col-sm-12
     - home_link = visiting_link = "?"
     -if @game.home_id.present?
       - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
     -if @game.visiting_id.present?
       - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
 
-    .h2
-      !=  "#{home_link} - #{visiting_link}"
-
-  .col-sm-3.pull-right
-    .h4
-      %a{href: champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs pull-right"}
+    %h2
+      %a{href: champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs"}
         .glyphicon.glyphicon-search
-      .label.label-default.pull-right= @game.text_status
 
+      !=  "#{home_link} - #{visiting_link}"
+      .label.label-default.pull-right= @game.text_status
 
 = render partial: 'form', locals: {form_action: champ_stage_game_path(@champ, @stage, @game)}
 
