@@ -1,21 +1,15 @@
 = form_for @contract, url: form_action, html: {class: 'form form-horizontal'} do |f|
-
-
   .form-group
-    .col-sm-6
-      %label Найти игрока
-      = f.hidden_field :player_id
-      = text_field_tag :search, nil, {id: 'player-search', class: 'form-control'}
-  .form-group
-    .col-sm-6
-      %p#player-info
-
+    .col-sm-12
+      %label Добавить игроков
+      = f.collection_select :player_ids, Player.all.to_a - @champ.players+@team.players, :id, :full_name,
+        {selected: @team.player_ids}, {multiple: true, class: 'chosen-select' }
 
   .form-group
     .col-sm-12
       - unless @contract.new_record?
         = link_to 'Удалить', champ_contract_path(@champ,@team, @contract), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
-      = f.submit 'Заявить', class: 'btn btn-success customtext disabled'
+      = f.submit 'Заявить', class: 'btn btn-success customtext'
       %a.btn.btn-default{href: request.referer} Отмена
 
 :coffee

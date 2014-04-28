@@ -1,26 +1,27 @@
 development:
   adapter: postgresql
-  encoding: unicode
-  port: 5432
-  database: footmanager_development
+  database: football_development
   pool: 5
+  host: 198.199.109.47
   username: postgres
-  password: 123
+  password: slar177
+  timeout: 5000
 
-test:
-  adapter: postgresql
-  encoding: unicode
-  port: 5432
-  database: footmanager_test
-  pool: 5
-  username: postgres
-  password: 123
 
-production:
+development:
   adapter: postgresql
-  encoding: unicode
-  port: 5432
-  database: footmanager_production
+  database: football_test
   pool: 5
+  host: 198.199.109.47
   username: postgres
-  password: 123
+  password: slar177
+  timeout: 5000
+
+development:
+  adapter: postgresql
+  database: football_production
+  pool: 5
+  host: 198.199.109.47
+  username: postgres
+  password: slar177
+  timeout: 5000

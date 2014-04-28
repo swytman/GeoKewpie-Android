@@ -16,7 +16,7 @@
     = render partial: 'games_table'
 
 
-  .form-group.well.row
+  .form-group.row
     .col-sm-12
       - unless @stage.new_record?
         = link_to 'Удалить', champ_stage_path(@champ,@stage), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'

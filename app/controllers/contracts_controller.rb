@@ -1,9 +1,9 @@
 class ContractsController < ApplicationController
 
-  before_action :set_champ
-  before_action :set_team
-  before_action :set_contract, only: [:show, :edit, :update, :destroy]
-  before_action :close_contract, only: [:create]
+  before_action :set_champ, except: [:destroy, :close]
+  before_action :set_team,  except: [:destroy, :close]
+  before_action :set_contract, only: [:show, :edit, :update, :destroy, :close]
+  before_action :fetch_params, only: [:create]
 
 
   def new
@@ -11,27 +11,50 @@ class ContractsController < ApplicationController
   end
 
   def edit
-
   end
 
   def show
   end
 
   def create
-    if @contract = Contract.create(contract_params)
-      redirect_to edit_champ_team_path(@champ,@team), notice: 'Игрок добавлен'
-    else
-      render action: 'new', error: 'Ошибка при добавлении'
+    @remove_ids.each do |id|
+      contract = Contract.active.find_by(player_id: id, team_id: @team.id)
+      contract.close
+      contract.save
     end
+
+    @add_ids.each do |id|
+      hash = {player_id: id, team_id: @team.id, join_date: Time.now}
+      Contract.create(hash)
+    end
+      redirect_to edit_champ_team_path(@champ,@team), notice: 'Игроки добавлены'
   end
+
+  #def remove
+  #  if @contract.destroy
+  #    render json: {result: "Удалено"}
+  #  else
+  #    render json: {result: "Ошибка при удалении"}
+  #  end
+  #end
 
   def destroy
     if @contract.destroy
-      redirect_to edit_team_path(@champ,@team), notice: 'Игрок удален'
+      redirect_to request.referer, notice: 'Запись удалена'
     else
-      render action: 'edit', error: 'Ошибка при удалении'
+      redirect_to request.referer, notice: 'Ошибка при удалении'
     end
   end
+
+  def close
+    @contract.close
+    if @contract.save
+      redirect_to request.referer, notice: 'Отзаявлен'
+    else
+      redirect_to request.referer, notice: 'Ошибка'
+    end
+  end
+
 
   def update
     if @contract.update_attributes(contract_params)
@@ -39,33 +62,25 @@ class ContractsController < ApplicationController
     else
       render action: 'edit', error: 'Ошибка при обновлении'
     end
-
   end
 
   private
   def set_champ
     @champ = Champ.find(params[:champ_id])
   end
+
   def set_team
     @team = Team.find(params[:id])
   end
+
   def set_contract
     @contract = Contract.find(params[:id])
   end
-  def contract_params
-    p = params[:contract].permit(:player_id, :join_date, :leave_date)
-    p[:team_id] = @team.id
-    p[:join_date] = Time.now
-    return p
-  end
 
-  def close_contract
-    contract = Contract.active.where(player_id: contract_params[:player_id]).reject{|c| c.champ.id!=@champ.id}
-    if contract.present?
-      contract = contract[0]
-      contract.leave_date = Time.now
-      contract.save!
-    end
+  def fetch_params
+    ids = params[:contract][:player_ids].reject{|e| e.blank?}
+    @remove_ids = @team.player_ids - ids
+    @add_ids = ids - @team.player_ids
   end
 
 end

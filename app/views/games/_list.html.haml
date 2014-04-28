@@ -1,0 +1,11 @@
+.row.text-center
+  .h4= team.title
+- if team.players.present?
+  %table.table.table-hover
+    %thead
+      %tr
+        %th ФИО
+    %tbody
+      - team.players.each_with_index do |player, index|
+        %tr
+          %td= link_to player.short_name, player_path(player.id)

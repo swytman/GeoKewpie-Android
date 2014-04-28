@@ -4,6 +4,8 @@ class Stage < ActiveRecord::Base
   has_many :teams, through: :champ
   attr_accessor :parent_stage
 
+  scope :default_scope,  -> {order(:id)}
+
   def self.type
     ['круг', 'плей-офф']
   end

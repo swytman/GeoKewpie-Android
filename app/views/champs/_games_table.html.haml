@@ -1,0 +1,28 @@
+- if @champ.stages.count>0
+  - @champ.stages.each do |stage|
+    .row
+      .col-sm-9
+        %h3= stage.title
+      - if mode == :edit
+        .col-sm-3.pull-right.top20
+          = link_to "Добавить матч", new_champ_stage_game_path(@champ, stage), class: "btn btn-sm btn-default pull-right"
+    - tour_ids= stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
+    - tour_ids.each do |tour_id|
+      - games = stage.games.where(tour_id: tour_id).sort_by{|g| [g.date || Time.now, g.time || Time.now, g.id]}
+      - if games.any?
+        .gray-title.h4 #{tour_id}-й тур
+        %table.table.table-stripped.table-hover
+          %thead
+            %tr
+              %th Матч
+              %th Счет
+              %th Дата
+              %th Время
+
+          %tbody
+            -games.each do |game|
+              %tr
+                %td= link_to(game.title, edit_champ_stage_game_path(@champ, stage, game.id))
+                %td= game.game_scores
+                %td= game.date_text
+                %td= game.time_text

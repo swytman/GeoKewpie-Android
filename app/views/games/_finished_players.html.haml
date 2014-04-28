@@ -1,0 +1,21 @@
+.row.text-center
+  .h4= team.title
+- if player_ids.present?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th ФИО
+        %th= image_tag('/pict/ico_yellow_red_card.png')
+        %th= image_tag('/pict/ball.png', size: '18')
+    %tbody
+      - player_ids.each_with_index do |player_id, index|
+        - player = Player.find(player_id)
+        %tr
+          %td= link_to player.short_name, player_path(player.id)
+          %td
+            - card = fetch_card(@game, from, player.id)
+            - unless card == :no
+              = image_tag Game.cards[card],
+                {class: 'cards_pict', card: fetch_card(@game, from, player.id), 'player-id'=> player.id,
+                yellow: Game.cards[:yellow], red: Game.cards[:red], dbl_yellow: Game.cards[:dbl_yellow], no: Game.cards[:no]}
+          %th= @game.player_goals(player.id, from)

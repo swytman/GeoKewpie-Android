@@ -1,8 +1,14 @@
-.row.well
+.row
   .col-sm-4
-    .h3 Игроки
-  - unless mode == :show
-    .col-sm-2.pull-right
+    %h3 Игроки
+  - if mode == :edit
+    .col-sm-2.pull-right.top20
       = link_to "Добавить", new_champ_contract_path(@champ, @team), class: "btn btn-default pull-right"
 
-= render partial:'shared/champ_players_table', locals:{players: @team.players}
+= render partial:'shared/champ_players_table', locals:{players: @team.players, options: [:joined]}
+
+- if @team.old_players.any?
+  .row
+    .col-sm-4
+      %h3 Отзаявленные игроки
+  = render partial:'shared/champ_players_table', locals:{players:  @team.old_players, options: [:joined]}

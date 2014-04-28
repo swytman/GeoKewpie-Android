@@ -4,15 +4,20 @@ class Team < ActiveRecord::Base
   has_many :contracts
   #has_many :players, through: :contracts
   belongs_to :champ
-  has_many :stages, through: :champs
+  has_many :srtages, through: :champs
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
   has_many :visiting_games, class_name: "Game", foreign_key: "visiting_id"
 
-  scope :active,  -> {where(status: 'активна')}
+  scope :active,  -> {where(status: ['активна', 'снята'])}
   scope :inactive,  -> {where(status: 'не активна')}
 
+  def old_players
+    Contract.old.where(team_id: id).collect { |c| c.player }
+
+  end
+
   def players
-    Contract.active.where(team_id: id).collect {|c| c.player}
+    Contract.active.where(team_id: id).collect { |c| c.player }
   end
 
   def player_ids
@@ -21,7 +26,7 @@ class Team < ActiveRecord::Base
 
 
   def self.status
-    ['активна', 'не активна']
+    ['активна', 'не активна', 'снята']
   end
 
   def self.calculate_ring id

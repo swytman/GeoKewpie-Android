@@ -7,7 +7,7 @@ module StagesHelper
     team_array = teams.collect {|t| t.id}
     first_team = team_array.shift
     (n-1).times do |i|
-      tour_id = i
+      tour_id = i+1
       if i.even?
         Game.create(home_id: first_team, visiting_id: team_array[0], tour_id: tour_id, stage_id: stage.id)
       else
@@ -22,9 +22,11 @@ module StagesHelper
   end
 
   def ring_games_swap stage, parent_stage_id
+    n = stage.teams.count - 1
+    k = tour_correction stage, n
     games = Stage.find(parent_stage_id).games
-    games.each do |g|
-      Game.create(home_id: g.visiting_id, visiting_id: g.home_id, tour_id: g.tour_id, stage_id: stage.id)
+    games.order(:tour_id).each do |g|
+      Game.create(home_id: g.visiting_id, visiting_id: g.home_id, tour_id: g.tour_id + k, stage_id: stage.id)
     end
   end
 

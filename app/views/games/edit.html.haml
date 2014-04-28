@@ -1,17 +1,23 @@
 %ul.breadcrumb.row
   %li= link_to 'Соревнования', champs_path
-  %li= link_to @champ.title, edit_champ_path(@champ.id)
+  %li= link_to @champ.full_title, edit_champ_path(@champ.id)
   %li= link_to @stage.title, edit_champ_stage_path(@champ, @stage)
   %li= @game.title
 
-.well.row
-  - home_link = visiting_link = "?"
-  -if @game.home_id.present?
-    - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
-  -if @game.visiting_id.present?
-    - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
+.row.bottom20
+  .col-sm-12
+    - home_link = visiting_link = "?"
+    -if @game.home_id.present?
+      - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
+    -if @game.visiting_id.present?
+      - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
 
-  .h2!=  "#{home_link} - #{visiting_link}"
+    %h2
+      %a{href: champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs"}
+        .glyphicon.glyphicon-search
+
+      !=  "#{home_link} - #{visiting_link}"
+      .label.label-default.pull-right= @game.text_status
 
 = render partial: 'form', locals: {form_action: champ_stage_game_path(@champ, @stage, @game)}
 
@@ -56,15 +62,16 @@
 
   $(".home_players, .visiting_players").change () ->
     target = $(this).attr('player-id')
+    tr = $(this).closest('tr')
     if $(this).prop("checked") == false
-      object = $(".cards_pict[player-id='"+target+"']")
+      object = tr.find(".cards_pict[player-id='"+target+"']")
       cards_toggle(object, 'no')
-      $("a[player-id='"+target+"']").addClass('inactive')
-      $("input[type=text][player-id='"+target+"']").val('')
-      $("input[type=text][player-id='"+target+"']").prop('disabled', true)
+      tr.find("a[player-id='"+target+"']").addClass('inactive')
+      tr.find("input[type=text][player-id='"+target+"']").val('')
+      tr.find("input[type=text][player-id='"+target+"']").prop('disabled', true)
     else
-      $("a[player-id='"+target+"']").removeClass('inactive')
-      $("input[type=text][player-id='"+target+"']").prop('disabled', false)
+      tr.find("a[player-id='"+target+"']").removeClass('inactive')
+      tr.find("input[type=text][player-id='"+target+"']").prop('disabled', false)
 
   $("input[type='checkbox'][name='players_all']").change () ->
     target = $(this).attr('from')

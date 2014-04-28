@@ -1,0 +1,33 @@
+$steps: 10;
+
+@for $i from 0 through $steps {
+  .bottom#{$i*5} { margin-bottom: #{5 * $i}px; }
+}
+
+@for $i from 0 through $steps {
+  .top#{$i*5} { margin-top: #{5 * $i}px; }
+}
+
+@for $i from 0 through $steps {
+  .left#{$i*5} { margin-left: #{5 * $i}px; }
+}
+@for $i from 0 through $steps {
+  .padding#{$i*5} { padding: #{5 * $i}px; }
+}
+
+@for $i from 0 through $steps {
+  .margin#{$i*5} { margin: #{5 * $i}px; }
+}
+
+@for $i from 0 through $steps {
+  .padding-top#{$i*5} { padding-top: #{5 * $i}px; }
+}
+
+@for $i from 0 through $steps {
+  .padding-bottom#{$i*5} { padding-bottom: #{5 * $i}px !important; }
+}
+
+
+@for $i from 0 through $steps {
+  .margin-right#{$i*5} { margin-right: #{5 * $i}px; }
+}

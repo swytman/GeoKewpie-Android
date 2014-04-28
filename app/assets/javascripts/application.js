@@ -13,6 +13,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require jquery-tablesorter
 //= require chosen-jquery
 //= require jquery.ui.autocomplete
 //= require jquery.ui.datepicker

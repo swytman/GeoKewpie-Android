@@ -5,8 +5,9 @@ class Contract < ActiveRecord::Base
 
 
   scope :active,  -> {where(leave_date: nil)}
+  scope :old,  -> {where.not(leave_date: nil)}
 
-  def close_contract
+  def close
     self.leave_date = Time.now
   end
 

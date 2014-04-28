@@ -3,19 +3,29 @@ class Player < ActiveRecord::Base
   has_many :contracts
   has_many :champs, through: :teams
 
+  scope :default_scope,  -> {order([:surname, :name])}
+
   def full_name
     "#{surname} #{name} #{middlename}"
+  end
+
+  def short_name
+    "#{surname} #{letter_name} #{letter_middlename} "
+  end
+
+  def letter_name
+    self.name.capitalize[0]+'.' unless name.blank?
+  end
+
+  def letter_middlename
+    self.middlename.capitalize[0]+'.' unless middlename.blank?
   end
 
 
 
   def team_in_champ champ_id
-    if Champ.find(champ_id).player_ids.include? id
-      id = team_ids & Champ.find(champ_id).team_ids
-      Team.find(id[0])
-    else
-      nil
-    end
+    id = team_ids & Champ.find(champ_id).team_ids
+    Team.find(id[0])
   end
   def current_teams
     contracts.active.collect {|i| Team.find(i.team_id)}
@@ -23,6 +33,10 @@ class Player < ActiveRecord::Base
 
   def current_contracts
     contracts.active
+  end
+
+  def old_contracts
+    contracts.old
   end
 
 

@@ -7,16 +7,18 @@
         = f.select :home_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
 
       .col-sm-1
-        = f.text_field :home_scores, {class: 'score_field mask-number'}
+        .scorebox
+          = f.text_field :home_scores, {class: 'score_field mask-number'}
       .col-sm-1
-        = f.text_field :visiting_scores, {class: 'score_field mask-number'}
+        .scorebox
+          = f.text_field :visiting_scores, {class: 'score_field mask-number'}
       .col-sm-3
         %label Гости
         = f.select :visiting_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
   .form-group
     %label.col-sm-1 Тур
     .col-sm-3
-      = f.select :tour_id, tours_titles(@stage).enum_for(:each_with_index).collect {|item, index| [item, index]},
+      = f.select :tour_id, tours_titles(@stage).map {|item| [item, item.split('-')[0].to_i]},
                  {include_blank: true}, { class: 'chosen-select' }
   .form-group
     %label.col-sm-1 Дата
@@ -26,13 +28,14 @@
     .col-sm-3
       = f.time_select :time, start_hour: 9, end_hour: 23, minute_step: 5
 
-  .well.row
-    .h3 Составы команд
-  .row
-    .col-sm-6
-      = render partial: 'players', locals: {title: @game.home_team.title, players:@home_players, from: 'home'}
-    .col-sm-6
-      = render partial: 'players', locals: {title: @game.visiting_team.title, players:@visiting_players, from: 'visiting'}
+  - unless @game.new_record?
+
+    %h3.gray-title Составы команд
+    .row
+      .col-sm-6
+        = render partial: 'players', locals: {team: @game.home_team, players:@home_players, from: 'home'}
+      .col-sm-6
+        = render partial: 'players', locals: {team: @game.visiting_team, players:@visiting_players, from: 'visiting'}
 
   =f.hidden_field :yellow_cards
   =f.hidden_field :dbl_yellow_cards
@@ -40,8 +43,6 @@
   =f.hidden_field :home_players
   =f.hidden_field :visiting_players
   =f.hidden_field :player_scores
-
-
 
   .form-group
     .col-sm-12

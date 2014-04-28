@@ -1,12 +1,9 @@
 .row
   %ul.breadcrumb
     %li= link_to 'Соревнования', champs_path
-    %li= link_to @champ.title, edit_champ_path(@champ.id)
+    %li= link_to @champ.full_title, edit_champ_path(@champ.id)
     %li= @stage.title
 
-.well.row
-  .h2= @stage.title
 
-
-
+%h3= @stage.title
 = render partial: 'form', locals: {form_action: champ_stage_path(@champ, @stage)}

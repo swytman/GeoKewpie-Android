@@ -1,15 +1,20 @@
-- if @player.current_contracts.any?
+- if contracts.any?
   %table.table.table-stripped.table-hover
     %thead
       %tr
         %th Команда
-        %th Соревнование
-        %th Заявлен
+        %th Турнир
+        %th= current == true ? 'Заявлен' : 'Период'
+
     %tbody
-      - @player.current_contracts.each do |contract|
+      - contracts.each do |contract|
         %tr
           %td= link_to contract.team.title, champ_team_path(contract.champ.id, contract.team.id)
-          %td= link_to contract.champ.title, champ_path(contract.champ.id)
-          %td= l contract.join_date, format: :long if contract.join_date.present?
-- else
-  %p Пока не заявлен ни за одну команду
+          %td= link_to contract.champ.full_title, champ_path(contract.champ.id)
+          %td= current == true ? pretty_date(contract.join_date) : "#{pretty_date(contract.join_date)} - #{pretty_date(contract.leave_date)}"
+          - if current == false
+            %td= link_to "Удалить запись", "/contracts/destroy/#{contract.id}",
+              data: {confirm: "Удалить?"},class: "btn btn-xs btn-danger pull-right"
+          - else
+            %td= link_to "Отзаявить", "/contracts/close/#{contract.id}",
+              data: {confirm: "Отзаявить?"},  class: "btn btn-xs btn-primary pull-right"

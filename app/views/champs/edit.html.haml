@@ -1,8 +1,32 @@
-.well.row
+.row
   %ul.breadcrumb
-    %li= link_to 'Соревнование', champs_path
-    %li= @champ.title
-  %hr
-  .h2= @champ.title
+    %li= link_to 'Турниры', champs_path
+    %li= @champ.full_title
 
-= render 'form'
+.row
+  .col-sm-10
+    %h2
+      .label.label-default#champ_type= @champ.champ_type
+      = @champ.title
+  .col-sm-2.pull-right.text-right.top20
+    = link_to "Просмотр", champ_path(@champ), class: "btn btn-primary"
+
+%ul.nav.nav-tabs.top20
+  %li.active
+    %a{href: '#base', 'data-target' => '#base', 'data-toggle'=>'tab'} Общая
+  %li
+    %a{href: '#stages', 'data-target' => '#stages', 'data-toggle'=>'tab'} Круги
+  %li
+    %a{href: '#table', 'data-target' => '#table', 'data-toggle'=>'tab'} Таблица
+  %li
+    %a{href: '#schedule', 'data-target' => '#schedule', 'data-toggle'=>'tab'} Календарь
+
+.tab-content
+  .tab-pane.active#base
+    = render 'form'
+  .tab-pane#stages
+    = render partial: 'stage_table', locals: {mode: :edit}
+  .tab-pane#table
+    = render partial: 'teams_table', locals: {mode: :edit}
+  .tab-pane#schedule
+    = render partial: 'games_table', locals: {mode: :edit}

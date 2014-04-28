@@ -1,9 +1,8 @@
-
-.row.well
+.row
   .col-sm-3
-    .h2 Соревнование
-  .col-sm-2.pull-right
-    = link_to "Добавить", new_champ_path, class: "btn btn-primary"
+    %h2 Турниры
+  .col-sm-2.pull-right.top20.text-right
+    = link_to "Создать", new_champ_path, class: "btn btn-primary"
 
 - if @champs.any?
   %table.table.table-stripped.table-hover
@@ -15,6 +14,6 @@
       - @champs.each do |champ|
         %tr
           %td= champ.id
-          %td= link_to(champ.title, edit_champ_path(champ.id))
+          %td= link_to(champ.full_title, champ_path(champ.id))
 - else
-  %p Пока нет ни одного соревнования
+  %p Не проводится
