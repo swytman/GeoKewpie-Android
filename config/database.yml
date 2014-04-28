@@ -1,3 +1,4 @@
+# все на проде
 development:
   adapter: postgresql
   database: football_development
