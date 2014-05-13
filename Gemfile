@@ -21,6 +21,7 @@ gem 'compass-rails', '~> 1.1.2'
 
 gem 'capistrano'
 gem 'capistrano-rvm'
+gem 'capistrano-bundler'
 gem 'capistrano-rails'
 
 gem 'therubyracer'
