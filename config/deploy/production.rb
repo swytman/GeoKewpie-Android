@@ -1,12 +1,12 @@
 require 'yaml'
 
 APP_CONF = YAML.load_file("config/webserver.yml")
-set :user, APP_CONF['production']['user']
-set :password, APP_CONF['production']['password']
+#set :user, APP_CONF['production']['user']
+#set :password, APP_CONF['production']['password']
 
 set :stage, :production
 
-server '198.199.109.47', port: 17768
+server '198.199.109.47', user: APP_CONF['production']['user'], port: 17768, roles: %w{web app db}
 
 
 

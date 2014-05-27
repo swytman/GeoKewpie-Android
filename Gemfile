@@ -19,7 +19,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'compass-rails', '~> 1.1.2'
 
-gem 'capistrano'
+gem 'capistrano', '~> 3.0'
 gem 'capistrano-rvm'
 gem 'capistrano-bundler'
 gem 'capistrano-rails'
@@ -33,7 +33,8 @@ gem 'will_paginate-bootstrap'
 gem 'quiet_assets'
 gem 'chosen-rails'
 gem 'jquery-timepicker-addon-rails'
-gem 'sqlite3'
+gem 'net-ssh', '2.7.0'
+
 group :development, :test do
 
   gem 'rspec-rails', '~> 3.0.0.beta'
