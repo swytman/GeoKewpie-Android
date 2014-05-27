@@ -5,6 +5,7 @@ APP_CONF = YAML.load_file("config/webserver.yml")
 #set :password, APP_CONF['production']['password']
 
 set :stage, :production
+set :rails_env, 'production'
 
 server '198.199.109.47', user: APP_CONF['production']['user'], port: 17768, roles: %w{web app db}
 

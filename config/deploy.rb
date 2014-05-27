@@ -95,10 +95,11 @@ namespace :nginx do
 end
 
 # DB
+
 namespace :db do
   task :migrate do
     on roles(:db) do
-      execute "rake db:migrate"
+      execute "rake db:migrate RAILS_ENV=#{fetch(:rails_env)} --trace"
     end
   end
 end

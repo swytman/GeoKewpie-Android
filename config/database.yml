@@ -9,7 +9,7 @@ development:
   timeout: 5000
 
 
-development:
+test:
   adapter: postgresql
   database: football_test
   pool: 5
@@ -18,11 +18,11 @@ development:
   password: slar177
   timeout: 5000
 
-development:
+production:
   adapter: postgresql
   database: football_production
   pool: 5
-  host: 198.199.109.47
+  host: localhost
   username: postgres
   password: slar177
   timeout: 5000
