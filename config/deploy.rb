@@ -1,5 +1,6 @@
-#require 'rvm/capistrano'
 #require 'bundler/capistrano'
+#require 'rvm/capistrano'
+
 
 set :application, "Greenfootball"
 set :repo_url,  "git@github.com:swytman/greenfootball.git"
