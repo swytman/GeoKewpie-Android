@@ -19,10 +19,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'compass-rails', '~> 1.1.2'
 
-gem 'capistrano', '~> 3.0'
-gem 'capistrano-rvm'
-gem 'capistrano-bundler'
-gem 'capistrano-rails'
+
 
 gem 'therubyracer'
 gem 'jbuilder'
@@ -41,6 +38,11 @@ group :development, :test do
 
 end
 group :development do
+  gem 'capistrano3-unicorn'
+  gem 'capistrano', '~> 3.0'
+  gem 'capistrano-rvm'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rails'
   gem 'rails_layout'
   gem 'pry-rails'
   gem 'better_errors'

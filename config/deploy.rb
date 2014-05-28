@@ -18,8 +18,8 @@ set :pty, true
 
 set :ssh_options, :forward_agent => true
 
-set :unicorn_conf, "#{deploy_to}/current/config/unicorn.rb"
-set :unicorn_pid, "#{deploy_to}/current/shared/pids/unicorn.pid"
+#set :unicorn_conf, "#{deploy_to}/current/config/production.rb"
+#set :unicorn_pid, "#{deploy_to}/current/shared/pids/unicorn.pid"
 
 
 
@@ -57,17 +57,16 @@ end
 
 
 # UNICORN
-namespace :unicorn do
+namespace :deploy do
   task :restart do
-    stop
-    start
+      invoke 'unicorn:restart'
   end
-  task :start do
+  task :start_server do
     on roles(:app) do
-      execute "cd #{current_path}; bundle exec unicorn_rails -c #{unicorn_conf} -E #{rails_env} -D"
+      execute "cd #{current_path}; bundle exec unicorn_rails -c #{fetch(:unicorn_conf)} -E #{rails_env} -D"
     end
   end
-  task :stop do
+  task :stop_server do
     on roles(:app) do
       execute "kill -QUIT `ps -ef | grep unicorn | grep -v grep | awk '{print $2}'`"
     end
@@ -105,5 +104,5 @@ namespace :db do
 end
 
 after 'deploy:updated', 'deploy:symlink_shared'
-after 'deploy:symlink_shared', 'db:migrate'
-after 'deploy:finished', 'unicorn:restart'
+#after 'deploy:symlink_shared', 'deploy:migrate'
+#after 'deploy:finished', 'unicorn:restart'
