@@ -8,7 +8,6 @@ development:
   password: slar177
   timeout: 5000
 
-
 test:
   adapter: postgresql
   database: football_test
