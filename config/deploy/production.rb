@@ -1,23 +1,13 @@
-require 'yaml'
-
-APP_CONF = YAML.load_file("config/webserver.yml")
-#set :user, APP_CONF['production']['user']
-#set :password, APP_CONF['production']['password']
-
-set :stage, :production
-set :rails_env, 'production'
-
-server '198.199.109.47', user: APP_CONF['production']['user'], port: 17768, roles: %w{web app db}
-
-
-
-
 # Simple Role Syntax
 # ==================
 # Supports bulk-adding hosts to roles, the primary
 # server in each group is considered to be the first
 # unless any hosts have the primary property set.
-
+# Don't declare `role :all`, it's a meta role
+set :stage, :production
+#role :app, %w{deploy@example.com}
+#role :web, %w{deploy@example.com}
+#role :db,  %w{deploy@example.com}
 
 # Extended Server Syntax
 # ======================
@@ -25,7 +15,7 @@ server '198.199.109.47', user: APP_CONF['production']['user'], port: 17768, role
 # definition into the server list. The second argument
 # something that quacks like a hash can be used to set
 # extended properties on the server.
-
+server '198.199.109.47', user: 'swytman', port: 17768, roles: %w{web app db}
 
 # you can set custom ssh options
 # it's possible to pass any option but you need to keep in mind that net/ssh understand limited list of options
@@ -48,5 +38,3 @@ server '198.199.109.47', user: APP_CONF['production']['user'], port: 17768, role
 #     # password: 'please use keys'
 #   }
 # setting per server overrides global ssh_options
-
-# fetch(:default_env).merge!(rails_env: :production)
