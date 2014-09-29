@@ -16,6 +16,10 @@ class Game < ActiveRecord::Base
     }
   end
 
+  def testFile
+    0 or 1
+  end
+
   #добавлено для избыточности чтобы не вызывать из конслои
   def result_points
     {
