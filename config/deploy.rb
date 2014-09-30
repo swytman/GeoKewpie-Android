@@ -1,76 +1,34 @@
-#require 'bundler/capistrano'
-#require 'rvm/capistrano'
 
-
-set :application, "Greenfootball"
-set :repo_url,  "git@github.com:swytman/greenfootball.git"
-set :deploy_to, "/home/swytman/greenfootball"
-
-set :scm, :git
-set :branch, "master"
-
-#set :use_sudo, false
-
-set :deploy_via, :copy
-
-set :keep_releases, 10
-set :pty, true
-
-set :ssh_options, :forward_agent => true
-
-#set :unicorn_conf, "#{deploy_to}/current/config/production.rb"
-#set :unicorn_pid, "#{deploy_to}/current/shared/pids/unicorn.pid"
-
-
-
-#def run_remote_rake(rake_cmd)
-#  rake_args = ENV['RAKE_ARGS'].to_s.split(',')
-#  cmd = "cd #{fetch(:latest_release)} && #{fetch(:rake, "rake")} RAILS_ENV=#{fetch(:rails_env, "production")} #{rake_cmd}"
-#  cmd += "['#{rake_args.join("','")}']" unless rake_args.empty?
-#  on roles(:app) do
-#   cmd
-#  end
-#  set :rakefile, nil if exists?(:rakefile)
-#end
-
-#DEPLOY
-namespace :deploy do
-  #desc "Restart Resque Workers"
-  #task :restart_workers, :roles => :db do
-  #  run_remote_rake "resque:restart_workers"
-  #end
-  #
-  #desc "Restart Resque scheduler"
-  #task :restart_scheduler, :roles => :db do
-  #  run_remote_rake "resque:restart_scheduler"
-  #end
-
-  desc "Symlinks"
-  task :symlink_shared do
-    on roles(:app) do
-      execute "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-      execute "ln -nfs #{shared_path}/config/webserver.yml #{release_path}/config/webserver.yml"
-    end
-  end
-
-end
-
+set :application, 'greenfootball.ru'
+set :repo_url, 'https://github.com/swytman/greenfootball.git'
+set :deploy_to, '/var/www/greenfootball'
+set :current_path,  "#{fetch(:deploy_to)}/current"
+set :unicorn_conf, "#{fetch(:deploy_to)}/current/config/unicorn/#{fetch(:stage)}.rb"
+set :unicorn_pid, "#{fetch(:deploy_to)}/shared/pids/unicorn.pid"
+set :linked_files, %w{config/database.yml}
 
 # UNICORN
-namespace :deploy do
+namespace :unicorn do
+
   task :restart do
-      invoke 'unicorn:restart'
-  end
-  task :start_server do
-    on roles(:app) do
-      execute "cd #{current_path}; bundle exec unicorn_rails -c #{fetch(:unicorn_conf)} -E #{rails_env} -D"
+    on roles :all do
+      #execute "if [ -f #{fetch(:unicorn_pid)} ]; then disown `cat #{fetch(:unicorn_pid)} && kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
+      execute "if [ -f #{fetch(:unicorn_pid)} ]; then kill -13 `cat #{fetch(:unicorn_pid)}`; else cd #{fetch(:current_path)} && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:stage)} -D; fi"
     end
   end
-  task :stop_server do
-    on roles(:app) do
-      execute "kill -QUIT `ps -ef | grep unicorn | grep -v grep | awk '{print $2}'`"
+
+  task :start do
+    on roles :all do
+      execute "cd #{fetch(:current_path)} && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:stage)} -D"
     end
   end
+
+  task :stop do
+    on roles :all do
+      execute "if [ -f #{fetch(:unicorn_pid)} ]; then kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
+    end
+  end
+
 end
 
 #NGINX
@@ -103,6 +61,4 @@ namespace :db do
   end
 end
 
-after 'deploy:updated', 'deploy:symlink_shared'
-#after 'deploy:symlink_shared', 'deploy:migrate'
-#after 'deploy:finished', 'unicorn:restart'
+after 'deploy:publishing', 'unicorn:restart'

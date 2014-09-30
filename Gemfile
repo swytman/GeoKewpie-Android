@@ -38,11 +38,8 @@ group :development, :test do
 
 end
 group :development do
+  gem 'capistrano'
   gem 'capistrano3-unicorn'
-  gem 'capistrano', '~> 3.0'
-  gem 'capistrano-rvm'
-  gem 'capistrano-bundler'
-  gem 'capistrano-rails'
   gem 'rails_layout'
   gem 'pry-rails'
   gem 'better_errors'
