@@ -32,6 +32,7 @@ ru:
     - суббота
     formats:
       default: ! '%d.%m.%Y'
+      month: ! '%-d %B'
       long: ! '%-d %B %Y'
       short: ! '%-d %b'
       slashes: "%d/%m/%Y"

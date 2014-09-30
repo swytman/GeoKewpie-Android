@@ -46,11 +46,11 @@ class Game < ActiveRecord::Base
     "#{team_title(home_id)} - #{team_title(visiting_id)}"
   end
 
-  def date_text
+  def date_text format = :default
     if date.nil?
       "?"
     else
-      I18n.l(date, format: :default)
+      I18n.l(date, format: format)
     end
   end
 

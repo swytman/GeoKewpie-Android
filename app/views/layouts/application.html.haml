@@ -13,8 +13,8 @@
       = render 'layouts/navigation'
     .container
       .row
-        %main
+        .col-sm-8
           = render 'layouts/messages'
           = yield
-        .col-sm-3
+        .col-sm-4
           = render 'layouts/tables'

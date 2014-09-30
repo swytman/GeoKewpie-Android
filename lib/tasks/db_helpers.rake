@@ -19,7 +19,7 @@ namespace 'db' do
     cmd = sprintf("pg_dump -h %s -p %s -U %s %s > %s",
                   db_config['production']['host'],
                   db_config['production']['port'],
-                  db_config['production']['user'],
+                  db_config['production']['username'],
                   db_config['production']['database'],
                   dump_to
     )
@@ -32,7 +32,7 @@ namespace 'db' do
     cmd = sprintf 'createdb -h %s -p %s -U %s %s',
                   db_config['development']['host'],
                   db_config['development']['port'],
-                  db_config['development']['user'],
+                  db_config['production']['username'],
                   database_name
     sh cmd
 
@@ -40,7 +40,7 @@ namespace 'db' do
     cmd  = sprintf 'psql -h %s -p %s -U %s %s < %s',
                    db_config['development']['host'],
                    db_config['development']['port'],
-                   db_config['development']['user'],
+                   db_config['production']['username'],
                    database_name,
                    dump_to
     sh cmd

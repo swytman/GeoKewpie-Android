@@ -1,7 +1,7 @@
 Footmanager::Application.routes.draw do
 
   devise_for :users
-  root 'champs#index'
+  root 'static_pages#index'
   resource :api, controller: :api do
     get :find_player
   end
