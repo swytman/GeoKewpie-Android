@@ -6,14 +6,14 @@
 
   .panel-body
     - if champ.teams.any?
-      %table
+      %table.table-hover.table-striped
         %thead
           %tr
-            %th #
-            %th Название
-            %th И
-            %th М
-            %th O
+            %th.col-md-1 #
+            %th.col-md-5 Название
+            %th.col-md-1 И
+            %th.col-md-3 М
+            %th.col-md-2 O
         %tbody
           - champ.teams.order("points DESC").each_with_index do |team, index|
             %tr{class: ('text-crossed' if team.status=='снята')}

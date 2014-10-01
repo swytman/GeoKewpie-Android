@@ -1,11 +1,12 @@
 # все на проде
 development:
   adapter: postgresql
-  database: football_development
+  database: hotels_snapshot_20140930223249
   pool: 5
   host: 198.199.109.47
   username: postgres
   password: slar177
+  port: 5432
   timeout: 5000
 
 test:
@@ -15,13 +16,15 @@ test:
   host: 198.199.109.47
   username: postgres
   password: slar177
+  port: 5432
   timeout: 5000
 
 production:
   adapter: postgresql
   database: football_production
   pool: 5
-  host: localhost
+  host: 198.199.109.47
   username: postgres
   password: slar177
+  port: 5432
   timeout: 5000

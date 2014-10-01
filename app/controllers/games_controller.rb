@@ -68,18 +68,12 @@ class GamesController < ApplicationController
     calculate if @game.status == Game.status[2]
   end
 
-
-
   def calculate
     if @stage.stage_type == 'круг'
       Team.calculate_ring(@game.home_id)
       Team.calculate_ring(@game.visiting_id)
     end
   end
-
-
-
-
 
   def set_champ
     @champ = Champ.find(params[:champ_id])
