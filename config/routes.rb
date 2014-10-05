@@ -2,6 +2,10 @@ Footmanager::Application.routes.draw do
 
   devise_for :users
   root 'static_pages#index'
+  get 'documents', to: 'static_pages#documents'
+  get 'news', to: 'static_pages#news'
+  get 'week_calendar', to: 'static_pages#week_calendar'
+
   resource :api, controller: :api do
     get :find_player
   end
@@ -13,6 +17,9 @@ Footmanager::Application.routes.draw do
 
   resources :players
   resources :champs do
+    collection do
+      get :archive
+    end
     member do
       get :teams
       get :stages

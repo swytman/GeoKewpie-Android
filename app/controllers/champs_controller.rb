@@ -2,11 +2,19 @@ class ChampsController < ApplicationController
   before_action :set_champ, only: [:show, :edit, :update, :destroy]
 
   def index
-    @champs = Champ.all
+    @type = params[:type]
+    @champs =
+      if @type.present? && Champ.type.include?(@type)
+        Champ.where(champ_type: @type)
+      else
+        Champ.all
+      end
   end
+
   def show
 
   end
+
 
   def new
     @champ = Champ.new

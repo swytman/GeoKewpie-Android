@@ -55,7 +55,7 @@ main {
   padding-top: 20px;
   background-color: #eee;
   padding-bottom: 80px;
-  padding-left:35px;
+  padding-left:15px;
   padding-right: 35px;
   width: 100%;
   margin-top: 51px; // accommodate the navbar
@@ -102,7 +102,7 @@ a{
 }
 
 .short-table{
-  min-width: 364px;
+  min-width: 300px;
   font-size: 12px;
   .panel-body{
     padding: 5px;
@@ -131,5 +131,14 @@ a{
   padding: 0.1em;
   padding-left: 0.3em;
   padding-right: 0.3em;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.champ-type-menu {
+  font-size: 16px;
+  font-weight: bold;
 }
 

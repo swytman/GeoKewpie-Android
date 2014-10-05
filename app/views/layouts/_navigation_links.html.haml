@@ -1,2 +1,19 @@
-%li= link_to('Турниры', champs_path)
-%li= link_to('Игроки', players_path)
+- Champ.type.each do |type|
+  - champs = Champ.active.where(champ_type: type)
+  - if champs.count > 0
+    %li.dropdown
+      %a.dropdown-toggle.champ-type-menu{href: champs_path(type: type), id: 'nav-administration'}
+        #{type}
+        %b.careta
+      %ul.dropdown-menu
+        - Champ.active.where(champ_type: type).each do |champ|
+          %li= link_to champ.full_title, champ_path(champ)
+%li= link_to('Архив', archive_champs_path)
+%li= link_to('Документы', documents_path)
+%li.dropdown
+  %a.dropdown-toggle{href: "#", 'data-toggle' => "dropdown", id: 'nav-administration'}
+    Администрирование
+    %b.careta
+  %ul.dropdown-menu
+    %li= link_to('Турниры', champs_path)
+    %li= link_to('Игроки', players_path)

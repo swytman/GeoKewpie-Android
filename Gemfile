@@ -39,6 +39,7 @@ group :development, :test do
 end
 group :development do
   gem 'capistrano'
+  gem 'capistrano-rails'
   gem 'capistrano3-unicorn'
   gem 'rails_layout'
   gem 'pry-rails'
