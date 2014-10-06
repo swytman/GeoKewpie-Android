@@ -3,10 +3,10 @@
     %li= link_to 'Все игроки', players_path
     %li= @player.full_name
 .row
-  .col-sm-10
-    %h2= @player.full_name
-  .col-sm-2.pull-right.text-right.top20
-    = link_to "Редактировать", edit_player_path(@player), class: "btn btn-primary"
+  .col-sm-9
+    %h3= @player.full_name
+  .col-sm-3.pull-right.text-right.top20
+    = link_to "Редактировать", edit_player_path(@player), class: "btn btn-primary btn-sm"
 .row
   -if @player.birthdate.present?
     .form-group

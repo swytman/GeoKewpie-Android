@@ -1,8 +1,7 @@
-.well.row
-  %ul.breadcrumb
-    %li= link_to 'Все игроки', players_path
-    %li Новый игрок
+%ul.breadcrumb
+  %li= link_to 'Все игроки', players_path
+  %li Новый игрок
 
-%h2 Новый игрок
+%h3 Новый игрок
 %br
 = render partial: 'form', locals: {form_action: players_path}

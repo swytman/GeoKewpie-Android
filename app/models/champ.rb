@@ -6,6 +6,11 @@ class Champ < ActiveRecord::Base
   # игроки с которые в настоящий момент участвуют в сореврновании
 
   scope :active, -> () {where(status: 'в процессе')}
+  scope :alive, -> () { where.not(status: 'завершен') }
+
+  def self.teams_for_contract
+    Team.joins(:champ).where.not(champs: {status: 'завершен'}).includes(:champ)
+  end
 
   def self.status
     ['регистрация команд', 'в процессе', 'завершен']
