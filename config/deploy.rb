@@ -2,6 +2,8 @@
 set :application, 'greenfootball.ru'
 set :repo_url, 'https://github.com/swytman/greenfootball.git'
 set :deploy_to, '/var/www/greenfootball'
+set :rollbar_token, 'e91415aea6404844afe7f709d62a76b5'
+set :rollbar_env, Proc.new { fetch :stage }
 set :current_path,  "#{fetch(:deploy_to)}/current"
 set :unicorn_conf, "#{fetch(:deploy_to)}/current/config/unicorn/#{fetch(:stage)}.rb"
 set :unicorn_pid, "#{fetch(:deploy_to)}/shared/pids/unicorn.pid"

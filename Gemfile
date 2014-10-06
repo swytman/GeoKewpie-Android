@@ -31,7 +31,7 @@ gem 'quiet_assets'
 gem 'chosen-rails'
 gem 'jquery-timepicker-addon-rails'
 gem 'net-ssh', '2.7.0'
-
+gem 'rollbar', '~> 1.0.0'
 group :development, :test do
 
   gem 'rspec-rails', '~> 3.0.0.beta'

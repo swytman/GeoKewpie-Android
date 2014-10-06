@@ -1,7 +1,7 @@
 # все на проде
 development:
   adapter: postgresql
-  database: hotels_snapshot_20140930223249
+  database: hotels_snapshot_20141006212627
   pool: 5
   host: 198.199.109.47
   username: postgres
