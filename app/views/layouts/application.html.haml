@@ -3,7 +3,7 @@
   %head
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Зеленоградский футбол'
-    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Footmanager'}"}
+    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Greenfootball'}"}
     = stylesheet_link_tag "application", media: "all"
     = favicon_link_tag '/ball-green.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application"

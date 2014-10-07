@@ -10,5 +10,5 @@
 /log/*.log
 /tmp
 /db/schema.rb
-/db/database.yml
-/db/webserver.yml
+/config/database.yml
+/config/webserver.yml
