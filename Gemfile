@@ -31,7 +31,8 @@ gem 'quiet_assets'
 gem 'chosen-rails'
 gem 'jquery-timepicker-addon-rails'
 gem 'net-ssh', '2.7.0'
-
+gem 'rollbar', '~> 1.0.0'
+gem 'cancan'
 group :development, :test do
 
   gem 'rspec-rails', '~> 3.0.0.beta'
@@ -39,6 +40,7 @@ group :development, :test do
 end
 group :development do
   gem 'capistrano'
+  gem 'capistrano-rails'
   gem 'capistrano3-unicorn'
   gem 'rails_layout'
   gem 'pry-rails'

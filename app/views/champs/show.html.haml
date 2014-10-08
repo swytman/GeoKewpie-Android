@@ -1,14 +1,15 @@
 .row
-  %ul.breadcrumb
-    %li= link_to 'Турниры', champs_path
-    %li= @champ.full_title
+  .col-sm-12
+    %ul.breadcrumb
+      %li= link_to 'Турниры', champs_path
+      %li= @champ.full_title
 .row
-  .col-sm-10
-    %h2
+  .col-sm-9
+    %h3
       .label.label-default#champ_type= @champ.champ_type
       = @champ.title
-  .col-sm-2.pull-right.top20
-    = link_to "Редактировать", edit_champ_path(@champ), class: "btn btn-primary"
+  .col-sm-3.pull-right.top20
+    = link_to "Редактировать", edit_champ_path(@champ), class: "btn btn-primary pull-right"
 
 %ul.nav.nav-tabs.top20
   %li.active
@@ -16,7 +17,7 @@
   %li
     %a{href: '#schedule', 'data-target' => '#schedule', 'data-toggle'=>'tab'} Календарь
   %li
-    %a{href: '#stats', 'data-target' => '#stats', 'data-toggle'=>'tab'} Статистика
+    %a{href: '#stats', 'data-target' => '#stats', 'data-toggle'=>'tab'} Игроки
 
 .tab-content
   .tab-pane.active#table

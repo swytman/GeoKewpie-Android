@@ -12,7 +12,7 @@
     -if @game.visiting_id.present?
       - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
 
-    %h2
+    %h4
       %a{href: champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs"}
         .glyphicon.glyphicon-search
 

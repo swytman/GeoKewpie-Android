@@ -12,13 +12,13 @@
     -if @game.visiting_id.present?
       - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
 
-    %h2.center
+    %h4.center
       %a{href: edit_champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs"}
         .glyphicon.glyphicon-pencil
-      !=  "#{home_link}  #{@game.game_scores}  #{visiting_link}"
+      !=  "#{home_link}&nbsp&nbsp#{@game.game_scores}&nbsp&nbsp#{visiting_link}"
 
   .col-sm-5.pull-right.text-right
-    %h3
+    %h4
       #{@game.tour_id}-й тур, #{@game.date_text} #{@game.time_text}
 
   %label.col-sm-12

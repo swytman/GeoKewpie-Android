@@ -15,6 +15,13 @@
       = f.text_field :birthdate,
                      :value => "#{@player.birthdate.present? ? l(@player.birthdate, :format => :slashes) : ''}",
                      :class => 'form-control datemask'
+
+  - if @player.new_record?
+    .form-group
+      .col-sm-12
+        %label Команда
+        = collection_select :contract, :team_ids, Champ.teams_for_contract, :id, :title_with_champ,
+                  {selected: @champ_id, include_blank: true}, {class: 'chosen-select' }
   - unless @player.new_record?
     %h4.gray-title Заявлен
     = render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}

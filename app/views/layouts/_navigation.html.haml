@@ -1,12 +1,9 @@
 -# navigation styled for Bootstrap 3.0
 %nav.navbar.navbar-inverse.navbar-fixed-top
   .navbar-header
-    %button.navbar-toggle{"data-target" => ".navbar-collapse", "data-toggle" => "collapse", :type => "button"}
-      %span.sr-only Toggle navigation
-      %span.icon-bar
-      %span.icon-bar
-      %span.icon-bar
     = link_to image_tag('/ball.png', size: '25x25'), root_path, class: 'navbar-brand'
+
+  %ul.nav.navbar-nav
+    = render 'layouts/navigation_links'
   .collapse.navbar-collapse
-    %ul.nav.navbar-nav
-      = render 'layouts/navigation_links'
+    = render partial: 'shared/user'

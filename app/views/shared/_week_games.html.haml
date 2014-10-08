@@ -1,23 +1,20 @@
-%h4 На этой неделе играют:
 .week-games
   - Champ.active.each do |champ|
     - games = champ.week_games
     - if games.any?
       .wg-item
-        .row
-          .wg-champ-title
-            .col-sm-5
-              = link_to champ.title, champ_path(champ)
-        .row
-          - games.each do |game|
-            .wg-game
-              %a{href: edit_champ_stage_game_path(champ, game.stage, game), class: 'btn'}
-                .time
-                  = game.time_text
-                  &nbsp&nbsp
-                  = game.title
-                  &nbsp&nbsp
-                  = game.game_scores
-                .date.pull-right
-                  = game.date_text(:month)
+        .wg-champ-title
+          .col-sm-12.h4.text-center.bottom10.top15
+            = link_to champ.title, champ_path(champ)
+        - games.sort{ |x,y| x.date <=> y.date }.each do |game|
+          .wg-game
+            %a{href: edit_champ_stage_game_path(champ, game.stage, game), class: 'btn'}
+              .time
+                = game.time_text
+                &nbsp&nbsp
+                = game.title
+                &nbsp&nbsp
+                = game.game_scores
+              .date.pull-right
+                = game.date_text(:month)
 

@@ -5,6 +5,9 @@ class Player < ActiveRecord::Base
 
   scope :default_scope,  -> {order([:surname, :name])}
 
+  validates :surname, presence: true
+  validates :name, presence: true
+
   def full_name
     "#{surname} #{name} #{middlename}"
   end

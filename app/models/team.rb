@@ -58,5 +58,8 @@ class Team < ActiveRecord::Base
     home_games.where(stage_id: stage_id) + visiting_games.where(stage_id: stage_id)
   end
 
+  def title_with_champ
+    "#{champ.try(:title)}: #{title}"
+  end
 
 end

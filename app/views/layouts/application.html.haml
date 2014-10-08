@@ -2,9 +2,10 @@
 %html
   %head
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
-    %title= content_for?(:title) ? yield(:title) : 'Footmanager'
-    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Footmanager'}"}
+    %title= content_for?(:title) ? yield(:title) : 'Зеленоградский футбол'
+    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Greenfootball'}"}
     = stylesheet_link_tag "application", media: "all"
+    = favicon_link_tag '/ball-green.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application"
 
     = csrf_meta_tags
@@ -13,8 +14,10 @@
       = render 'layouts/navigation'
     .container
       .row
-        .col-sm-8
+        .col-sm-2#left-menu
+          = render 'layouts/left_menu'
+        .col-sm-7
           = render 'layouts/messages'
           = yield
-        .col-sm-4
+        .col-sm-3
           = render 'layouts/tables'

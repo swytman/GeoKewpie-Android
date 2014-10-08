@@ -2,6 +2,9 @@
 set :application, 'greenfootball.ru'
 set :repo_url, 'https://github.com/swytman/greenfootball.git'
 set :deploy_to, '/var/www/greenfootball'
+set :rollbar_token, 'e91415aea6404844afe7f709d62a76b5'
+set :rollbar_env, Proc.new { fetch :stage }
+set :rollbar_role, Proc.new { :app }
 set :current_path,  "#{fetch(:deploy_to)}/current"
 set :unicorn_conf, "#{fetch(:deploy_to)}/current/config/unicorn/#{fetch(:stage)}.rb"
 set :unicorn_pid, "#{fetch(:deploy_to)}/shared/pids/unicorn.pid"
@@ -13,7 +16,7 @@ namespace :unicorn do
   task :restart do
     on roles :all do
       #execute "if [ -f #{fetch(:unicorn_pid)} ]; then disown `cat #{fetch(:unicorn_pid)} && kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
-      execute "if [ -f #{fetch(:unicorn_pid)} ]; then kill -13 `cat #{fetch(:unicorn_pid)}`; else cd #{fetch(:current_path)} && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:stage)} -D; fi"
+      execute "if [ -f #{fetch(:unicorn_pid)} ]; then kill -9 `cat #{fetch(:unicorn_pid)}`; else cd #{fetch(:current_path)} && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:stage)} -D; fi"
     end
   end
 

@@ -18,10 +18,16 @@ class PlayersController < ApplicationController
   end
 
   def create
-    if @player = Player.create(player_params)
-      redirect_to new_player_path, notice: 'Игрок добавлен'
+    team_ids = params[:contract][:team_ids]
+    @player = Player.new(player_params)
+    if @player.save
+      unless team_ids.nil?
+        hash = {player_id: @player.id, team_id: team_ids.first.to_i, join_date: Time.now}
+        Contract.create(hash)
+      end
+      redirect_to request.referer, notice: 'Игрок добавлен'
     else
-      render action: 'new', error: 'Ошибка при добавлении'
+      render 'new', notice: 'Ошибка при добавлении'
     end
   end
 

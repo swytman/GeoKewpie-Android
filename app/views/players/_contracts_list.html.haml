@@ -9,6 +9,7 @@
     %tbody
       - contracts.each do |contract|
         %tr
+          - next if contract.team.nil?
           %td= link_to contract.team.title, champ_team_path(contract.champ.id, contract.team.id)
           %td= link_to contract.champ.full_title, champ_path(contract.champ.id)
           %td= current == true ? pretty_date(contract.join_date) : "#{pretty_date(contract.join_date)} - #{pretty_date(contract.leave_date)}"
