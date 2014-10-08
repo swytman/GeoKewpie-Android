@@ -22,8 +22,8 @@ Footmanager::Application.routes.draw do
     end
     member do
       get :teams
-      get :stages
       get :schedule
+      get :stats
     end
     resources :stages do
       member do
@@ -35,6 +35,8 @@ Footmanager::Application.routes.draw do
     resources :teams do
       member do
         resources :contracts
+        get :players
+        get :games
       end
     end
   end

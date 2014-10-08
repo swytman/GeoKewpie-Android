@@ -7,16 +7,19 @@ class ContractsController < ApplicationController
 
 
   def new
+    authorize! :manage, Contract
     @contract = Contract.new
   end
 
   def edit
+    authorize! :manage, Contract
   end
 
   def show
   end
 
   def create
+    authorize! :manage, Contract
     @remove_ids.each do |id|
       contract = Contract.active.find_by(player_id: id, team_id: @team.id)
       contract.close
@@ -39,6 +42,7 @@ class ContractsController < ApplicationController
   #end
 
   def destroy
+    authorize! :manage, Contract
     if @contract.destroy
       redirect_to request.referer, notice: 'Запись удалена'
     else
@@ -47,6 +51,7 @@ class ContractsController < ApplicationController
   end
 
   def close
+    authorize! :manage, Contract
     @contract.close
     if @contract.save
       redirect_to request.referer, notice: 'Отзаявлен'
@@ -57,6 +62,7 @@ class ContractsController < ApplicationController
 
 
   def update
+    authorize! :manage, Contract
     if @contract.update_attributes(contract_params)
       redirect_to edit_team_path(@team), notice: 'Данные по игроку обновлены'
     else

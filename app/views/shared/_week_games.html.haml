@@ -8,7 +8,7 @@
             = link_to champ.title, champ_path(champ)
         - games.sort{ |x,y| x.date <=> y.date }.each do |game|
           .wg-game
-            %a{href: edit_champ_stage_game_path(champ, game.stage, game), class: 'btn'}
+            %a{href: champ_stage_game_path(champ, game.stage, game), class: 'btn'}
               .time
                 = game.time_text
                 &nbsp&nbsp

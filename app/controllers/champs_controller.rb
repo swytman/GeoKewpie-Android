@@ -1,29 +1,32 @@
 class ChampsController < ApplicationController
-  before_action :set_champ, only: [:show, :edit, :update, :destroy]
+  before_action :set_champ, only: [:show, :edit, :update, :destroy, :teams, :stats, :schedule]
 
   def index
     @type = params[:type]
     @champs =
       if @type.present? && Champ.type.include?(@type)
-        Champ.where(champ_type: @type)
+        Champ.where(champ_type: @type).includes(:games).includes(:teams)
       else
-        Champ.all
+        Champ.all.includes(:games).includes(:teams)
       end
   end
 
   def show
-
+    redirect_to teams_champ_path(@champ)
   end
 
 
   def new
+    authorize! :manage, Champ
     @champ = Champ.new
   end
 
   def edit
+    authorize! :manage, Champ
   end
 
   def create
+    authorize! :manage, Champ
     @champ = Champ.new(champ_params)
     if @champ.save
       redirect_to edit_champ_path(@champ), notice: 'OK'
@@ -33,6 +36,7 @@ class ChampsController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Champ
     if @champ.destroy
       redirect_to champs_path, notice: 'OK'
     else
@@ -41,6 +45,7 @@ class ChampsController < ApplicationController
   end
 
   def update
+    authorize! :manage, Champ
     if @champ.update_attributes(champ_params)
       redirect_to edit_champ_path(@champ), notice: 'OK'
     else

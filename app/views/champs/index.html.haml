@@ -1,19 +1,15 @@
 .row
   .col-sm-4
-    %h2 Лиги #{@type}
-  .col-sm-2.pull-right.top20.text-right
-    = link_to "Создать", new_champ_path, class: "btn btn-primary"
+    %h3 Лиги #{@type}
+  - if can? :manage, Champ
+    .col-sm-2.pull-right.top20.text-right
+      = link_to "Создать", new_champ_path, class: "btn btn-primary"
 
 - if @champs.any?
   %table.table
-    -#%thead
-    -#  %tr
-    -#    %th #
-    -#    %th Название
     %tbody
       - @champs.each do |champ|
         %tr
-          -#%td= champ.id
           %td= link_to(champ.full_title, champ_path(champ.id))
 - else
   %p Не проводится

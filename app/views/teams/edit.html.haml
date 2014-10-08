@@ -1,13 +1,7 @@
-.well.row
-  %ul.breadcrumb
-    %li= link_to 'Соревнования', champs_path
-    %li= link_to @champ.full_title, edit_champ_path(@champ.id)
-    %li= @team.title
+= render partial: 'team_title'
+= render partial: 'team_tabs'
 
-.row
-  .col-sm-6
-    %h2= @team.title
-  .col-sm-2.pull-right.text-right.top20
-    = link_to "Просмотр", champ_team_path(@champ, @team), class: "btn btn-primary"
-
+%h4.gray-title Общая информация
 = render partial: 'form',  locals: {form_action: champ_team_path(@champ, @team)}
+
+= render partial: 'players_list', locals: {mode: :edit}

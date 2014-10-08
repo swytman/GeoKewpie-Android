@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :groups
 
-  def belongs_to? key
-    groups.find_by(key: key).present?
+  def admin?
+    groups.find_by(key: 'administrators').present?
   end
 end

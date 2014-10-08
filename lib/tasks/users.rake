@@ -21,8 +21,8 @@ namespace :users do
 
   desc 'Init = call all tasks'
   task :init do
-    Rake::Task['users:create_groups'].execute
-    Rake::Task['users:create_admin'].execute
+    Rake::Task['users:create_groups'].invoke
+    Rake::Task['users:create_admin'].invoke
   end
 
 end

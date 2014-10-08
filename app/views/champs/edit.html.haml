@@ -1,32 +1,27 @@
-.row
-  %ul.breadcrumb
-    %li= link_to 'Турниры', champs_path
-    %li= @champ.full_title
+= render partial: 'champ_title'
+= render partial: 'champ_tabs'
 
-.row
-  .col-sm-10
-    %h2
-      .label.label-default#champ_type= @champ.champ_type
-      = @champ.title
-  .col-sm-2.pull-right.text-right.top20
-    = link_to "Просмотр", champ_path(@champ), class: "btn btn-primary"
+.gray-title.h4 Общая информация
+= render 'form'
 
-%ul.nav.nav-tabs.top20
-  %li.active
-    %a{href: '#base', 'data-target' => '#base', 'data-toggle'=>'tab'} Общая
-  %li
-    %a{href: '#stages', 'data-target' => '#stages', 'data-toggle'=>'tab'} Круги
-  %li
-    %a{href: '#table', 'data-target' => '#table', 'data-toggle'=>'tab'} Таблица
-  %li
-    %a{href: '#schedule', 'data-target' => '#schedule', 'data-toggle'=>'tab'} Календарь
+.gray-title.h4 Этапы
+- if @champ.stages.any?
+  %table.table.table-stripped.table-hover
+    %thead
+      %tr
+        %th #
+        %th Название
+        %th Формат
+        %th Статус
+    %tbody
+      - @champ.stages.each_with_index do |stage, i|
+        %tr
+          %td= link_to(i+1, edit_champ_stage_path(@champ.id, stage.id))
+          %td= link_to(stage.title, edit_champ_stage_path(@champ.id, stage.id))
+          %td= stage.stage_type
+          %td= stage.status
+- else
+  %p Пока нет ни одного этапа
+- if can? :manage, Champ
+  = link_to "Добавить этап", new_champ_stage_path(@champ), class: "btn btn-success"
 
-.tab-content
-  .tab-pane.active#base
-    = render 'form'
-  .tab-pane#stages
-    = render partial: 'stage_table', locals: {mode: :edit}
-  .tab-pane#table
-    = render partial: 'teams_table', locals: {mode: :edit}
-  .tab-pane#schedule
-    = render partial: 'games_table', locals: {mode: :edit}

@@ -1,28 +1,28 @@
-
-.row.well
-  .col-sm-3
-    .h2 Команды
-  .col-sm-2.pull-right
-    = link_to "Добавить", new_team_path, class: "btn btn-primary"
-
-- if @teams.any?
-  %table.table.table-stripped.table-hover
-    %thead
-      %tr
-        %th #
-        %th Название
-        %th Статус
-    %tbody
-      - @teams.active.each do |team|
-        %tr
-          %td= team.id
-          %td= link_to(team.title, team_path(team.id))
-          %th= team.status
-      - @teams.inactive.each do |team|
-        %tr
-          %td= team.id
-          %td= link_to(team.title, team_path(team.id))
-          %th= team.status
-
-- else
-  %p Пока нет ни одной команды
+-#
+-#.row.well
+-#  .col-sm-3
+-#    .h2 Команды
+-#  .col-sm-2.pull-right
+-#    = link_to "Добавить", new_team_path, class: "btn btn-primary"
+-#
+-#- if @teams.any?
+-#  %table.table.table-stripped.table-hover
+-#    %thead
+-#      %tr
+-#        %th #
+-#        %th Название
+-#        %th Статус
+-#    %tbody
+-#      - @teams.active.each do |team|
+-#        %tr
+-#          %td= team.id
+-#          %td= link_to(team.title, team_path(team.id))
+-#          %th= team.status
+-#      - @teams.inactive.each do |team|
+-#        %tr
+-#          %td= team.id
+-#          %td= link_to(team.title, team_path(team.id))
+-#          %th= team.status
+-#
+-#- else
+-#  %p Пока нет ни одной команды

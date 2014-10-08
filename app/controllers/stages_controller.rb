@@ -8,13 +8,16 @@ class StagesController < ApplicationController
     end
 
     def new
+      authorize! :manage, Stage
       @stage = Stage.new
     end
 
     def edit
+      authorize! :manage, Stage
     end
 
     def create
+      authorize! :manage, Stage
       @stage = @champ.stages.new(stage_params)
 
       if @stage.save
@@ -25,6 +28,7 @@ class StagesController < ApplicationController
     end
 
     def destroy
+      authorize! :manage, Stage
       if @stage.destroy
         redirect_to edit_champ_path(@champ), notice: 'OK'
       else
@@ -33,6 +37,7 @@ class StagesController < ApplicationController
     end
 
     def update
+      authorize! :manage, Stage
       if @stage.update_attributes(stage_params)
         redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
       else

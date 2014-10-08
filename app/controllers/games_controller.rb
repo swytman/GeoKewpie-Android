@@ -10,6 +10,7 @@ class GamesController < ApplicationController
   end
 
   def new
+    authorize! :manage, Game
     @game = Game.new
   end
 
@@ -18,6 +19,7 @@ class GamesController < ApplicationController
   end
 
   def edit
+    authorize! :manage, Game
     if @game.home_team.present?
       @home_players = @game.home_team.players | @game.home_team.old_players
     end
@@ -28,6 +30,7 @@ class GamesController < ApplicationController
 
 
   def create
+    authorize! :manage, Game
     @game = @stage.games.new(game_params)
     if @game.save
       redirect_to champ_stage_path(@champ, @stage), notice: 'OK'
@@ -37,6 +40,7 @@ class GamesController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Game
     if @game.destroy
       redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
     else
@@ -45,6 +49,7 @@ class GamesController < ApplicationController
   end
 
   def update
+    authorize! :manage, Game
     if @game.update_attributes(prepared_params game_params)
       redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
     else

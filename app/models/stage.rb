@@ -6,6 +6,8 @@ class Stage < ActiveRecord::Base
 
   scope :default_scope,  -> {order(:id)}
 
+  validates :title, presence: true
+
   def self.type
     ['круг', 'плей-офф']
   end

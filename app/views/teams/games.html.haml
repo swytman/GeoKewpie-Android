@@ -1,3 +1,6 @@
+= render partial: 'team_title'
+= render partial: 'team_tabs'
+
 - if @stages.count>0
   - @stages.each do |stage|
     .h3.text-center.gray-title= stage.title
@@ -19,7 +22,7 @@
                 %td #{game.tour_id}-й тур
               - else
                 %td
-              %td= link_to(game.title, edit_champ_stage_game_path(@champ, stage, game.id))
+              %td= link_to(game.title, champ_stage_game_path(@champ, stage, game.id))
               %td= game.game_scores
               %td= game.date_text
               %td= game.time_text

@@ -1,0 +1,10 @@
+.row
+  .col-sm-12
+    %ul.breadcrumb
+      %li= link_to 'Турниры', champs_path
+      %li= @champ.full_title
+.row
+  .col-sm-9
+    %h3
+      .label.label-default#champ_type= @champ.champ_type
+      = @champ.title

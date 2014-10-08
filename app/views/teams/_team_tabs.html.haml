@@ -1,0 +1,5 @@
+%ul.nav.nav-tabs.top20
+  = tab 'Календарь', games_champ_team_path(@champ, @team)
+  = tab 'Состав', players_champ_team_path(@champ, @team)
+  - if can? :manage, Team
+    = tab 'Редактировать', edit_champ_team_path(@champ, @team), css_class: 'pull-right'

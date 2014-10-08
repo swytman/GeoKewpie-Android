@@ -62,6 +62,3 @@ $ ->
     $("input[type='checkbox'][player-id="+target+"]").each ->
       if $(this).prop('checked') == true
         cards_toggle(card)
-  $('.nav.nav-tabs a').click (e) ->
-    e.preventDefault()
-    $(this).tab('show')

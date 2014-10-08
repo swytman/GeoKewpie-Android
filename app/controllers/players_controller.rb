@@ -7,17 +7,19 @@ class PlayersController < ApplicationController
   end
 
   def new
+    authorize! :manage, Player
     @player = Player.new
   end
 
   def edit
-
+    authorize! :manage, Player
   end
 
   def show
   end
 
   def create
+    authorize! :manage, Player
     team_ids = params[:contract][:team_ids]
     @player = Player.new(player_params)
     if @player.save
@@ -32,6 +34,7 @@ class PlayersController < ApplicationController
   end
 
   def destroy
+    authorize! :manage, Player
     if @player.destroy
       redirect_to players_path, notice: 'Игрок удален'
     else
@@ -40,6 +43,7 @@ class PlayersController < ApplicationController
   end
 
   def update
+    authorize! :manage, Player
     if @player.update_attributes(player_params)
       redirect_to players_path, notice: 'Данные по игроку обновлены'
     else
