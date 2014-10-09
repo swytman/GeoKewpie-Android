@@ -1,7 +1,7 @@
-.panel.panel-default.short-table
+.panel.short-table{class: champ.label_css_schema}
   .panel-heading
     .panel-title
-      .label.label-default#champ_type= champ.champ_type
+      .label#champ_type= champ.champ_type
       =link_to champ.title, champ_path(champ)
 
   .panel-body
@@ -15,7 +15,7 @@
             %th.col-md-3 М
             %th.col-md-2 O
         %tbody
-          - champ.teams.order("points DESC").each_with_index do |team, index|
+          - champ.teams.order("points DESC, win DESC, title").each_with_index do |team, index|
             %tr{class: ('text-crossed' if team.status=='снята')}
               %td= index+1
               %td= link_to(team.title, champ_team_path(champ, team.id))

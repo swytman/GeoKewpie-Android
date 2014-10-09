@@ -55,11 +55,17 @@ class ChampsController < ApplicationController
   end
 
   private
+
   def set_champ
     @champ = Champ.includes(:stages).find(params[:id])
   end
+
   def champ_params
-    params[:champ].permit(:title, :champ_type, :status,
-                          :description)
+    result =
+      params[:champ].permit(:title, :champ_type, :status,
+                            :order_priority, :label_css_schema,
+                            :description)
+    result[:order_priority] = result[:order_priority].to_i if result[:order_priority].present?
+    result
   end
 end

@@ -17,6 +17,21 @@
       = f.select :status, Champ.status, {}, { class: 'chosen-select' }
 
   .form-group
+    %label.col-sm-2 Приоритет турнира
+    .col-sm-4
+      = f.text_field :order_priority, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Стиль заголовка
+    .col-sm-4
+      = f.select :label_css_schema, Champ::LABEL_CSS_SCHEMAS, {}, { class: 'chosen-select' }
+    .col-sm-4
+      #label-example.panel.short-table{class: @champ.label_css_schema}
+        .panel-heading
+          .panel-title
+            .label#champ_type= @champ.champ_type
+            =link_to @champ.title, champ_path(@champ)
+
+  .form-group
     .col-sm-12
       - unless @champ.new_record?
         = link_to 'Удалить', champ_path(@champ), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'

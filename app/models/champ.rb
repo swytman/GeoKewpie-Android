@@ -1,10 +1,13 @@
 class Champ < ActiveRecord::Base
+  LABEL_CSS_SCHEMAS = ['gold', 'platinum', 'bronze', 'green','red']
+
   has_many :stages
   has_many :games, through: :stages
   has_many :teams
 
   # игроки с которые в настоящий момент участвуют в сореврновании
 
+  default_scope { order('order_priority DESC') }
 
   scope :active, -> () {where(status: 'в процессе')}
   scope :alive, -> () { where.not(status: 'завершен') }
@@ -64,6 +67,8 @@ class Champ < ActiveRecord::Base
   def self.type
     ['5x5', '8x8', '11x11']
   end
+
+
 
 
 
