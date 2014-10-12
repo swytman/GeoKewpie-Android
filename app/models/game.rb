@@ -1,5 +1,6 @@
 include GamesHelper
 class Game < ActiveRecord::Base
+  STATUS = ['empty','scheduled', 'finished']
   belongs_to :stage
   belongs_to :home_team, class_name: 'Team', foreign_key: 'home_id'
   belongs_to :visiting_team, class_name: 'Team', foreign_key: 'visiting_id'
@@ -27,9 +28,6 @@ class Game < ActiveRecord::Base
   end
 
   #cтатус игры
-  def self.status
-    ['empty','scheduled', 'finished']
-  end
 
   def text_status
     case self.status
@@ -102,7 +100,7 @@ class Game < ActiveRecord::Base
   end
 
   def fill_result_ring
-    return unless self.status == Game.status[2]
+    return unless self.status == 'finished'
     if home_scores > visiting_scores
       self.home_points = result_points[:win]
       self.visiting_points = result_points[:lose]

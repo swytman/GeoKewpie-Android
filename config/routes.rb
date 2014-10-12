@@ -15,6 +15,8 @@ Footmanager::Application.routes.draw do
   get 'contracts/close/:id', to: 'contracts#close'
   get 'contracts/close/:team_id/:player_id', to: 'contracts#destroy'
 
+  resources :team_logos
+
   resources :players
   resources :champs do
     collection do

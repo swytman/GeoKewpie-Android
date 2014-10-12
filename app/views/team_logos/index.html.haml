@@ -1,0 +1,12 @@
+= form_for TeamLogo.new, :url => team_logos_path, html:  { multipart: true } do |f|
+  .row
+    .btn-file-area
+      %span.btn.btn-file.btn-success
+        Добавить эмблему
+        .glyphicon.glyphicon-plus
+        %input{type: 'file', multiple:true, name: 'team_logo[logo]'}
+
+- logos = TeamLogo.all
+  - if logos.count > 0
+    - logos.each do |logo|
+      = image_tag logo.logo.url(:standart)

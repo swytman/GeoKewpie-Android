@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141009142647) do
+ActiveRecord::Schema.define(version: 20141012194224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20141009142647) do
     t.date     "leave_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "number"
   end
 
   create_table "games", force: true do |t|
@@ -132,6 +133,13 @@ ActiveRecord::Schema.define(version: 20141009142647) do
     t.integer  "champ_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "team_logos", force: true do |t|
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
   create_table "teams", force: true do |t|

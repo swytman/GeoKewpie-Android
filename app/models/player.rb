@@ -13,7 +13,11 @@ class Player < ActiveRecord::Base
   end
 
   def short_name
-    "#{surname} #{letter_name} #{letter_middlename} "
+    "#{surname} #{letter_name} #{letter_middlename} #{number_text}"
+  end
+
+  def number_text
+    "№#{number}" if number.present?
   end
 
   def letter_name

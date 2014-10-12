@@ -51,7 +51,7 @@ class GamesController < ApplicationController
   def update
     authorize! :manage, Game
     if @game.update_attributes(prepared_params game_params)
-      redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
+      redirect_to champ_stage_game_path(@champ, @stage, @game), notice: 'OK'
     else
       render action: 'show', error: 'Ошибка при обновлении'
     end
@@ -62,15 +62,15 @@ class GamesController < ApplicationController
   def trigger_status
     @game.reset_result
     if game_params[:home_scores].present? && game_params[:visiting_scores].present?
-      @game.status = Game.status[2]
+      @game.status = 'finished'
       @game.fill_result
     elsif game_params[:date].present?
-      @game.status = Game.status[1]
+      @game.status = 'scheduled'
     else
-      @game.status = Game.status[0]
+      @game.status = 'empty'
     end
     @game.save
-    calculate if @game.status == Game.status[2]
+    calculate
   end
 
   def calculate

@@ -18,6 +18,7 @@
 //= require jquery-ui
 //= require jquery-ui/datepicker
 //= require jquery-ui/datepicker-ru
+//= require jquery-fileupload/basic
 //= require jquery.maskedinput
 //= require jquery-ui-timepicker-addon
 //= require_tree .

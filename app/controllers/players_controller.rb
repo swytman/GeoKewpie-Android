@@ -58,6 +58,7 @@ class PlayersController < ApplicationController
   end
   def player_params
     params[:player][:birthdate] = Date.strptime(params[:player][:birthdate], "%d/%m/%Y") if params[:player][:birthdate].present?
-    params[:player].permit(:name, :surname, :middlename, :phone, :birthdate)
+    params[:player][:number] = params[:player][:number] if params[:player][:number].present?
+    params[:player].permit(:name, :surname, :middlename, :phone, :birthdate, :number)
   end
 end

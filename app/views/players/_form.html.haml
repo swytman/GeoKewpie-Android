@@ -10,12 +10,15 @@
       %label Отчество
       = f.text_field :middlename, class: 'form-control'
   .form-group
-    .col-sm-4
-      %label Дата рождения
+    %label.col-sm-4 Дата рождения
+    .col-sm-3
       = f.text_field :birthdate,
                      :value => "#{@player.birthdate.present? ? l(@player.birthdate, :format => :slashes) : ''}",
                      :class => 'form-control datemask'
-
+  .form-group
+    %label.col-sm-4 Игровой номер
+    .col-sm-3
+      = f.text_field :number, class: 'form-control'
   - if @player.new_record?
     .form-group
       .col-sm-12
