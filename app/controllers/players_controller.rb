@@ -23,7 +23,7 @@ class PlayersController < ApplicationController
     team_ids = params[:contract][:team_ids]
     @player = Player.new(player_params)
     if @player.save
-      unless team_ids.nil?
+      unless team_ids.blank?
         hash = {player_id: @player.id, team_id: team_ids.first.to_i, join_date: Time.now}
         Contract.create(hash)
       end
