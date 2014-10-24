@@ -19,6 +19,10 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'compass-rails', '~> 1.1.2'
 
+gem 'execjs'
+
+gem 'therubyracer'
+
 gem 'jbuilder'
 gem 'activerecord-import', :require => false
 
