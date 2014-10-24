@@ -14,7 +14,6 @@ timeout 30
 listen socket_file, :backlog => 1024
 
 pid pid_file
-unicorn_pid pid_file
 stderr_path err_log
 stdout_path log_file
 
