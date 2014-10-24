@@ -1,8 +1,6 @@
 deploy_to = "/var/www/greenfootball"
 
 app_path = "#{deploy_to}/current"
-working_directory "#{app_path}/current"
-
 pid_file = "#{deploy_to}/shared/pids/unicorn.pid"
 socket_file= "#{deploy_to}/shared/unicorn.sock"
 log_file = "#{deploy_to}/shared/log/unicorn.log"
