@@ -307,6 +307,7 @@ DEPENDENCIES
   jquery-tablesorter
   jquery-timepicker-addon-rails
   jquery-ui-rails
+  libv8
   net-ssh (= 2.7.0)
   paperclip (~> 4.2)
   pg
