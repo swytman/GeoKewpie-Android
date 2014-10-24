@@ -11,28 +11,7 @@ set :unicorn_pid, "#{fetch(:deploy_to)}/shared/pids/unicorn.pid"
 set :linked_files, %w{config/database.yml}
 
 # UNICORN
-namespace :unicorn do
 
-  task :restart do
-    on roles :all do
-      #execute "if [ -f #{fetch(:unicorn_pid)} ]; then disown `cat #{fetch(:unicorn_pid)} && kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
-      execute "if [ -f #{fetch(:unicorn_pid)} ]; then kill -9 `cat #{fetch(:unicorn_pid)}`; cd #{fetch(:current_path)} && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:stage)} -D; fi"
-    end
-  end
-
-  task :start do
-    on roles :all do
-      execute "cd #{fetch(:current_path)} && bundle exec unicorn -c #{fetch(:unicorn_conf)} -E #{fetch(:stage)} -D"
-    end
-  end
-
-  task :stop do
-    on roles :all do
-      execute "if [ -f #{fetch(:unicorn_pid)} ]; then kill -QUIT `cat #{fetch(:unicorn_pid)}`; fi"
-    end
-  end
-
-end
 
 #NGINX
 namespace :nginx do
@@ -55,7 +34,6 @@ namespace :nginx do
 end
 
 # DB
-
 namespace :db do
   task :migrate do
     on roles(:db) do
@@ -64,4 +42,9 @@ namespace :db do
   end
 end
 
-after 'deploy:publishing', 'unicorn:restart'
+after 'deploy:publishing', 'deploy:restart'
+namespace :deploy do
+  task :restart do
+    invoke 'unicorn:reload'
+  end
+end
