@@ -42,7 +42,6 @@ namespace :db do
   end
 end
 
-after 'deploy:publishing', 'deploy:compile_assets'
 after 'deploy:publishing', 'deploy:restart'
 
 namespace :deploy do

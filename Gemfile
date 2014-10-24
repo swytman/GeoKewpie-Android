@@ -19,9 +19,6 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'compass-rails', '~> 1.1.2'
 
-
-
-gem 'therubyracer'
 gem 'jbuilder'
 gem 'activerecord-import', :require => false
 
@@ -45,6 +42,8 @@ end
 group :development do
   gem 'capistrano'
   gem 'capistrano-rails'
+  gem 'capistrano-bundler'
+  gem 'capistrano-rvm'
   gem 'capistrano3-unicorn'
   gem 'rails_layout'
   gem 'pry-rails'
