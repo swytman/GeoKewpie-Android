@@ -23,7 +23,7 @@ stdout_path log_file
 
 # use correct Gemfile on restarts
 before_exec do |server|
-  ENV['BUNDLE_GEMFILE'] = "#{app_path}/current/Gemfile"
+  ENV['BUNDLE_GEMFILE'] = "#{app_path}/Gemfile"
 end
 
 # preload
