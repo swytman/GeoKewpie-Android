@@ -1,8 +1,13 @@
 source 'https://rubygems.org'
 
+require 'rubygems'
+
 gem 'rails', '4.0.2'
 
 gem 'unicorn', group: :production
+
+gem 'bundler'
+gem 'sass'
 
 gem 'pg'
 gem 'devise'
@@ -22,6 +27,7 @@ gem 'compass-rails', '~> 1.1.2'
 gem 'execjs'
 
 gem 'therubyracer'
+gem 'libv8'
 
 gem 'jbuilder'
 gem 'activerecord-import', :require => false
