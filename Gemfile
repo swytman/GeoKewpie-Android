@@ -27,7 +27,7 @@ gem 'compass-rails', '~> 1.1.2'
 gem 'execjs'
 
 gem 'therubyracer'
-gem 'libv8'
+gem 'libv8', '3.16.14.7'
 
 gem 'jbuilder'
 gem 'activerecord-import', :require => false
