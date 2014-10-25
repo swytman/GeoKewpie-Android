@@ -13,6 +13,7 @@ class Champ < ActiveRecord::Base
   scope :alive, -> () { where.not(status: 'завершен') }
 
   validates :title, presence: true
+  validates :group_key, presence: true
 
   def self.teams_for_contract
     Team.joins(:champ).where.not(champs: {status: 'завершен'}).includes(:champ)
@@ -22,12 +23,15 @@ class Champ < ActiveRecord::Base
     ['регистрация команд', 'в процессе', 'завершен']
   end
 
+  def group_players
+
+    champs = Champ.where(group_key: group_key)
+    t_ids = champs.collect(&:team_ids).flatten
+    Contract.active_players_in_teams t_ids
+  end
+
   def players
-    players = []
-    teams.each do |team|
-      players += team.players
-    end
-    players
+    Contract.active_players_in_teams team_ids
   end
 
   def player_ids

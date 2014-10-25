@@ -2,7 +2,7 @@
   .form-group
     .col-sm-12
       %label Добавить игроков
-      = f.collection_select :player_ids, Player.all.to_a - @champ.players+@team.players, :id, :full_name,
+      = f.collection_select :player_ids, Player.all.to_a - @champ.group_players + @team.players, :id, :full_name,
         {selected: @team.player_ids}, {multiple: true, class: 'chosen-select' }
 
   .form-group

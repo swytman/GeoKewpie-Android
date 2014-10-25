@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141012194224) do
+ActiveRecord::Schema.define(version: 20141025194810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 20141012194224) do
     t.datetime "updated_at"
     t.integer  "order_priority",   default: 0
     t.string   "label_css_schema"
+    t.string   "group_key"
   end
 
   create_table "champs_teams", force: true do |t|

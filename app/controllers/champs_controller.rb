@@ -64,7 +64,7 @@ class ChampsController < ApplicationController
     result =
       params[:champ].permit(:title, :champ_type, :status,
                             :order_priority, :label_css_schema,
-                            :description)
+                            :description, :group_key)
     result[:order_priority] = result[:order_priority].to_i if result[:order_priority].present?
     result
   end

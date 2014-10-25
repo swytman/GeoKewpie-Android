@@ -12,12 +12,11 @@ class Team < ActiveRecord::Base
   scope :inactive,  -> {where(status: 'не активна')}
 
   def old_players
-    Contract.old.where(team_id: id).collect{ |c| c.player }.compact
-
+    Contract.old_players_in_teams id
   end
 
   def players
-    Contract.active.where(team_id: id).collect{ |c| c.player }.compact
+    Contract.active_players_in_teams id
   end
 
   def player_ids

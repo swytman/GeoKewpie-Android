@@ -21,6 +21,10 @@
     .col-sm-4
       = f.text_field :order_priority, class: 'form-control'
   .form-group
+    %label.col-sm-2 Группа турниров
+    .col-sm-10
+      = f.text_field :group_key, class: 'form-control'
+  .form-group
     %label.col-sm-2 Стиль заголовка
     .col-sm-4
       = f.select :label_css_schema, Champ::LABEL_CSS_SCHEMAS, {}, { class: 'chosen-select' }
