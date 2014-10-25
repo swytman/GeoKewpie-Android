@@ -34,8 +34,10 @@ class Player < ActiveRecord::Base
     id = team_ids & Champ.find(champ_id).team_ids
     Team.find(id[0])
   end
+
   def current_teams
-    contracts.active.collect {|i| Team.find(i.team_id)}
+    ids = contracts.active.collect(&:team_id)
+    Team.where(id: ids)
   end
 
   def current_contracts
