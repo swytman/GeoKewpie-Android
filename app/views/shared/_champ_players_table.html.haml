@@ -15,13 +15,16 @@
         - if @team.present? && options.include?(:joined)
           %th Заявлен
     %tbody
+      - team_ids = Champ.find(@champ.id).team_ids
       - players.sort_by{|i| player_total_goals(@champ, i.id)}.reverse.each do |player|
         - cards = player_total_cards(@champ, player.id)
         %tr
           %td= link_to player.short_name, player_path(player.id)
           - if options.include?(:team)
-            - team = player.team_in_champ(@champ)
-            %td= link_to team.title, champ_team_path(@champ, team)
+            - team = player.team_in_champ(@champ, team_ids)
+            %td
+              = team_logo(team.id)
+              = link_to team.title, champ_team_path(@champ, team)
           %td= player_total_games(@champ, player.id)
           %td= player_total_goals(@champ, player.id)
           %td= cards[:yellow_cards]

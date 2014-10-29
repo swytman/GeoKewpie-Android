@@ -42,7 +42,7 @@ class Game < ActiveRecord::Base
 
 
   def title
-    "#{team_title(home_id)} - #{team_title(visiting_id)}"
+    "#{team_logo(home_id)} #{team_title(home_id)} - #{team_logo(visiting_id)} #{team_title(visiting_id)}".html_safe
   end
 
   def date_text format = :default
@@ -61,19 +61,39 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def title_with_scores
+    home = Team.find(home_id)
+    visit = Team.find(visiting_id)
+    res = ''
+    res += (home.present?) ? home.title : '?'
+    res += '&nbsp'
+    res += ActionController::Base.helpers
+          .image_tag(home.team_logo.logo.url(:tiny)) if home.team_logo.present?
+    res += game_scores
+    res += ActionController::Base.helpers
+          .image_tag(visit.team_logo.logo.url(:tiny)) if visit.team_logo.present?
+    res += '&nbsp'
+    res += (visit.present?) ? visit.title : '?'
+
+    res.html_safe
+  end
 
   def game_scores
+    res = "&nbsp&nbsp"
     if visiting_scores.present? && home_scores.present?
       if home_scores > visiting_scores
-        "<span class='green'>#{home_scores}</span> : <span class='red'>#{visiting_scores}</span>".html_safe
+        res += "<span class='green'>#{home_scores}</span> : <span class='red'>#{visiting_scores}</span>".html_safe
       elsif home_scores < visiting_scores
-        "<span class='red'>#{home_scores}</span> : <span class='green'>#{visiting_scores}</span>".html_safe
+        res += "<span class='red'>#{home_scores}</span> : <span class='green'>#{visiting_scores}</span>".html_safe
       else
-        "<b>#{home_scores}</b> : <b>#{visiting_scores}</b>".html_safe
+        res += "<b>#{home_scores}</b> : <b>#{visiting_scores}</b>".html_safe
       end
     else
-      " - : - "
+      res += "- : -"
     end
+    res +=  "&nbsp&nbsp"
+    res.html_safe
+
   end
 
   def player_goals player_id, from = nil

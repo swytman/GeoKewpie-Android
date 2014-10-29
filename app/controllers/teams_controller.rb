@@ -62,7 +62,7 @@ class TeamsController < ApplicationController
       @team = Team.find(params[:id])
     end
     def team_params
-      params[:team].permit(:title, :status)
+      params[:team].permit(:title, :status, :team_logo_id)
     end
 
 

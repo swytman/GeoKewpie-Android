@@ -9,6 +9,7 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+/public/system/assets
 /db/schema.rb
 config/database.yml
 config/webserver.yml

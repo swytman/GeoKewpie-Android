@@ -4,6 +4,7 @@ class Team < ActiveRecord::Base
   has_many :contracts
   #has_many :players, through: :contracts
   belongs_to :champ
+  belongs_to :team_logo
   has_many :srtages, through: :champs
   has_many :home_games, class_name: "Game", foreign_key: "home_id"
   has_many :visiting_games, class_name: "Game", foreign_key: "visiting_id"

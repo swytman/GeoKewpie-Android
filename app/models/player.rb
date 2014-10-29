@@ -3,7 +3,7 @@ class Player < ActiveRecord::Base
   has_many :contracts
   has_many :champs, through: :teams
 
-  scope :default_scope,  -> {order([:surname, :name])}
+  scope :default_scope,  -> { order([:surname, :name]) }
 
   validates :surname, presence: true
   validates :name, presence: true
@@ -30,8 +30,9 @@ class Player < ActiveRecord::Base
 
 
 
-  def team_in_champ champ_id
-    id = team_ids & Champ.find(champ_id).team_ids
+  def team_in_champ champ_id, ch_team_ids = nil
+    ch_team_ids ||= Champ.find(champ_id).team_ids
+    id = team_ids & ch_team_ids
     Team.find(id[0])
   end
 

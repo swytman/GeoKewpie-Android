@@ -9,12 +9,17 @@
         - games.sort_by{ |x| [x.date, x.time] }.each do |game|
           .wg-game
             %a{href: champ_stage_game_path(champ, game.stage, game), class: 'btn'}
-              .time
+              .time.pull-left
                 = game.time_text
-                &nbsp&nbsp
-                = game.title
-                &nbsp&nbsp
-                = game.game_scores
+              .title_with_scores
+                .home-team
+                  = team_title(game.home_id)
+                  = team_logo(game.home_id)
+                .score
+                  = game.game_scores
+                .visiting-team
+                  = team_logo(game.visiting_id)
+                  = team_title(game.visiting_id)
               .date.pull-right
                 = game.date_text(:month)
 

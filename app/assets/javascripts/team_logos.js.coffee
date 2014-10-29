@@ -15,4 +15,9 @@ $ ->
         alert("#{file.name} должен быть в формате gif, jpg или png")
 
     stop: (e, data) ->
-#      location.reload()
+      location.reload()
+
+  $(".select-team-logo").ddslick
+    width: '95px'
+    onSelected: (data) ->
+      $('.team_logo_id').val(data.selectedData.value)

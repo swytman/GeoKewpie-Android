@@ -13,7 +13,7 @@
     }
   }
   .wg-game{
-    min-width: 364px;
+    min-width: 432px;
     padding-left: 0;
     a{
       border: 1px solid #e9e9e9;
@@ -32,6 +32,30 @@
     .time{
       float: left;
     }
+
+    .title_with_scores{
+      min-width: 350px;
+      .home-team{
+        width: 30%;
+        float: left;
+        text-align: right;
+      }
+      .score{
+        width: 10%;
+        float: left;
+        text-align: center;
+      }
+      .visiting-team{
+        width: 30%;
+        float: left;
+        text-align: left;
+      }
+
+
+
+    }
+
+
   }
 
 }

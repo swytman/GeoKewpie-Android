@@ -17,7 +17,11 @@ class TeamLogosController < ApplicationController
   end
 
   def destroy
-
+    if @logo.destroy
+      redirect_to team_logos_path, notice: 'Эмблема удалена'
+    else
+      redirect_to team_logos_path, notice: 'Ошибка при удалении'
+    end
   end
 
   def update

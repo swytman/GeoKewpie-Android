@@ -27,7 +27,6 @@ module GamesHelper
   end
 
   def team_title id
-
     if id.nil?
       return "?"
     else
@@ -36,6 +35,14 @@ module GamesHelper
       rescue
         return "?"
       end
+    end
+  end
+
+  def team_logo id
+    team = Team.find(id)
+    if team.present?
+      ActionController::Base.helpers
+      .image_tag(team.team_logo.logo.url(:tiny)) if team.team_logo.present?
     end
   end
 

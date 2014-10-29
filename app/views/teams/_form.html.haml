@@ -8,6 +8,12 @@
     .col-sm-4
       = f.select :status, Team.status, {}, { class: 'chosen-select' }
   .form-group
+    %label.col-sm-2 Эмблема
+    .col-sm-1
+      = select_tag :team_logo_id,
+        select_with_icons(TeamLogo.available_logo(@champ, @team), @team.team_logo_id), {class: "select-team-logo"}
+    = f.hidden_field :team_logo_id, class: "team_logo_id"
+  .form-group
     .col-sm-12
       - unless @team.new_record?
         = link_to 'Удалить', champ_team_path(@champ, @team), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'

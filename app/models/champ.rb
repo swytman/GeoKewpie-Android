@@ -24,7 +24,6 @@ class Champ < ActiveRecord::Base
   end
 
   def group_players
-
     champs = Champ.where(group_key: group_key)
     t_ids = champs.collect(&:team_ids).flatten
     Contract.active_players_in_teams t_ids

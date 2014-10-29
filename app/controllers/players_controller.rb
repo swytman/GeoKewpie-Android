@@ -24,7 +24,7 @@ class PlayersController < ApplicationController
     @player = Player.new(player_params)
     if @player.save
       unless team_ids.blank?
-        hash = {player_id: @player.id, team_id: team_ids.first.to_i, join_date: Time.now}
+        hash = {player_id: @player.id, team_id: team_ids.to_i, join_date: Time.now}
         Contract.create(hash)
       end
       redirect_to request.referer, notice: 'Игрок добавлен'

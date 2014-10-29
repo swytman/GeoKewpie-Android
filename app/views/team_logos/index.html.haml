@@ -7,6 +7,11 @@
         %input{type: 'file', multiple:true, name: 'team_logo[logo]'}
 
 - logos = TeamLogo.all
-  - if logos.count > 0
+- if logos.count > 0
+  .row.top40
     - logos.each do |logo|
-      = image_tag logo.logo.url(:standart)
+      .col-xs-2.logo
+        %a.thumbnail{href: '#'}
+          = image_tag logo.logo.url(:standart)
+        %p.text-center
+          = link_to 'Удалить', team_logo_path(logo), method: 'delete'
