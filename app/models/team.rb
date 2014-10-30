@@ -1,6 +1,4 @@
-
 class Team < ActiveRecord::Base
-  include ApplicationHelper
   has_many :contracts
   #has_many :players, through: :contracts
   belongs_to :champ
@@ -45,7 +43,7 @@ class Team < ActiveRecord::Base
         missed += g.home_scores
       end
     end
-    total_points = win*result_points[:win] + draw*result_points[:draw]
+    total_points = win*Game.result_points[:win] + draw*Game.result_points[:draw]
     @team.win, @team.lose, @team.draw, @team.scored, @team.missed, @team.points =  win, lose, draw, scored, missed, total_points
     @team.save!
   end

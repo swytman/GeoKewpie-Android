@@ -1,5 +1,6 @@
 class GamesController < ApplicationController
   include GamesHelper
+  include ApplicationHelper
   before_action :set_game, only: [:show, :edit, :update, :destroy]
   before_action :set_stage
   before_action :set_champ

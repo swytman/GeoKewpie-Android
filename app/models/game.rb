@@ -20,7 +20,7 @@ class Game < ActiveRecord::Base
 
 
   #добавлено для избыточности чтобы не вызывать из конслои
-  def result_points
+  def self.result_points
     {
         win: 3,
         lose: 0,
@@ -123,16 +123,16 @@ class Game < ActiveRecord::Base
   def fill_result_ring
     return unless self.status == 'finished'
     if home_scores > visiting_scores
-      self.home_points = result_points[:win]
-      self.visiting_points = result_points[:lose]
+      self.home_points = Game.result_points[:win]
+      self.visiting_points = Game.result_points[:lose]
       self.winner_id = home_id
     elsif home_scores < visiting_scores
-      self.home_points = result_points[:lose]
-      self.visiting_points = result_points[:win]
+      self.home_points = Game.result_points[:lose]
+      self.visiting_points = Game.result_points[:win]
       self.winner_id = visiting_id
     elsif home_scores == visiting_scores
-      self.home_points = result_points[:draw]
-      self.visiting_points = result_points[:draw]
+      self.home_points = Game.result_points[:draw]
+      self.visiting_points = Game.result_points[:draw]
       self.winner_id = 0
     end
   end
