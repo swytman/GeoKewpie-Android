@@ -13,13 +13,11 @@
                 = game.time_text
               .title_with_scores
                 .home-team
-                  = team_title(game.home_id)
-                  = team_logo(game.home_id)
+                  = team_title_with_logo(game.home_id, :right)
                 .score
                   = game.game_scores
                 .visiting-team
-                  = team_logo(game.visiting_id)
-                  = team_title(game.visiting_id)
+                  = team_title_with_logo(game.visiting_id, :left)
               .date.pull-right
                 = game.date_text(:month)
 

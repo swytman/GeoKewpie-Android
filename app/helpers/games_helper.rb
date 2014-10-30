@@ -26,26 +26,6 @@ module GamesHelper
     res
   end
 
-  def team_title id
-    if id.nil?
-      return "?"
-    else
-      begin
-        return Team.find(id).title
-      rescue
-        return "?"
-      end
-    end
-  end
-
-  def team_logo id
-    team = Team.find(id)
-    if team.present?
-      ActionController::Base.helpers
-      .image_tag(team.team_logo.logo.url(:tiny)) if team.team_logo.present?
-    end
-  end
-
   def fetch_card game, from, player_id
     players = (from == "home") ? game.home_players : game.visiting_players
     return :no unless players.blank? || players.include?(player_id)
@@ -54,8 +34,6 @@ module GamesHelper
     return :red if game.red_cards.present? && game.red_cards.include?(player_id)
     return :no
   end
-
-
 
   def fetch_players from, player_id
     @game.send("#{from}_players").present? && @game.send("#{from}_players").include?(player_id)

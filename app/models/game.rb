@@ -1,5 +1,6 @@
-include GamesHelper
 class Game < ActiveRecord::Base
+  include GamesHelper
+  include ApplicationHelper
   STATUS = ['empty','scheduled', 'finished']
   belongs_to :stage
   belongs_to :home_team, class_name: 'Team', foreign_key: 'home_id'
@@ -42,7 +43,7 @@ class Game < ActiveRecord::Base
 
 
   def title
-    "#{team_logo(home_id)} #{team_title(home_id)} - #{team_logo(visiting_id)} #{team_title(visiting_id)}".html_safe
+    "#{team_title_with_logo(home_id)} - #{team_title_with_logo(visiting_id)}".html_safe
   end
 
   def date_text format = :default

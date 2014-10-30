@@ -1,6 +1,6 @@
-include ApplicationHelper
-class Team < ActiveRecord::Base
 
+class Team < ActiveRecord::Base
+  include ApplicationHelper
   has_many :contracts
   #has_many :players, through: :contracts
   belongs_to :champ

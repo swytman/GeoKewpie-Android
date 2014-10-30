@@ -18,8 +18,7 @@
         %tr{class: ('text-crossed' if team.status=='снята')}
           %td= index+1
           %td
-            = team_logo(team.id)
-            = link_to(team.title, champ_team_path(@champ, team.id))
+            = link_to(team_title_with_logo(team), champ_team_path(@champ, team.id))
           %td= team.win+team.lose+team.draw
           %td= team.win
           %td= team.draw

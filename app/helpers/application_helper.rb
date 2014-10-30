@@ -23,4 +23,40 @@ module ApplicationHelper
       link_to title, link
     end
   end
+
+  #def team_title id
+  #  if id.nil?
+  #    return "?"
+  #  else
+  #    begin
+  #      return Team.find(id).title
+  #    rescue
+  #      return "?"
+  #    end
+  #  end
+  #end
+
+  #def team_logo id
+  #  team = Team.find(id)
+  #  if team.present?
+  #    ActionController::Base.helpers
+  #    .image_tag(team.team_logo.logo.url(:tiny)) if team.team_logo.present?
+  #  end
+  #end
+
+  def team_title_with_logo id, logo_position = :left
+    team = id if id.is_a?(Team)
+    team ||= Team.find(id)
+    return '?' unless team.present?
+    title = team.title
+    logo = ActionController::Base.helpers
+          .image_tag(team.team_logo.logo.url(:tiny)) if team.team_logo.present?
+    if logo_position == :left
+      return "#{logo}#{title}".html_safe
+    else
+      return "#{title}#{logo}".html_safe
+    end
+  end
+
+
 end
