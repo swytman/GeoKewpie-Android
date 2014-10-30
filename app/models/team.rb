@@ -22,12 +22,23 @@ class Team < ActiveRecord::Base
     players.collect{|i| i.id}
   end
 
+  def self.logo_path id, size = :standart
+    return "nologo.png" if id.nil?
+    team = id if id.is_a?(Team)
+    team ||= Team.find(id)
+    if team.team_logo.present?
+      team.team_logo.logo.url(size)
+    else
+      "nologo.png"
+    end
+  end
 
   def self.status
     ['активна', 'не активна', 'снята']
   end
 
   def self.calculate_ring id
+    return if id.nil?
     @team = Team.find(id)
     win, lose, draw, scored, missed, total_points = 0, 0, 0, 0, 0, 0
     @team.games.each do |g|

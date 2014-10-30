@@ -28,3 +28,28 @@ input.ball-count {
   border-radius: 5px;
 }
 
+.game-teams{
+  .home-team{
+    float: left;
+    width: 33%;
+  };
+  .score{
+    .game-result{
+      font-size: 40px;
+    }
+    float: left;
+    width: 33%;
+  }
+  .visiting-team{
+    float: left;
+    width: 33%;
+
+  }
+}
+
+.team-logo{
+  font-size: 14px;
+  width: 121px;
+  margin: 0 auto;
+}
+

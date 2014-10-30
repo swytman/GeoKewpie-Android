@@ -4,25 +4,8 @@
   %li= @stage.title
   %li= @game.title
 
-.row
-  .col-sm-7
-    - home_link = visiting_link = "?"
-    -if @game.home_id.present?
-      - home_link = "#{link_to Team.find(@game.home_id).title, champ_team_path(@champ.id, @game.home_id)}"
-    -if @game.visiting_id.present?
-      - visiting_link = "#{link_to Team.find(@game.visiting_id).title, champ_team_path(@champ.id, @game.visiting_id)}"
+= render partial: 'teams_block'
 
-    %h4.center
-      - if can? :manage, Game
-        %a{href: edit_champ_stage_game_path(@champ, @stage, @game), class: "btn btn-default btn-xs"}
-          .glyphicon.glyphicon-pencil
-      !=  "#{home_link}&nbsp&nbsp#{@game.game_scores}&nbsp&nbsp#{visiting_link}"
-
-  .col-sm-5.pull-right.text-right
-    %h4
-      #{@game.tour_id}-й тур, #{@game.date_text} #{@game.time_text}
-
-  %label.col-sm-12
 %h4.gray-title Составы команд
 .top10
   .col-sm-6

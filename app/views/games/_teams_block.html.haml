@@ -1,0 +1,34 @@
+.row.top20
+  - if can? :manage, Game
+    %a{href: edit_champ_stage_game_path(@champ, @stage, @game), class: "btn btn-primary btn-xs", style: "position: absolute;"}
+      Редактировать
+  .text-center.game-date
+    #{@game.date_text} #{@game.time_text}
+.row.bottom20
+  .text-center.game-date
+    #{@game.tour_id}-й тур
+.row.game-teams.bottom30
+  .home-team
+    .team-logo.pull-right.text-center
+      - home_path = '#' if @home_team.nil?
+      %a{href: home_path||champ_team_path(@champ.id, @game.home_id), class: 'text-center'}
+        = image_tag(Team.logo_path(@home_team), width: 120)
+        - unless home_path
+          = link_to @home_team.title, champ_team_path(@champ.id, @game.home_id)
+        - else
+          ?
+  .score.text-center
+    %b= @game.text_status
+    - if @game.status=='finished'
+      .game-result.top15
+        = @game.game_scores
+  .visiting-team
+    .team-logo.pull-left.text-center
+      - visiting_path = '#' if @visiting_team.nil?
+      %a{href: visiting_path||champ_team_path(@champ.id, @game.visiting_id), class: 'text-center'}
+        %span
+          = image_tag(Team.logo_path(@visiting_team), width: 120)
+          - unless visiting_path
+            = link_to @visiting_team.title, champ_team_path(@champ.id, @game.visiting_id)
+          - else
+            ?

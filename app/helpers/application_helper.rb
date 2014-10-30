@@ -38,7 +38,9 @@ module ApplicationHelper
   #end
 
   def team_title_with_logo id, logo_position = :left
+    return '?' if id.nil?
     team = id if id.is_a?(Team)
+
     team ||= Team.find(id)
     return '?' unless team.present?
     title = team.title
