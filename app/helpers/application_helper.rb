@@ -52,9 +52,9 @@ module ApplicationHelper
     logo = ActionController::Base.helpers
           .image_tag(team.team_logo.logo.url(:tiny)) if team.team_logo.present?
     if logo_position == :left
-      return "#{logo}#{title}".html_safe
+      return "#{logo}&nbsp#{title}".html_safe
     else
-      return "#{title}#{logo}".html_safe
+      return "#{title}&nbsp#{logo}".html_safe
     end
   end
 
