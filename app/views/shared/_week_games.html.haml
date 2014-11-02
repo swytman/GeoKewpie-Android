@@ -1,6 +1,16 @@
+.row
+  .col-sm-1.pull-left
+    %a{href: week_calendar_path(week: @week_number-1)}
+      .glyphicon.glyphicon-chevron-left
+  .col-sm-10.text-center
+    = week_dates(@week_number+1)
+  .col-sm-1.pull-right
+    %a{href: week_calendar_path(week: @week_number+1)}
+      .glyphicon.glyphicon-chevron-right
+
 .week-games
   - Champ.active.each do |champ|
-    - games = champ.week_games
+    - games = champ.week_games(@week_number)
     - if games.any?
       .wg-item
         .wg-champ-title

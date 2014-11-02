@@ -48,8 +48,7 @@ class Champ < ActiveRecord::Base
     end
   end
 
-  def week_games
-    current_week = Date.today.strftime("%W").to_i
+  def week_games current_week
     result = []
     games.each{ |g| result << g if g.date.present? && g.date.strftime("%W").to_i==current_week }
     result
