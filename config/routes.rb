@@ -1,7 +1,7 @@
 Footmanager::Application.routes.draw do
 
   devise_for :users
-  root 'index#posts'
+  root 'posts#index'
   get 'documents', to: 'static_pages#documents'
   get 'news', to: 'static_pages#news'
   get 'week_calendar', to: 'static_pages#week_calendar'

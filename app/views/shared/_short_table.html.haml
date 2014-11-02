@@ -15,7 +15,7 @@
             %th.col-md-3 М
             %th.col-md-2 O
         %tbody
-          - champ.teams.order("points DESC, win DESC, (scored-missed) DESC, title").each_with_index do |team, index|
+          - champ.teams.includes(:team_logo).order("points DESC, win DESC, (scored-missed) DESC, title").each_with_index do |team, index|
             %tr{class: ('text-crossed' if team.status=='снята')}
               %td= index+1
               %td
