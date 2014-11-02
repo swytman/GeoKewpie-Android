@@ -1,12 +1,13 @@
 - @posts.each do |post|
   .post-block
+    .post-date
+      = l(post.created_at, format: :long)
     .post-title
       - if can? :manage, @post
         = link_to post.title, edit_post_path(post)
       - else
         = post.title
-      .date.pull-right
-        = l(post.created_at, format: :long)
+
     .post-text
       != post.text
 
