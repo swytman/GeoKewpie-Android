@@ -1,0 +1,8 @@
+toolbar:
+  - undo redo | styleselect | bold italic fontselect fontsizeselect | table | forecolor backcolor
+  - link
+plugins:
+  - image
+  - link
+  - textcolor
+  - table

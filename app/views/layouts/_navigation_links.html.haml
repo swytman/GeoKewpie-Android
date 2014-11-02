@@ -8,8 +8,8 @@
       %ul.dropdown-menu
         - Champ.active.where(champ_type: type).each do |champ|
           %li= link_to champ.full_title, champ_path(champ)
-%li= link_to('Архив', archive_champs_path)
-%li= link_to('Документы', documents_path)
+-#%li= link_to('Архив', archive_champs_path)
+-#%li= link_to('Документы', documents_path)
 
 - if can?(:manage, Champ) || can?(:manage, Player)
   %li.dropdown
@@ -20,3 +20,4 @@
       %li= link_to('Турниры', champs_path)
       %li= link_to('Игроки', players_path)
       %li= link_to('Эмблемы', team_logos_path)
+      %li= link_to('Новая новость', new_post_path)

@@ -1,0 +1,22 @@
+= tinymce_assets
+-##=> <script type="text/javascript" src="/assets/tinymce.js">
+
+= form_for @post, url: form_action, html: {class: 'form form-horizontal'} do |f|
+  .form-group
+    .col-sm-2
+      %label Название
+    .col-sm-10
+      = f.text_field :title, class: 'form-control',  :autofocus=>true
+  .form-group
+    .col-sm-12
+      = f.text_area :text, class: 'tinymce form-control', :rows => 20, :cols => 120
+
+  .form-group
+    .col-sm-12
+      = f.submit 'Сохранить', class: 'btn btn-success'
+      %a.btn.btn-default{href: request.referer} Отмена
+      - unless @post.new_record?
+        = link_to 'Удалить', post_path(@post), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
+
+= tinymce
+

@@ -1,0 +1,26 @@
+.post-title{
+  @extend .row;
+  text-align: left;
+  background-color: #d0e8f4;
+  font-size: 20px;
+  padding: 5px;
+  margin-left: -15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  .date{
+    margin-top: 10px;
+    font-size: 12px;
+  }
+
+}
+.post-block {
+  margin-bottom: 40px;
+  margin-top: 5px;
+}
+
+.post-text {
+
+}
+

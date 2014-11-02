@@ -42,6 +42,8 @@ gem 'rollbar', '~> 1.0.0'
 gem 'cancan'
 gem 'paperclip', '~> 4.2'
 gem 'jquery-fileupload-rails'
+gem 'tinymce-rails'
+gem 'tinymce-rails-langs'
 
 group :development, :test do
 

@@ -4,6 +4,6 @@
   %li= link_to @stage.title, edit_champ_stage_path(@champ, @stage)
   %li Создать матч
 
-%h2 Новый матч
+%h3 Новый матч
 %br
 = render partial: 'form', locals: {form_action: champ_stage_games_path(@champ, @stage)}

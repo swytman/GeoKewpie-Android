@@ -6,6 +6,6 @@
 
 .row
   .col-sm-6
-    %h2
+    %h3
       = image_tag(@team.team_logo.logo.url(:mini)) if @team.team_logo.present?
       = @team.title

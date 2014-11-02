@@ -1,0 +1,7 @@
+%ul.breadcrumb
+  %li= link_to 'Новости', posts_path
+  %li= @post.title
+
+%h3 Редактировать
+%br
+= render partial: 'form', locals: {form_action: post_path(@post)}

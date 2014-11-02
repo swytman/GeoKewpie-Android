@@ -1,0 +1,13 @@
+- @posts.each do |post|
+  .post-block
+    .post-title
+      - if can? :manage, @post
+        = link_to post.title, edit_post_path(post)
+      - else
+        = post.title
+      .date.pull-right
+        = l(post.created_at, format: :long)
+    .post-text
+      != post.text
+
+= will_paginate @posts, :previous_label => 'Туда', :next_label => 'Сюда', renderer: BootstrapPagination::Rails
