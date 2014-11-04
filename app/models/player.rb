@@ -78,8 +78,8 @@ class Player < ActiveRecord::Base
       contract.save
     end
     # уменьшим число дисквалификций
-    missing_player_ids = all_player_ids - game_player_ids
     if all_player_ids.present?
+      missing_player_ids = all_player_ids - game_player_ids
       Contract.where(player_id: missing_player_ids).keep_if{|p| p.champ == champ}.each do |contract|
         contract.decrease_disq
       end
