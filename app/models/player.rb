@@ -65,13 +65,13 @@ class Player < ActiveRecord::Base
       contract.games = Player.player_total_games(champ, contract.player_id)
       contract.goals = Player.player_total_goals(champ, contract.player_id)
       cards = Player.player_total_cards(champ, contract.player_id)
-      old_y_cards = contract.y_cards
+      old_y_cards = contract.y_cards + contract.dbl_cards
       contract.y_cards = cards[:yellow_cards]
       old_dbl_cards = contract.dbl_cards
       contract.dbl_cards = cards[:dbl_yellow_cards]
       old_r_cards = contract.r_cards
       contract.r_cards = cards[:red_cards]
-      if (old_y_cards < cards[:yellow_cards] && (contract.y_cards % 3 == 0)) ||
+      if (old_y_cards < (contract.y_cards + contract.dbl_cards) && ((contract.y_cards + contract.dbl_cards) % 3 == 0)) ||
           (old_dbl_cards < cards[:dbl_yellow_cards]) || (old_r_cards < cards[:red_cards])
           contract.disq_games = 1
       end
