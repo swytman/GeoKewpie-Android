@@ -47,7 +47,7 @@ gem 'tinymce-rails-langs'
 
 group :development, :test do
 
-
+  gem 'rack-mini-profiler'
   gem 'rspec-rails', '~> 3.0.0.beta'
 
 end

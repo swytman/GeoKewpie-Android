@@ -1,4 +1,4 @@
-- if players.any?
+- if contracts.any?
   %table.table.table-stripped.table-hover.sortable
     %thead
       %tr
@@ -8,28 +8,25 @@
         %th Игры
         %th= image_tag('/pict/ball.png', size: '18')
         %th= image_tag Game.cards[:yellow]
-        %th= image_tag Game.cards[:dbl_yellow]
         %th= image_tag Game.cards[:red]
         -if options.include?(:birthday)
           %th Дата рождения, options: []
         - if @team.present? && options.include?(:joined)
           %th Заявлен
     %tbody
-      - team_ids = Champ.find(@champ.id).team_ids
-      - players.sort_by{|i| player_total_goals(@champ, i.id)}.reverse.each do |player|
-        - cards = player_total_cards(@champ, player.id)
-        %tr
-          %td= link_to player.short_name, player_path(player.id)
+      - contracts.sort_by{ |c| [-c.goals, c.player.surname] }.each do |contract|
+        - next if contract.player.nil?
+        - class_name = 'danger' if contract.disq_games > 0
+        %tr{class: class_name}
+          %td= link_to contract.player.short_name, player_path(contract.player_id)
           - if options.include?(:team)
-            - team = player.team_in_champ(@champ, team_ids)
             %td
-              = link_to team_title_with_logo(team), champ_team_path(@champ, team)
-          %td= player_total_games(@champ, player.id)
-          %td= player_total_goals(@champ, player.id)
-          %td= cards[:yellow_cards]
-          %td= cards[:dbl_yellow_cards]
-          %td= cards[:red_cards]
+              = link_to team_title_with_logo(contract.team), champ_team_path(@champ, contract.team)
+          %td= contract.games
+          %td= contract.goals
+          %td= contract.y_cards + contract.dbl_cards
+          %td= contract.r_cards + contract.dbl_cards
           -if options.include?(:birthday)
-            %td= pretty_date player.birthdate, :slashes
+            %td= pretty_date contract.player.birthdate, :slashes
           - if @team.present?  && options.include?(:joined)
-            %td= pretty_date player.contracts.where(team_id: @team.id).first.join_date, :slashes
+            %td= pretty_date contract.join_date, :slashes

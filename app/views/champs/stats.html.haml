@@ -1,3 +1,3 @@
 = render partial: 'champ_title'
 = render partial: 'champ_tabs'
-= render partial: 'shared/champ_players_table', locals: {players: @champ.players, options: [:team]}
+= render partial: 'shared/champ_players_table', locals: {contracts: @champ.contracts.includes(:player, :team), options: [:team]}

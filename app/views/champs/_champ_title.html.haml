@@ -8,3 +8,6 @@
     %h3
       .label.label-default#champ_type= @champ.champ_type
       = @champ.title
+  .col-sm-3
+    - if can? :manage, Champ
+      =link_to 'Редактировать', edit_champ_path(@champ), class: 'top20 btn btn-primary btn-sm pull-right'

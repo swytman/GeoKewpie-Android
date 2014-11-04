@@ -21,4 +21,10 @@ class Contract < ActiveRecord::Base
     Player.where(id: ids)
   end
 
+  def decrease_disq
+    self.disq_games -= 1 if self.disq_games>0
+    save
+  end
+
+
 end

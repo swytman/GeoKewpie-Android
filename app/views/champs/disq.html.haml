@@ -1,0 +1,20 @@
+= render partial: 'champ_title'
+= render partial: 'champ_tabs'
+- if @contracts.any?
+  %table.table.table-stripped.table-hover.sortable
+    %thead
+      %tr
+        %th.col-sm-6 ФИО
+        %th.col-sm-4 Команда
+        %th.col-sm-2 Число игр
+    %tbody
+      - @contracts.sort_by{ |c| c.disq_games }.each do |contract|
+        - next if contract.player.nil?
+        %tr
+          %td= link_to contract.player.full_name, player_path(contract.player_id)
+          %td= link_to team_title_with_logo(contract.team), champ_team_path(@champ, contract.team)
+          %td.text-center
+            =contract.disq_games
+            - if can? :manage, Contract
+              %a.btn.btn-primary.btn-xs.pull-right{href: edit_contract_path(contract)}
+                .glyphicon.glyphicon-pencil

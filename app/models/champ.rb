@@ -4,6 +4,7 @@ class Champ < ActiveRecord::Base
   has_many :stages
   has_many :games, through: :stages
   has_many :teams
+  has_many :contracts, through: :teams
 
   # игроки с которые в настоящий момент участвуют в сореврновании
 

@@ -5,6 +5,7 @@ class GamesController < ApplicationController
   before_action :set_stage
   before_action :set_champ
   after_action :trigger_status, only: [:create, :update]
+  after_action :recalculate_players_stats, only: [:update, :destroy]
 
   def index
     @games = Game.all
@@ -61,6 +62,11 @@ class GamesController < ApplicationController
   end
 
   private
+  def recalculate_players_stats
+    Player.recalculate_players_stats @champ, @game.home_players, Team.find( @game.home_id).player_ids
+    Player.recalculate_players_stats @champ, @game.visiting_players, Team.find(@game.visiting_id).player_ids
+  end
+
   def trigger_status
     @game.reset_result
     if game_params[:home_scores].present? && game_params[:visiting_scores].present?
@@ -96,7 +102,7 @@ class GamesController < ApplicationController
 
     params[:game].permit( :date, :time, :home_id, :visiting_id, :tour_id, :home_scores, :visiting_scores,
                           :yellow_cards, :dbl_yellow_cards, :red_cards, :home_players, :visiting_players,
-                          :player_scores )
+                          :player_scores, :place )
   end
 
   def prepared_params p

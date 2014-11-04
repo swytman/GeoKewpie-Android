@@ -11,9 +11,14 @@
         %th= image_tag('/pict/ball.png', size: '18')
     %tbody
       - players.each_with_index do |player, index|
-        %tr{class: ('text-crossed' unless player.current_teams.include? team)}
+        - disq = Contract.find_by(team_id: team.id, player_id: player.id).disq_games > 0
+        - leftteam = !player.current_teams.include?(team)
+        - class_name = ''
+        - class_name += 'text-crossed' if leftteam
+        - class_name += 'text-crossed danger' if disq
+        %tr{class: class_name }
           %td= check_box_tag "player_#{player.id}", 1, fetch_players(from, player.id), 'player-id'=> player.id,
-            class: "#{from}_players"
+            class: "#{from}_players", disabled: leftteam || disq
           %td= link_to player.short_name, player_path(player.id),
             'player-id'=> player.id, class: ('inactive' unless fetch_players(from, player.id))
           %td= image_tag Game.cards[fetch_card(@game, from, player.id)],

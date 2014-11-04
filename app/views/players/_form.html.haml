@@ -25,15 +25,15 @@
         %label Команда
         = collection_select :contract, :team_ids, Champ.teams_for_contract, :id, :title_with_champ,
                   {selected: false, include_blank: true}, {class: 'chosen-select' }
-  - unless @player.new_record?
-    %h4.gray-title Заявлен
-    = render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}
-    - if @player.old_contracts.any?
-      %h4.gray-title Предыдущие команды
-      = render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}
   .form-group
     .col-sm-12
       - unless @player.new_record?
         = link_to 'Удалить', player_path(@player), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
       = f.submit 'Сохранить', class: 'btn btn-success'
       %a.btn.btn-default{href: request.referer} Отмена
+  - unless @player.new_record?
+    %h4.gray-title Заявлен
+    = render partial: 'contracts_list', locals: {contracts: @player.current_contracts, current: true}
+    - if @player.old_contracts.any?
+      %h4.gray-title Предыдущие команды
+      = render partial: 'contracts_list', locals: {contracts: @player.old_contracts, current: false}

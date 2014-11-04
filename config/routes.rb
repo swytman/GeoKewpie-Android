@@ -1,7 +1,7 @@
 Footmanager::Application.routes.draw do
 
   devise_for :users
-  root 'posts#index'
+  root :to => redirect('week_calendar')
   get 'documents', to: 'static_pages#documents'
   get 'news', to: 'static_pages#news'
   get 'week_calendar', to: 'static_pages#week_calendar'
@@ -14,6 +14,8 @@ Footmanager::Application.routes.draw do
   get 'contracts/destroy/:team_id/:player_id', to: 'contracts#destroy'
   get 'contracts/close/:id', to: 'contracts#close'
   get 'contracts/close/:team_id/:player_id', to: 'contracts#destroy'
+  resources :contracts
+
 
   resources :team_logos
   resources :posts
@@ -27,6 +29,7 @@ Footmanager::Application.routes.draw do
       get :teams
       get :schedule
       get :stats
+      get :disq
     end
     resources :stages do
       member do

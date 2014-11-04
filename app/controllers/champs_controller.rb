@@ -1,5 +1,5 @@
 class ChampsController < ApplicationController
-  before_action :set_champ, only: [:show, :edit, :update, :destroy, :teams, :stats, :schedule]
+  before_action :set_champ, only: [:show, :edit, :update, :destroy, :teams, :stats, :schedule, :disq]
 
   def index
     @type = params[:type]
@@ -51,7 +51,10 @@ class ChampsController < ApplicationController
     else
       render action: 'edit', error: 'Ошибка при обновлении'
     end
+  end
 
+  def disq
+    @contracts = @champ.contracts.where.not(disq_games: 0).includes(:team, :player)
   end
 
   private
@@ -64,7 +67,7 @@ class ChampsController < ApplicationController
     result =
       params[:champ].permit(:title, :champ_type, :status,
                             :order_priority, :label_css_schema,
-                            :description, :group_key)
+                            :description, :group_key, :y_cards_limit)
     result[:order_priority] = result[:order_priority].to_i if result[:order_priority].present?
     result
   end

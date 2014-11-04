@@ -1,10 +1,21 @@
+- team = Team.find(@contract.team_id)
+- champ = team.champ
+- player = Player.find(@contract.player_id)
 %ul.breadcrumb
-  %li= link_to 'Соревнования', champs_path
-  %li= link_to @champ.full_title, edit_champ_path(@champ.id)
-  %li= @stage.title
+  %li= link_to champ.full_title, edit_champ_path(champ.id)
+  %li= link_to team.title, edit_champ_team_path(champ, team)
+  %li= link_to player.full_name, edit_player_path(player)
 
-  %hr
-  .h2= @stage.title
+%h3 Настройки: #{player.full_name}
 
+= form_for @contract, url: contract_path(@contract), html: {class: 'form form-horizontal'} do |f|
+  .form-group
+    .col-sm-3
+      %label Пропустит игр:
+    .col-sm-3
+      = f.text_field :disq_games, class: 'form-control'
 
-= render partial: 'form', locals: {form_action: champ_stage_path(@champ, @stage)}
+  .form-group
+    .col-sm-12
+      = f.submit 'Сохранить', class: 'btn btn-success customtext'
+      %a.btn.btn-default{href: request.referer} Отмена

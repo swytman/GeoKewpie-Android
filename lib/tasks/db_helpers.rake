@@ -30,14 +30,14 @@ namespace 'db' do
 
     cmd = sprintf 'createdb -h %s -U %s %s',
                   db_config['development']['host'],
-                  db_config['production']['username'],
+                  db_config['development']['username'],
                   database_name
     sh cmd
 
     puts 'Apply dump'
     cmd  = sprintf 'psql -h %s -U %s %s < %s',
                    db_config['development']['host'],
-                   db_config['production']['username'],
+                   db_config['development']['username'],
                    database_name,
                    dump_to
     sh cmd

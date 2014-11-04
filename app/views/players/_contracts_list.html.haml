@@ -18,5 +18,12 @@
               %td= link_to "Удалить запись", "/contracts/destroy/#{contract.id}",
                 data: {confirm: "Удалить?"},class: "btn btn-xs btn-danger pull-right"
             - else
-              %td= link_to "Отзаявить", "/contracts/close/#{contract.id}",
-                data: {confirm: "Отзаявить?"},  class: "btn btn-xs btn-primary pull-right"
+              %td
+                = link_to "Отзаявить", "/contracts/close/#{contract.id}",
+                  data: {confirm: "Отзаявить?"},  class: "btn btn-xs btn-primary pull-right"
+                %a.btn-xs.btn.btn-primary.pull-right{href: edit_contract_path(contract.id)}
+                  .glyphicon.glyphicon-pencil
+        - unless contract.disq_games == 0
+          %tr.danger
+            %td{colspan: 7}
+              Пропускает #{contract.disq_games} #{plural(contract.disq_games, 'игру', 'игры', 'игр')}

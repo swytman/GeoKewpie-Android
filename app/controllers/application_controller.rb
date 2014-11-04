@@ -8,4 +8,9 @@ class ApplicationController < ActionController::Base
     flash[:error] = "Доступ запрещен!"
     redirect_to root_url
   end
+
+  if Rails.env.development?
+    Rack::MiniProfiler.authorize_request
+  end
+
 end

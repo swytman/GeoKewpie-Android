@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141102170142) do
+ActiveRecord::Schema.define(version: 20141104155112) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20141102170142) do
     t.integer  "order_priority",   default: 0
     t.string   "label_css_schema"
     t.string   "group_key"
+    t.integer  "y_cards_limit",    default: 3
   end
 
   create_table "champs_teams", force: true do |t|
@@ -43,6 +44,12 @@ ActiveRecord::Schema.define(version: 20141102170142) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "number"
+    t.integer  "games",      default: 0
+    t.integer  "goals",      default: 0
+    t.integer  "y_cards",    default: 0
+    t.integer  "dbl_cards",  default: 0
+    t.integer  "r_cards",    default: 0
+    t.integer  "disq_games", default: 0
   end
 
   create_table "games", force: true do |t|
@@ -69,6 +76,7 @@ ActiveRecord::Schema.define(version: 20141102170142) do
     t.integer  "home_players",                                     array: true
     t.integer  "visiting_players",                                 array: true
     t.string   "player_scores",                                    array: true
+    t.string   "place"
   end
 
   create_table "games_players_score", force: true do |t|

@@ -28,6 +28,10 @@
     %label.col-sm-1 Время
     .col-sm-3
       = f.time_select :time, start_hour: 9, end_hour: 23, minute_step: 5
+  .form-group
+    %label.col-sm-1 Место
+    .col-sm-4
+      = f.select :place, Game::PLACES, {include_blank: true}, { class: 'chosen-select' }
 
   - unless @game.new_record?
 

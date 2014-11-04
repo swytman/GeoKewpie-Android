@@ -1,12 +1,12 @@
 %h4.gray-title Игроки
 
-= render partial:'shared/champ_players_table', locals:{players: @team.players, options: [:joined]}
+= render partial:'shared/champ_players_table', locals:{contracts: @team.contracts.active.includes(:player, :team), options: [:joined]}
 
 - if @team.old_players.any?
   .row
     .col-sm-4
       %h3 Отзаявленные игроки
-  = render partial:'shared/champ_players_table', locals:{players:  @team.old_players, options: [:joined]}
+  = render partial:'shared/champ_players_table', locals:{contracts:  @team.contracts.old.includes(:player, :team), options: [:joined]}
 
 - if can? :manage, Team
   = link_to "Добавить", new_champ_contract_path(@champ, @team), class: "btn btn-success"

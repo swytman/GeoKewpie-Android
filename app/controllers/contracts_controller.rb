@@ -1,7 +1,7 @@
 class ContractsController < ApplicationController
 
-  before_action :set_champ, except: [:destroy, :close]
-  before_action :set_team,  except: [:destroy, :close]
+  before_action :set_champ, only: [:new, :create]
+  before_action :set_team,  only: [:new, :create]
   before_action :set_contract, only: [:show, :edit, :update, :destroy, :close]
   before_action :fetch_params, only: [:create]
 
@@ -64,13 +64,17 @@ class ContractsController < ApplicationController
   def update
     authorize! :manage, Contract
     if @contract.update_attributes(contract_params)
-      redirect_to edit_team_path(@team), notice: 'Данные по игроку обновлены'
+      redirect_to request.referer, notice: 'Данные по игроку обновлены'
     else
       render action: 'edit', error: 'Ошибка при обновлении'
     end
   end
 
   private
+  def contract_params
+    params[:contract].permit!
+  end
+
   def set_champ
     @champ = Champ.find(params[:champ_id])
   end

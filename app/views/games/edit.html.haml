@@ -76,8 +76,8 @@
   $("input[type='checkbox'][name='players_all']").change () ->
     target = $(this).attr('from')
     if $(this).prop("checked")
-      $(target).prop('checked', true)
-      $(target).trigger('change')
+      $(target+':enabled').prop('checked', true)
+      $(target+':enabled').trigger('change')
     else
-      $(target).prop('checked', false)
-      $(target).trigger('change')
+      $(target+':enabled').prop('checked', false)
+      $(target+':enabled').trigger('change')

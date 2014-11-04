@@ -2,5 +2,8 @@
   %table.table.table-hover
     %tbody
       - team.players.each_with_index do |player, index|
-        %tr
+        - class_name = ''
+        - disq = Contract.find_by(team_id: team.id, player_id: player.id).disq_games > 0
+        - class_name += 'text-crossed danger' if disq
+        %tr{class: class_name }
           %td= link_to player.short_name, player_path(player.id)

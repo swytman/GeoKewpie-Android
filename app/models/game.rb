@@ -1,6 +1,8 @@
 class Game < ActiveRecord::Base
   include GamesHelper
   include ApplicationHelper
+  PLACES = ['ФОК "Радуга"', 'ФОК "Рекорд"', 'ФОК "Савёлки"',
+            ]
   STATUS = ['empty','scheduled', 'finished']
   belongs_to :stage
   belongs_to :home_team, class_name: 'Team', foreign_key: 'home_id'
