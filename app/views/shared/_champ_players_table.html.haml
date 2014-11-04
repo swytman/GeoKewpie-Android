@@ -14,7 +14,7 @@
         - if @team.present? && options.include?(:joined)
           %th Заявлен
     %tbody
-      - contracts.sort_by{ |c| [-c.goals, c.player.surname] }.each do |contract|
+      - contracts.sort_by{ |c| [-c.goals, (c.player.surname if c.player.present?)] }.each do |contract|
         - next if contract.player.nil?
         - class_name = 'danger' if contract.disq_games > 0
         %tr{class: class_name}

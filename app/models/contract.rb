@@ -3,7 +3,6 @@ class Contract < ActiveRecord::Base
   has_one :champ, through: :team
   belongs_to :player
 
-
   scope :active,  -> {where(leave_date: nil)}
   scope :old,  -> {where.not(leave_date: nil)}
 
