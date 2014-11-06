@@ -102,7 +102,7 @@ class GamesController < ApplicationController
 
     params[:game].permit( :date, :time, :home_id, :visiting_id, :tour_id, :home_scores, :visiting_scores,
                           :yellow_cards, :dbl_yellow_cards, :red_cards, :home_players, :visiting_players,
-                          :player_scores, :place )
+                          :player_scores, :place, :techlose )
   end
 
   def prepared_params p

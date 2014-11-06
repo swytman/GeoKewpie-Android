@@ -94,6 +94,7 @@ class Game < ActiveRecord::Base
     else
       res += "- : -"
     end
+    res+= "<span style='font-size: 0.8em'> т</span>" if techlose
     res +=  "&nbsp&nbsp"
     res.html_safe
 

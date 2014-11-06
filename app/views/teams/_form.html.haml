@@ -13,6 +13,41 @@
       = select_tag :team_logo_id,
         select_with_icons(TeamLogo.available_logo(@champ, @team), @team.team_logo_id), {class: "select-team-logo"}
     = f.hidden_field :team_logo_id, class: "team_logo_id"
+
+  .gray-title.h4 Ручной ввод и корректировка
+  .form-group
+    %label.col-sm-2 Штрафные очки
+    .col-sm-2
+      = f.text_field :penalty_points, class: 'form-control'
+
+  %p
+    Внимание! Поля ниже заполнять только для архивных турниров, в текущих турнирах они будут пересчитаны системой
+    на основе информации из игр
+  .form-group
+    %label.col-sm-2 Победы
+    .col-sm-2
+      = f.text_field :win, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Поражения
+    .col-sm-2
+      = f.text_field :lose, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Ничьи
+    .col-sm-2
+      = f.text_field :draw, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Забито мячей
+    .col-sm-2
+      = f.text_field :scored, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Пропущено мячей
+    .col-sm-2
+      = f.text_field :missed, class: 'form-control'
+  .form-group
+    %label.col-sm-2 Очки
+    .col-sm-2
+      = f.text_field :points, class: 'form-control'
+
   .form-group
     .col-sm-12
       - unless @team.new_record?

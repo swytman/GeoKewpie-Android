@@ -14,7 +14,7 @@
         %th М
         %th O
     %tbody
-      - @champ.teams.order("points DESC, win DESC, (scored-missed) DESC, title").each_with_index do |team, index|
+      - @champ.teams.order("(points+penalty_points) DESC, win DESC, (scored-missed) DESC, title").each_with_index do |team, index|
         %tr{class: ('text-crossed' if team.status=='снята')}
           %td= index+1
           %td
@@ -24,7 +24,7 @@
           %td= team.draw
           %td= team.lose
           %td= "#{team.scored} - #{team.missed}"
-          %td= team.points
+          %td= team.points + team.penalty_points
 
 - if can? :manage, Champ
   = link_to "Добавить команду", new_champ_team_path(@champ), class: "btn btn-success"

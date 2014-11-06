@@ -47,7 +47,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params[:post].permit(:title, :text)
+    params[:post].permit(:title, :text, :champ_id)
   end
 
   def set_post

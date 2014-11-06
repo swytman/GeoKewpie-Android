@@ -17,6 +17,12 @@
         %label Гости
         = f.select :visiting_id, @champ.teams.map {|t| [t.title, t.id]}, {include_blank: true}, { class: 'chosen-select' }
   .form-group
+    .col-sm-4
+      %label.checkbox
+        = f.check_box :techlose
+        Техническое поражение
+
+  .form-group
     %label.col-sm-1 Тур
     .col-sm-3
       = f.select :tour_id, tours_titles(@stage).map {|item| [item, item.split('-')[0].to_i]},

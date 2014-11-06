@@ -8,6 +8,11 @@
     .col-sm-10
       = f.text_field :title, class: 'form-control',  :autofocus=>true
   .form-group
+    .col-sm-2
+      %label Привязка  к турниру
+    .col-sm-10
+      = f.select :champ_id, Champ.alive.map{|c| [c.title, c.id]}, {include_blank: true}, { class: 'chosen-select' }
+  .form-group
     .col-sm-12
       = f.text_area :text, class: 'tinymce form-control', :rows => 20, :cols => 120
 

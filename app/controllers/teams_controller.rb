@@ -62,7 +62,15 @@ class TeamsController < ApplicationController
       @team = Team.find(params[:id])
     end
     def team_params
-      params[:team].permit(:title, :status, :team_logo_id)
+      params[:team][:win] = 0 if params[:team][:win].blank?
+      params[:team][:lose] = 0 if params[:team][:lose].blank?
+      params[:team][:draw] = 0 if params[:team][:draw].blank?
+      params[:team][:scored] = 0 if params[:team][:scored].blank?
+      params[:team][:missed] = 0 if params[:team][:missed].blank?
+      params[:team][:points] = 0 if params[:team][:points].blank?
+      params[:team][:penalty_points] = 0 if params[:team][:penalty_points].blank?
+
+      params[:team].permit(:title, :status, :team_logo_id, :penalty_points, :win, :lose, :draw, :scored, :missed, :points)
     end
 
 

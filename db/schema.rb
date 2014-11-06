@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141104162050) do
+ActiveRecord::Schema.define(version: 20141106120450) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -77,6 +77,7 @@ ActiveRecord::Schema.define(version: 20141104162050) do
     t.integer  "visiting_players",                                 array: true
     t.string   "player_scores",                                    array: true
     t.string   "place"
+    t.boolean  "techlose",         default: false
   end
 
   create_table "games_players_score", force: true do |t|
@@ -130,6 +131,7 @@ ActiveRecord::Schema.define(version: 20141104162050) do
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "champ_id"
   end
 
   create_table "referees", force: true do |t|
@@ -175,6 +177,7 @@ ActiveRecord::Schema.define(version: 20141104162050) do
     t.integer  "points",         default: 0
     t.integer  "champ_id"
     t.integer  "team_logo_id"
+    t.integer  "penalty_points", default: 0
   end
 
   create_table "users", force: true do |t|
