@@ -7,7 +7,8 @@
         %th= image_tag('/pict/ball.png', size: '18')
     %tbody
       - player_ids.each_with_index do |player_id, index|
-        - player = Player.find(player_id)
+        - player = Player.find_by(id: player_id)
+        - next if player.nil?
         %tr
           %td= link_to player.short_name, player_path(player.id)
           %td
