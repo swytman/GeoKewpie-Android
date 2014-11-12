@@ -27,7 +27,7 @@
             = render 'layouts/messages'
             = yield
     .container
-      - unless Rails.env.production?
+      - if Rails.env.production?
         = render 'layouts/yandex'
 
 
