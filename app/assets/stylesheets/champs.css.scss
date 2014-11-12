@@ -1,9 +1,12 @@
 // Place all the styles related to the champs controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+@import "variables";
+
 
 .short-table{
-  min-width: 300px;
+  border: 1px solid $nav-tab-border-color !important;
+  padding-bottom: 5px;
   font-size: 12px;
 
   #champ_type.label{
@@ -11,55 +14,62 @@
     padding: 0.1em;
     padding-left: 0.3em;
     padding-right: 0.3em;
-    background-color: #606060;
-    color: #f5f5f5
   }
 
   .panel-body{
     padding: 5px;
-    a{ color: #3a3a3a }
+    margin-bottom: 5px;
+    border-bottom: 3px solid $nav-tab-border-color;
   }
   .panel-heading{
     padding: 5px;
     padding-left: 10px;
+    background-color: $breadcrump-color;
+    border-bottom: 3px solid $nav-tab-border-color;
 
   }
-  table{width: 100%;}
+  table{
+    width: 100%;
+  }
   td, th{
     padding-left: 5px;
     padding-right: 5px;
   }
 
-  &.gold{
-    border-color: rgba(198, 176, 22, 0.73);
-    .panel-heading{
-      background-color: rgba(255, 239, 90, 0.76);
-    }
-  }
-  &.platinum{
-    border-color: #919191;
-    .panel-heading{
-      background-color: gainsboro;
-    }
-  }
-  &.bronze{
-    border-color: rgba(124, 87, 61, 0.71);
-    .panel-heading{
-      background-color: rgba(255, 182, 121, 0.72);
-    }
-  }
-  &.green{
-    border-color: #80a580;
-    .panel-heading{
-      background-color: #a9dca2;
-    }
+  .more{
+    font-size: 14px;
   }
 
-  &.red{
-    border-color: #b86967;
-    .panel-heading{
-      background-color: #f38e8b;
+  .nav.nav-tabs{
+    padding-left: 10px;
+    padding-bottom: 10px;
+    border-style: none;
+    text-align: center;
+    font-size: 12px;
+    li{
+      &.active{
+        :after{
+          position: absolute;
+          top:44px;
+          right: 36px;
+          display: inline-block;
+          border-left: 6px solid transparent;
+          border-top: 6px $active-tab-color solid ;
+          border-right: 6px solid transparent;
+          content: '';
+        }
+      }
+      width: 90px;
+      a{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 0;
+      }
     }
+
+
   }
 
 

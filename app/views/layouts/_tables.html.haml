@@ -1,2 +1,28 @@
-- Champ.active.each do |champ|
-  = render partial: 'shared/short_table', locals: {champ: champ}
+- if @champ
+  .panel.short-table
+    .panel-heading
+      .panel-title
+        .label.label-default#champ_type= @champ.champ_type
+        =link_to @champ.title, champ_path(@champ)
+    %ul#short-tabs.nav.nav-tabs.top5{role: 'tablist'}
+      %li.active
+        %a{href: '#table', 'data-toggle'=> 'tab', role: 'tab'}
+          Турнирная таблица
+      %li
+        %a{href: '#last-games', 'data-toggle'=> 'tab', role: 'tab'}
+          Ближайшие игры
+      %li
+        %a{href: '#next-games', 'data-toggle'=> 'tab', role: 'tab'}
+          Последние игры
+    .tab-content
+      .tab-pane.active#table{role: 'tabpanel'}
+        = render partial: 'shared/short_table', locals: {champ: @champ}
+      .tab-pane#last-games{role: 'tabpanel'}
+      .tab-pane#next-games{role: 'tabpanel'}
+
+
+:javascript
+  $('#short-tabs a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  })

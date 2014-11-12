@@ -17,6 +17,7 @@ class GamesController < ApplicationController
   end
 
   def show
+    @show_right_panel = true
     @home_team = Team.find(@game.home_id) if @game.home_id.present?
     @visiting_team = Team.find(@game.visiting_id) if @game.visiting_id.present?
   end

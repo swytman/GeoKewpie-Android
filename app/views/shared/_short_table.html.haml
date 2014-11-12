@@ -1,25 +1,25 @@
-.panel.short-table{class: champ.label_css_schema}
-  .panel-heading
-    .panel-title
-      .label#champ_type= champ.champ_type
-      =link_to champ.title, champ_path(champ)
+.panel-body
+  - if champ.teams.any?
+    %table.table-hover.table-striped
+      %thead
+        %tr
+          %th.col-md-1
+          %th.col-md-5
+          %th.col-md-1 И
+          %th.col-md-3 М
+          %th.col-md-2 O
+      %tbody
+        - champ.teams.includes(:team_logo).order("(points+penalty_points) DESC, win DESC, (scored-missed) DESC, title").each_with_index do |team, index|
+          %tr{class: ('text-crossed' if team.status=='снята')}
+            %td= index+1
+            %td
+              = link_to(team.title, champ_team_path(champ, team.id))
+            %td= team.win+team.lose+team.draw
+            %td= "#{team.scored} - #{team.missed}"
+            %td= team.points + team.penalty_points
 
-  .panel-body
-    - if champ.teams.any?
-      %table.table-hover.table-striped
-        %thead
-          %tr
-            %th.col-md-1 #
-            %th.col-md-5 Название
-            %th.col-md-1 И
-            %th.col-md-3 М
-            %th.col-md-2 O
-        %tbody
-          - champ.teams.includes(:team_logo).order("(points+penalty_points) DESC, win DESC, (scored-missed) DESC, title").each_with_index do |team, index|
-            %tr{class: ('text-crossed' if team.status=='снята')}
-              %td= index+1
-              %td
-                = link_to(team_title_with_logo(team), champ_team_path(champ, team.id))
-              %td= team.win+team.lose+team.draw
-              %td= "#{team.scored} - #{team.missed}"
-              %td= team.points + team.penalty_points
+.text-center.more
+  = link_to 'Полная таблица', teams_champ_path(@champ)
+
+
+

@@ -1,8 +1,8 @@
 -# navigation styled for Bootstrap 3.0
-%nav.navbar.navbar-inverse.navbar-fixed-top
-  .navbar-header
-    = link_to image_tag('/ball.png', size: '25x25'), root_path, class: 'navbar-brand'
+%a{href: root_path}
+  =image_tag('/images/logo960.png')
 
+%nav.navbar
   %ul.nav.navbar-nav
     = render 'layouts/navigation_links'
   .collapse.navbar-collapse

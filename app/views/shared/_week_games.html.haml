@@ -1,4 +1,4 @@
-.row
+.row.week-carousel
   .col-sm-1.pull-left
     %a{href: week_calendar_path(week: @week_number-1)}
       .glyphicon.glyphicon-chevron-left
@@ -19,8 +19,7 @@
         - games.sort_by{ |x| [x.date, x.time] }.each do |game|
           .wg-game
             %a{href: champ_stage_game_path(champ, game.stage, game), class: 'btn'}
-              .time.pull-left
-                = game.time_text
+              .time.pull-left #{game.date_text(:month)}, #{game.time_text}
               .title_with_scores
                 .home-team
                   = team_title_with_logo(game.home_id, :right)
@@ -28,6 +27,5 @@
                   = game.game_scores
                 .visiting-team
                   = team_title_with_logo(game.visiting_id, :left)
-              .date.pull-right
-                = game.date_text(:month)
+
 

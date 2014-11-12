@@ -10,17 +10,24 @@
 
     = csrf_meta_tags
   %body
-    %header
-      = render 'layouts/navigation'
     .container
-      .row
-        .col-sm-2#left-menu
-          = render 'layouts/left_menu'
-        .col-sm-7#main-container
-          = render 'layouts/messages'
-          = yield
-        .col-sm-3
-          = render 'layouts/tables'
+      .head
+        = render 'layouts/navigation'
+      - if @show_right_panel
+        .col-md-8
+          #main-container
+            = render 'layouts/messages'
+            = yield
+        .col-md-4
+          #right-panel
+            = render 'layouts/tables'
+      - else
+        .col-md-12
+          #main-container
+            = render 'layouts/messages'
+            = yield
+
+
 
 - if Rails.env.production?
   = render 'layouts/yandex'

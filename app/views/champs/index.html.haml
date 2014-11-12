@@ -1,9 +1,9 @@
 .row
-  .col-sm-4
+  .col-md-4.left20
     %h3 Лиги #{@type}
   - if can? :manage, Champ
-    .col-sm-2.pull-right.top20.text-right
-      = link_to "Создать", new_champ_path, class: "btn btn-primary"
+    .col-sm-2.pull-right.top20
+      = link_to "Создать", new_champ_path, class: "btn btn-primary pull-right"
 
 - if @champs.any?
   %table.table

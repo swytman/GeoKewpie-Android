@@ -1,4 +1,4 @@
-%ul.breadcrumb.row
+%ul.breadcrumb
   %li= link_to 'Соревнования', champs_path
   %li= link_to @champ.full_title, champ_path(@champ.id)
   %li= @stage.title
@@ -7,7 +7,7 @@
 = render partial: 'teams_block'
 
 %h4.gray-title Составы команд
-.top10
+.row.top10
   .col-sm-6
     = render partial: 'finished_players',
       locals: {from: 'home', player_ids: @game.home_players, team: @game.home_team}
