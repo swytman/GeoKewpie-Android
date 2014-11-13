@@ -1,0 +1,8 @@
+%ul.breadcrumb
+  %li= link_to 'Новости', posts_path
+  %li= @post.title
+
+%h3= @post.title
+%br
+%p= l(@post.created_at, format: :long)
+%p!=@post.text

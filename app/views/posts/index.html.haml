@@ -6,7 +6,7 @@
       - if can? :manage, @post
         = link_to post.title, edit_post_path(post)
       - else
-        = post.title
+        = link_to post.title, post_path(post)
 
     .post-text
       != post.text

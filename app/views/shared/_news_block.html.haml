@@ -1,0 +1,13 @@
+.panel.short-table
+  .panel-heading
+    .panel-title
+      Последние новости
+  .panel-body
+    - Post.all.first(10).each do |post|
+      %p
+        %span.date
+          = l(post.created_at.to_date, format: :default)
+        =link_to post.title, post_path(post)
+
+  .text-center.more
+    = link_to 'Все новости', posts_path

@@ -123,6 +123,11 @@ span.red{
   text-decoration:line-through;
 }
 
+.footer{
+  @extend .container;
+  position: relative;
+}
+
 main {
   @extend .col-sm-9;
   background-color: whitesmoke;

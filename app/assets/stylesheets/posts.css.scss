@@ -12,16 +12,29 @@
 }
 .post-date{
   @extend .row;
-  text-align: right;
+  text-align: left;
   margin-top: 10px;
-  font-size: 12px;
+  font-size: 16px;
 }
 .post-block {
   margin-bottom: 45px;
-  margin-top: 5px;
+  padding-top: 15px;
+  margin-right: -15px;
 }
 
 .post-text {
 
+}
+
+.short-table{
+  .date{
+    float:left;
+    font-weight: bolder;
+    padding-right: 5px;
+
+  }
+  .title{
+    float: left;
+  }
 }
 

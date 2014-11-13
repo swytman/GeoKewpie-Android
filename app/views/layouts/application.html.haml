@@ -20,15 +20,22 @@
             = yield
         .col-md-4
           #right-panel
-            = render 'layouts/tables'
+            = render 'shared/tables'
+            = render 'shared/news_block'
       - else
         .col-md-12
           #main-container
             = render 'layouts/messages'
             = yield
-    .container
-      - if Rails.env.production?
-        = render 'layouts/yandex'
+    .footer
+      .counters
+        - if Rails.env.production?
+          = render 'layouts/yandex'
+      .text-center.footer-text
+        zel-football.ru
+
+
+
 
 
 
