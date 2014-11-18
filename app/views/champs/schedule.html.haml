@@ -7,7 +7,7 @@
     .row
       .col-sm-9
         %h3= stage.title
-    - tour_ids= stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
+    - tour_ids= stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).compact.sort
     - tour_ids.each do |tour_id|
       - games = stage.games.where(tour_id: tour_id).sort_by{|g| [g.date || Time.now, g.time || Time.now, g.id]}
       - if games.any?

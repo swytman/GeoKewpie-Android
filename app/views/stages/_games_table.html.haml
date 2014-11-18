@@ -5,7 +5,7 @@
     = link_to "Добавить матч", new_champ_stage_game_path(@champ, @stage), class: "btn btn-primary pull-right"
 
 -if @stage.games.any?
-  - tour_ids= @stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).sort
+  - tour_ids= @stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).compact.sort
   - tour_ids.each do |tour_id|
     - games = @stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id || 0, g.date || Time.now , g.time || Time.now]}
     - if games.any?
