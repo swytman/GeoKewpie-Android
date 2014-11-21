@@ -37,7 +37,7 @@ class GamesController < ApplicationController
     authorize! :manage, Game
     @game = @stage.games.new(game_params)
     if @game.save
-      redirect_to champ_stage_path(@champ, @stage), notice: 'OK'
+      redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
     else
       render action: 'new', error: 'Ошибка при добавлении'
     end

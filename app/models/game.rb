@@ -11,6 +11,9 @@ class Game < ActiveRecord::Base
   scope :scheduled,  -> {where(status: 'scheduled')}
   scope :empty, -> {where(status: 'empty')}
 
+
+  validates :tour_id, presence: true
+
   # пути к картинка с карточками
   def self.cards
     {   no: '/pict/no_card.png',

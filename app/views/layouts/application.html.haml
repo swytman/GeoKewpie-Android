@@ -3,7 +3,8 @@
   %head
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
     %title= content_for?(:title) ? yield(:title) : 'Зеленоградский футбол'
-    %meta{:name => "description", :content => "#{content_for?(:description) ? yield(:description) : 'Greenfootball'}"}
+    %meta{:name => "Description", :content => "Зеленоградский футбол, минифутбол, футбол 8 на 8, футбол 11 на 11. Расписание матчей, статистика, новости"}
+    %meta{:name => "Keywords", :content => "футбол, Зеленоград, минифутбол, расписание матчей, статистика"}
     = stylesheet_link_tag "application", media: "all"
     = favicon_link_tag '/ball-green.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application"
@@ -31,6 +32,7 @@
       .counters
         - if Rails.env.production?
           = render 'layouts/yandex'
+          = render 'layouts/google'
       .text-center.footer-text
         zel-football.ru
 

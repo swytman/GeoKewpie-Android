@@ -1,8 +1,8 @@
-.row
-  %ul.breadcrumb
-    %li= link_to 'Соревнования', champs_path
-    %li= link_to @champ.full_title, edit_champ_path(@champ.id)
-    %li= @stage.title
+
+%ul.breadcrumb
+  %li= link_to 'Соревнования', champs_path
+  %li= link_to @champ.full_title, edit_champ_path(@champ.id)
+  %li= @stage.title
 
 
 %h3= @stage.title
