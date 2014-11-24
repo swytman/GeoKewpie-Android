@@ -55,6 +55,9 @@ class Game < ActiveRecord::Base
     if date.nil?
       "?"
     else
+      return "<span class='green'>сегодня</span>".html_safe if date.today?
+      return 'завтра' if date.prev_day.today?
+      return 'вчера' if date.next_day.today?
       I18n.l(date, format: format)
     end
   end

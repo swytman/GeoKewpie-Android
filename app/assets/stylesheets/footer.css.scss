@@ -1,8 +1,21 @@
+.footer{
+  position: relative;
+}
+
 .footer-text{
   position: relative;
   color: #f9f9f9;
   font-size: 14px;
   font-weight: bolder;
+  padding: 5px;
+}
+
+.footer-date{
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+  color: #f9f9f9;
+  font-size: 12px;
   padding: 5px;
 }
 

@@ -21,6 +21,8 @@ module ApplicationHelper
     end
   end
 
+
+
   #def team_title id
   #  if id.nil?
   #    return "?"

@@ -17,6 +17,7 @@
     }
   }
   .wg-game{
+    position: relative;
     padding-left: 0;
     a{
       border-radius: 0;
@@ -31,29 +32,37 @@
       background-color: #f4f4f4;
     }
     .time{
+      width: 20%;
       float: left;
+      text-align: left;
+    }
+
+    .place{
+      width: 15%;
+      float: left;
+      text-align: right;
     }
 
     .title_with_scores{
+      float: left;
+      width: 65%;
+      position: relative;
       min-width: 350px;
       .home-team{
-        width: 30%;
+        width: 40%;
         float: left;
         text-align: right;
       }
       .score{
-        width: 10%;
+        width: 15%;
         float: left;
         text-align: center;
       }
       .visiting-team{
-        width: 30%;
+        width: 40%;
         float: left;
         text-align: left;
       }
-
-
-
     }
 
 
