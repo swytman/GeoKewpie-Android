@@ -10,12 +10,15 @@
   margin-bottom: 15px;
   .wg-champ-title{
     margin-top: 5px;
+    position: relative;
+    overflow: auto;
   }
   .wg-item{
     a{
       color: $font-color;
     }
   }
+
   .wg-game{
     position: relative;
     padding-left: 0;

@@ -51,13 +51,15 @@ class Game < ActiveRecord::Base
     "#{team_title_with_logo(home_id)} - #{team_title_with_logo(visiting_id)}".html_safe
   end
 
-  def date_text format = :default
+  def date_text format = :default, show_ytt = false
     if date.nil?
       "?"
     else
-      return "<span class='green'>сегодня</span>".html_safe if date.today?
-      return 'завтра' if date.prev_day.today?
-      return 'вчера' if date.next_day.today?
+      if show_ytt
+        return "<span class='green'>сегодня</span>".html_safe if date.today?
+        return 'завтра' if date.prev_day.today?
+        return 'вчера' if date.next_day.today?
+      end
       I18n.l(date, format: format)
     end
   end

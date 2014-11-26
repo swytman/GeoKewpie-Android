@@ -1,17 +1,20 @@
+@import 'variables';
+
 .score_field {
   min-width: 26px;
   height: 54px;
   font-size: 40px;
   padding: 0;
   border: none;
-  color: forestgreen;
+  background-color: $nav-tab-border-color;
+  color: $font-color;
 
 }
 .scorebox {
   text-align:center;
   width: 55px;
   height: 55px;
-  background-color: white;
+  background-color: $nav-tab-border-color;
   border-radius: 10px;
 }
 

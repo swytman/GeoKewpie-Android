@@ -64,8 +64,10 @@ class GamesController < ApplicationController
 
   private
   def recalculate_players_stats
-    Player.recalculate_players_stats @champ, @game.home_players, Team.find( @game.home_id).player_ids
-    Player.recalculate_players_stats @champ, @game.visiting_players, Team.find(@game.visiting_id).player_ids
+    if game_params[:home_players].present? && game_params[:visiting_players].present?
+      Player.recalculate_players_stats @champ, @game.home_players, Team.find( @game.home_id).player_ids
+      Player.recalculate_players_stats @champ, @game.visiting_players, Team.find(@game.visiting_id).player_ids
+    end
   end
 
   def trigger_status

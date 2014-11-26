@@ -19,7 +19,7 @@
         - games.sort_by{ |x| [x.date, x.time] }.each do |game|
           .wg-game
             %a{href: champ_stage_game_path(champ, game.stage, game), class: 'btn'}
-              .time.pull-left #{game.date_text(:month)}, #{game.time_text}
+              .time.pull-left #{game.date_text(:month, true)}, #{game.time_text}
               .title_with_scores
                 .home-team
                   = team_title_with_logo(game.home_id, :right)
