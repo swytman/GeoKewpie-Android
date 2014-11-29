@@ -26,21 +26,26 @@ body{
 
 nav.navbar{
   width: 100%;
+  max-height: 40px;
+  min-height: 40px;
+  margin-bottom: 0;
   position: absolute;
   a {
 
     font-family: $font-family ;
-    color: $menu-link-color;
+    color: white;
   }
 
   a.dropdown-toggle{
     font-size: 18px;
-
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  a.dropdown-toggle:hover{
+    background-color: $active-tab-color;
   }
   .dropdown-menu{
-    opacity: 1;
-    background-color: #f9f9f9;
-    filter: alpha(opacity=100);
+    background-color: $active-tab-color;
     a{
       font-size: 14px;
     }
@@ -48,10 +53,8 @@ nav.navbar{
 
 
   border-radius: 0;
-  top: 270px;
-  background-color: #f5f5f5;
-  opacity: 0.85;
-  filter: alpha(opacity=80);
+  top: 281px;
+  background-color: rgba(47, 47, 47, 0.80);
   border-style: none;
   z-index: 1000;
 }
