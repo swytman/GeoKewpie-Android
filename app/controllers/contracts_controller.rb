@@ -88,7 +88,7 @@ class ContractsController < ApplicationController
   end
 
   def fetch_params
-    ids = params[:contract][:player_ids].reject{|e| e.blank?}
+    ids = params[:contract][:player_ids].map(&:to_i).reject{|e| e.blank?}
     @remove_ids = @team.player_ids - ids
     @add_ids = ids - @team.player_ids
   end
