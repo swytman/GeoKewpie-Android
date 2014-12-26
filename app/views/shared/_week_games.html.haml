@@ -1,16 +1,16 @@
 .row.week-carousel
   .col-sm-1.pull-left
-    %a{href: week_calendar_path(week: @week_number-1)}
+    %a{href: week_calendar_path(year: @prev_year, week: @prev_week)}
       .glyphicon.glyphicon-chevron-left
   .col-sm-10.text-center
-    = week_dates(@week_number+1)
+    = week_dates(@year, @week)
   .col-sm-1.pull-right
-    %a{href: week_calendar_path(week: @week_number+1)}
+    %a{href: week_calendar_path(year: @next_year, week: @next_week)}
       .glyphicon.glyphicon-chevron-right
 
 .week-games
   - Champ.active.each do |champ|
-    - games = champ.week_games(@week_number)
+    - games = champ.week_games(@year, @week)
     - if games.any?
       .wg-item
         .wg-champ-title

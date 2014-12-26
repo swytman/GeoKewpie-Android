@@ -49,9 +49,9 @@ class Champ < ActiveRecord::Base
     end
   end
 
-  def week_games current_week
+  def week_games year, week
     result = []
-    games.each{ |g| result << g if g.date.present? && g.date.strftime("%W").to_i==current_week }
+    games.each{ |g| result << g if g.date.present? && g.date.strftime("%W").to_i==week && g.date.strftime("%Y").to_i==year  }
     result
   end
 
