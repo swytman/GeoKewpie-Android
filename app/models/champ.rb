@@ -51,7 +51,15 @@ class Champ < ActiveRecord::Base
 
   def week_games year, week
     result = []
-    games.each{ |g| result << g if g.date.present? && g.date.strftime("%W").to_i==week && g.date.strftime("%Y").to_i==year  }
+    dates = []
+    if week<52
+      week = week+1
+    else
+      week = 1
+      year = year + 1
+    end
+    7.times {|i| dates <<  Date.commercial( year, week, i+1 )}
+    games.each{ |g| result << g if g.date.present? && dates.include?(g.date) }
     result
   end
 
