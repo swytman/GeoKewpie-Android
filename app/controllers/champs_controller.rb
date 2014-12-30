@@ -54,7 +54,7 @@ class ChampsController < ApplicationController
   end
 
   def disq
-    @contracts = @champ.contracts.where.not(disq_games: 0).includes(:team, :player)
+    @contracts = @champ.contracts.where.not(disq_games: [nil, 0]).includes(:team, :player)
   end
 
   private

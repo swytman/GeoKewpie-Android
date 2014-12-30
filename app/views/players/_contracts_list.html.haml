@@ -23,7 +23,7 @@
                   data: {confirm: "Отзаявить?"},  class: "btn btn-xs btn-primary pull-right"
                 %a.btn-xs.btn.btn-primary.pull-right{href: edit_contract_path(contract.id)}
                   .glyphicon.glyphicon-pencil
-        - unless contract.disq_games == 0
+        - unless contract.disq_games == 0 || contract.disq_games.nil?
           %tr.danger
             %td{colspan: 7}
               Пропускает #{contract.disq_games} #{plural(contract.disq_games, 'игру', 'игры', 'игр')}
