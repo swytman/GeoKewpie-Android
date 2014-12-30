@@ -72,8 +72,8 @@ class ContractsController < ApplicationController
 
   private
   def contract_params
-    params[:contract].permit!
     params[:contract][:disq_games] = 0 if params[:contract][:disq_games].to_i < 0
+    params[:contract].permit!
   end
 
   def set_champ
