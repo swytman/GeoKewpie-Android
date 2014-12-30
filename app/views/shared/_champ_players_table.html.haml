@@ -16,7 +16,8 @@
     %tbody
       - contracts.where.not(player_id: 0).sort_by{ |c| [-c.goals, c.player.surname] }.each do |contract|
         - next if contract.player.nil?
-        - class_name = 'danger' if contract.disq_games > 0
+        - disq = contract.disq_games
+        - class_name = 'danger' if  disq && disq > 0
         %tr{class: class_name}
           %td= link_to contract.player.short_name, player_path(contract.player_id)
           - if options.include?(:team)

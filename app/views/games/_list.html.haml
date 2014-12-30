@@ -3,7 +3,7 @@
     %tbody
       - team.players.each_with_index do |player, index|
         - class_name = ''
-        - disq = Contract.find_by(team_id: team.id, player_id: player.id).disq_games > 0
-        - class_name += 'text-crossed danger' if disq
+        - disq = Contract.find_by(team_id: team.id, player_id: player.id).disq_games
+        - class_name += 'text-crossed danger' if disq.present? && disq > 0
         %tr{class: class_name }
           %td= link_to player.short_name, player_path(player.id)
