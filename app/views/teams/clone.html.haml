@@ -1,0 +1,29 @@
+%ul.breadcrumb
+  %li= link_to 'Соревнования', champs_path
+  %li= link_to @champ.full_title, edit_champ_path(@champ.id)
+  %li Добавить команду из существующей
+
+%h3 Добавить команду из существующей
+
+= form_for @champ, url: do_clone_champ_teams_path, html: {class: 'form form-horizontal'} do |f|
+  .form-group
+    %label.col-sm-2 Соревнование
+    .col-sm-4
+      = select_tag :champ, options_for_select(@champs, @sel_champ), { class: 'chosen-select', include_blank: true}
+  - if @teams.present?
+    .form-group
+      %label.col-sm-2 Команда
+      .col-sm-4
+        = select_tag :team, options_for_select(@teams, @sel_team), { class: 'chosen-select', include_blank: true}
+  - if @sel_team.present?
+    .form-group
+      .col-sm-4
+        = f.submit 'Создать', class: 'btn btn-success customtext'
+:coffee
+  $ ->
+    $('#champ').change (event) ->
+      event.preventDefault()
+      window.location.href = "#{clone_champ_teams_path(@champ)}"+"?sel_champ_id="+$('#champ').val()
+    $('#team').change (event) ->
+      event.preventDefault()
+      window.location.href = "#{clone_champ_teams_path(@champ)}"+"?sel_champ_id="+$('#champ').val() + "&sel_team_id="+$('#team').val()

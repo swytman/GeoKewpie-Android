@@ -64,9 +64,9 @@ class GamesController < ApplicationController
 
   private
   def recalculate_players_stats
-    if game_params[:home_players].present? && game_params[:visiting_players].present?
-      Player.recalculate_players_stats @champ, @game.home_players, Team.find( @game.home_id).player_ids
-      Player.recalculate_players_stats @champ, @game.visiting_players, Team.find(@game.visiting_id).player_ids
+    if @game.home_players.present? && @game.visiting_players.present?
+      Contract.recalculate_players_stats @champ, @game.home_id, @game.home_players, Team.find( @game.home_id).player_ids
+      Contract.recalculate_players_stats @champ, @game.visiting_id, @game.visiting_players, Team.find(@game.visiting_id).player_ids
     end
   end
 

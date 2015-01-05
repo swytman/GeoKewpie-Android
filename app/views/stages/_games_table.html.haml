@@ -5,26 +5,7 @@
     = link_to "Добавить матч", new_champ_stage_game_path(@champ, @stage), class: "btn btn-primary pull-right"
 
 -if @stage.games.any?
-  - tour_ids= @stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).compact.sort
-  - tour_ids.each do |tour_id|
-    - games = @stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id || 0, g.date || Time.now , g.time || Time.now]}
-    - if games.any?
-      .h4.gray-title #{tour_id}-й тур
-      %table.table.table-stripped.table-hover
-        %thead
-          %tr
-            %th Матч
-            %th Счет
-            %th Дата
-            %th Время
-
-        %tbody
-          -games.each do |game|
-            %tr
-              %td= link_to(game.title, edit_champ_stage_game_path(@champ, @stage, game.id))
-              %td= game.game_scores
-              %td= game.date_text
-              %td= game.time_text
+  = render partial: 'shared/stage_schedule', locals: {stage: @stage}
 - else
   Нет матчей
   - if @stage.stage_type == 'круг'
@@ -42,6 +23,17 @@
       .col-sm-3
         = select_tag "parent_stage", options_from_collection_for_select(@champ.stages, 'id', 'title'), { class: 'chosen-select' }
     %hr
+  - if @stage.stage_type == 'плей-офф'
+    %h4.gray-title Генерация сетки кубка:
+    = form_for @stage, url: cup_games_generate_champ_stage_path(@champ, @stage), html: {class: 'form form-horizontal'} do |f|
+      .row
+        .col-sm-9
+          .form-group
+            %label.col-sm-2 Начальная стадия:
+            .col-sm-4
+              = select_tag :teams_count, options_for_select([['1/128', 128], ['1/64', 64], ['1/32', 32], ['1/16', 16], ['1/8', 8], ['1/4', 4], ['полуфинал', 2], ['финал', 1]], ['1/64', 64] ), { class: 'chosen-select' }
+        .col-sm-2.pull-right
+          = f.submit 'Сделать сетку', class: 'btn btn-success customtext'
 :coffee
   $ ->
     $('.swap-gen').click (event) ->

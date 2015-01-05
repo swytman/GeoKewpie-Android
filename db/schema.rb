@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141203150333) do
+ActiveRecord::Schema.define(version: 20150105160509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,8 @@ ActiveRecord::Schema.define(version: 20141203150333) do
     t.string   "player_scores",                                    array: true
     t.string   "place"
     t.boolean  "techlose",         default: false
+    t.integer  "home_game_id"
+    t.integer  "visiting_game_id"
   end
 
   create_table "games_players_score", force: true do |t|

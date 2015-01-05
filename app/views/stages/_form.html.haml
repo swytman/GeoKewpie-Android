@@ -12,9 +12,6 @@
     %label.col-sm-2 Статус
     .col-sm-4
       = f.select :status, Stage.status, {}, { class: 'chosen-select' }
-  - unless @stage.new_record?
-    = render partial: 'games_table'
-
 
   .form-group.row
     .col-sm-12
@@ -22,3 +19,6 @@
         = link_to 'Удалить', champ_stage_path(@champ,@stage), method: :delete, class: 'btn btn-danger pull-right', confirm: 'Подтвердите удаление'
       = f.submit 'Сохранить', class: 'btn btn-success'
       %a.btn.btn-default{href: request.referer} Отмена
+
+- unless @stage.new_record?
+  = render partial: 'games_table'

@@ -27,4 +27,5 @@
           %td= team.points + team.penalty_points
 
 - if can? :manage, Champ
-  = link_to "Добавить команду", new_champ_team_path(@champ), class: "btn btn-success"
+  = link_to "Новая команда", new_champ_team_path(@champ), class: "btn btn-success"
+  = link_to "Добавить существующую", clone_champ_teams_path(@champ), class: "btn btn-primary"

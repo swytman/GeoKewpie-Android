@@ -8,7 +8,7 @@ module GamesHelper
   end
 
   def tour_play_off_titles
-    ['1/64', '1/32', '1/16', '1/8', '1/4', 'полуфинал', 'финал']
+    [['1/128', 128], ['1/64', 64], ['1/32', 32], ['1/16', 16], ['1/8', 8], ['1/4', 4], ['полуфинал', 2], ['финал', 1]]
   end
 
   # нумерация туров должна продолжать в следующем круге
@@ -22,7 +22,7 @@ module GamesHelper
     n = stage.teams.count - 1
     k = tour_correction stage, n
     res = []
-    n.times {|i| res << "#{i+k+1}-й тур"}
+    n.times {|i| res << ["#{i+k+1}-й тур", i+k+1] }
     res
   end
 

@@ -50,6 +50,30 @@ class TeamsController < ApplicationController
 
   end
 
+  def clone
+    @sel_champ_id = params[:sel_champ_id]
+    @champs = Champ.where.not(id: @champ.id).alive.map{ |c| [c.title, c.id] }
+    if @sel_champ_id.present?
+      @sel_champ = Champ.find(@sel_champ_id)
+      @teams = @sel_champ.teams.map{ |t| [t.title, t.id] }
+      @sel_champ = [ @sel_champ.title, @sel_champ_id.to_i ]
+    end
+    @sel_team_id = params[:sel_team_id]
+    if @sel_team_id.present?
+      @sel_team = [ Team.find(@sel_team_id).title, @sel_team_id.to_i ]
+    end
+  end
+
+  def do_clone
+    gage_team = Team.find(params[:team].to_i) if params[:team].present?
+    redirect_to request.referer, notice: 'Не указана команда эталон' if gage_team.nil?
+    Team.do_clone(@champ, gage_team)
+    redirect_to champ_path(@champ), notice: 'Команда создана'
+  end
+
+
+
+
   private
     def set_stages
       @stages = @champ.stages

@@ -14,4 +14,21 @@ class Stage < ActiveRecord::Base
   def self.status
     ['не начался', 'в процессе', 'завершен']
   end
+
+  def tour_title tour_id
+    if stage_type == 'круг'
+      return "#{tour_id}-й тур"
+    end
+    if stage_type == 'плей-офф'
+      title = "1/#{tour_id}"
+      if tour_id == 1
+        title = "финал"
+      end
+      if tour_id == 2
+        title = "полуфинал"
+      end
+      return title
+    end
+  end
+
 end

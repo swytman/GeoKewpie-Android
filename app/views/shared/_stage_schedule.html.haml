@@ -1,0 +1,22 @@
+- tour_ids= stage.games.select(:tour_id).group(:tour_id).collect(&:tour_id).compact.sort
+- if stage.stage_type == "плей-офф"
+  - tour_ids= tour_ids.reverse!
+- tour_ids.each do |tour_id|
+  - games = stage.games.where(tour_id: tour_id).sort_by {|g| [g.tour_id || 0, g.date || Time.now , g.time || Time.now]}
+  - if games.any?
+    .h4.gray-title= stage.tour_title(tour_id)
+    %table.table.table-stripped.table-hover
+      %thead
+        %tr
+          %th Матч
+          %th Счет
+          %th Дата
+          %th Время
+
+      %tbody
+        -games.each do |game|
+          %tr
+            %td= link_to(game.title, edit_champ_stage_game_path(stage.champ, stage, game.id))
+            %td= game.game_scores
+            %td= game.date_text
+            %td= game.time_text

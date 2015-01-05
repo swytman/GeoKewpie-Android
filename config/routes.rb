@@ -33,6 +33,7 @@ Footmanager::Application.routes.draw do
     end
     resources :stages do
       member do
+        patch :cup_games_generate
         get :ring_games_generate
         get :ring_games_swap_from_stage
       end
@@ -43,6 +44,10 @@ Footmanager::Application.routes.draw do
         resources :contracts
         get :players
         get :games
+      end
+      collection do
+        get :clone
+        patch :do_clone
       end
     end
   end

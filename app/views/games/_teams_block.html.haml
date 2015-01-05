@@ -6,7 +6,7 @@
     #{@game.date_text} #{@game.time_text}
 .row.bottom
   .text-center.game-date
-    #{@game.tour_id}-й тур
+    = @game.stage.tour_title(@game.tour_id)
 .row.bottom20
   .text-center.game-date
     #{@game.place}

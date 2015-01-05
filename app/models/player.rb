@@ -59,62 +59,17 @@ class Player < ActiveRecord::Base
     end
   end
 
-  def self.recalculate_players_stats champ, game_player_ids, all_player_ids = nil
-    contracts = Contract.where(player_id: game_player_ids).keep_if{|p| p.champ == champ}
-    contracts.each do |contract|
-      contract.games = Player.player_total_games(champ, contract.player_id)
-      contract.goals = Player.player_total_goals(champ, contract.player_id)
-      cards = Player.player_total_cards(champ, contract.player_id)
-      old_y_cards = contract.y_cards + contract.dbl_cards
-      contract.y_cards = cards[:yellow_cards]
-      old_dbl_cards = contract.dbl_cards
-      contract.dbl_cards = cards[:dbl_yellow_cards]
-      old_r_cards = contract.r_cards
-      contract.r_cards = cards[:red_cards]
-      if (old_y_cards < (contract.y_cards + contract.dbl_cards) && ((contract.y_cards + contract.dbl_cards) % 3 == 0)) ||
-          (old_dbl_cards < cards[:dbl_yellow_cards]) || (old_r_cards < cards[:red_cards])
-          contract.disq_games = 1
-      end
-      contract.save
-    end
-    # уменьшим число дисквалификций
-    if all_player_ids.present?
-      missing_player_ids = all_player_ids - game_player_ids
-      Contract.where(player_id: missing_player_ids).keep_if{|p| p.champ == champ}.each do |contract|
-        contract.decrease_disq
-      end
-    end
-
+  def get_total_games champ
 
   end
 
-  def self.player_total_games champ, player_id
-    games = champ.games
-    count = 0
-    games.each do |g|
-      count += g.player?(player_id)
-    end
-    count
-  end
+  def get_total_cards champ
 
-  def self.player_total_cards champ, player_id
-    games = champ.games
-    yellow_cards, dbl_yellow_cards, red_cards = 0, 0, 0
-    games.each do |g|
-      yellow_cards += 1 if g.yellow_cards.present? && g.yellow_cards.include?(player_id)
-      dbl_yellow_cards += 1 if g.dbl_yellow_cards.present? && g.dbl_yellow_cards.include?(player_id)
-      red_cards += 1 if g.red_cards.present? && g.red_cards.include?(player_id)
-    end
     return {yellow_cards: yellow_cards, dbl_yellow_cards: dbl_yellow_cards, red_cards: red_cards}
   end
 
-  def self.player_total_goals champ, player_id
-    games = champ.games
-    goals = 0
-    games.each do |g|
-      goals +=g.player_goals(player_id).to_i unless g.player_goals(player_id).nil?
-    end
-    return goals
+  def get_total_goals champ
+
   end
 
 

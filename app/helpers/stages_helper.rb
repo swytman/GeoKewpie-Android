@@ -1,4 +1,26 @@
 module StagesHelper
+  def cup_games_gen stage, teams_cnt
+    teams_cnt = teams_cnt.to_i
+    final_game = stage.games.new({tour_id: 1})
+    final_game.save
+    create_cup_games_recursive final_game, stage, teams_cnt
+  end
+
+  def create_cup_games_recursive target_game, stage, teams_cnt
+    current_tour_id = target_game.tour_id * 2
+    return if current_tour_id > teams_cnt
+    home_game = stage.games.new({tour_id: current_tour_id})
+    visiting_game = stage.games.new({tour_id: current_tour_id})
+    home_game.save
+    visiting_game.save
+    target_game.game_visiting_id = visiting_game.id
+    target_game.game_home_id = home_game.id
+    target_game.save
+    create_cup_games_recursive home_game, stage, teams_cnt
+    create_cup_games_recursive visiting_game, stage, teams_cnt
+  end
+
+
   def ring_games_gen stage
     teams = stage.teams
     n = stage.teams.count

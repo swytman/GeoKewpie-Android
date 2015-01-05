@@ -1,6 +1,6 @@
 class StagesController < ApplicationController
     include StagesHelper
-    before_action :set_stage, only: [ :edit, :update, :destroy, :ring_games_generate, :ring_games_swap_from_stage ]
+    before_action :set_stage, only: [ :edit, :update, :destroy, :ring_games_generate, :ring_games_swap_from_stage, :cup_games_generate]
     before_action :set_champ
 
     def index
@@ -54,6 +54,12 @@ class StagesController < ApplicationController
 
     def ring_games_generate
       ring_games_gen @stage
+      redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
+    end
+
+    def cup_games_generate
+      teams_cnt = params[:teams_count]
+      cup_games_gen @stage, teams_cnt
       redirect_to edit_champ_stage_path(@champ, @stage), notice: 'OK'
     end
 

@@ -37,6 +37,19 @@ class Team < ActiveRecord::Base
     ['активна', 'не активна', 'снята']
   end
 
+  def self.do_clone champ, gage_team
+    new_team = gage_team.dup
+    new_team.win, new_team.lose, new_team.draw, new_team.scored, new_team.missed, new_team.points, new_team.penalty_points = 0, 0, 0, 0, 0, 0, 0
+    new_team.champ_id = champ.id
+    new_team.save
+    gage_team.contracts.active.each do |contract|
+      new_contract = contract.dup
+      new_contract.team_id = new_team.id
+      new_contract.games, new_contract.goals, new_contract.y_cards, new_contract.dbl_cards, new_contract.r_cards, new_contract.disq_games = 0, 0, 0, 0, 0, 0
+      new_contract.save
+    end
+  end
+
   def self.calculate_ring id
     return if id.nil?
     @team = Team.find(id)
