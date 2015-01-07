@@ -5,8 +5,8 @@ class Game < ActiveRecord::Base
             ]
   STATUS = ['empty','scheduled', 'finished']
   belongs_to :stage
-  belongs_to :home_team, class_name: 'Team', foreign_key: 'home_id'
-  belongs_to :visiting_team, class_name: 'Team', foreign_key: 'visiting_id'
+  belongs_to :home_team,      class_name: 'Team', foreign_key: 'home_id'
+  belongs_to :visiting_team,  class_name: 'Team', foreign_key: 'visiting_id'
   scope :finished,  -> {where(status: 'finished')}
   scope :scheduled,  -> {where(status: 'scheduled')}
   scope :empty, -> {where(status: 'empty')}

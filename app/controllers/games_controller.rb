@@ -13,7 +13,7 @@ class GamesController < ApplicationController
 
   def new
     authorize! :manage, Game
-    @game = Game.new
+    @game = @stage.games.new
   end
 
   def show
@@ -55,7 +55,7 @@ class GamesController < ApplicationController
   def update
     authorize! :manage, Game
     if @game.update_attributes(prepared_params game_params)
-      redirect_to champ_stage_game_path(@champ, @stage, @game), notice: 'OK'
+      redirect_to edit_champ_stage_game_path(@champ, @stage, @game), notice: 'OK'
     else
       render action: 'show', error: 'Ошибка при обновлении'
     end
@@ -105,7 +105,7 @@ class GamesController < ApplicationController
 
     params[:game].permit( :date, :time, :home_id, :visiting_id, :tour_id, :home_scores, :visiting_scores,
                           :yellow_cards, :dbl_yellow_cards, :red_cards, :home_players, :visiting_players,
-                          :player_scores, :place, :techlose )
+                          :player_scores, :place, :techlose, :game_home_id, :game_visiting_id )
   end
 
   def prepared_params p
