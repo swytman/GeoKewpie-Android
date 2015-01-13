@@ -1,6 +1,9 @@
 package com.geokewpie.activities;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
@@ -14,7 +17,7 @@ import android.view.MenuItem;
 import com.geokewpie.Properties;
 import com.geokewpie.R;
 import com.geokewpie.beans.UserLocation;
-import com.geokewpie.services.UpdateLocationService;
+import com.geokewpie.services.updateLocation.UpdateLocationAlarmReceiver;
 import com.geokewpie.tasks.GetFollowingsTask;
 import com.geokewpie.tasks.UpdateLocationTask;
 import com.google.android.gms.maps.CameraUpdate;
@@ -22,17 +25,23 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.*;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 public class MainActivity extends Activity {
-
+    public static final String DATE_DELIMITER = "|";
     public static final double INITIAL_MAP_BOUNDS = 0.1;
 
     private LocationManager locationManager;
     private GoogleMap map;
-    private Marker marker;
+//    private Marker marker;
 
     private Map<String, Marker> usersMarkersMap = new HashMap<String, Marker>();
 
@@ -43,19 +52,24 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String authToken = settings.getString(Properties.AUTH_TOKEN, "");
+        final String email = settings.getString(Properties.EMAIL, "");
+        System.out.println("authToken = " + authToken);
+
+        if ("".equals(authToken)) { // todo check if token is not expired
+            Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(i);
+            finish();
+        }
+
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! startService");
-        startService(new Intent(this, UpdateLocationService.class));
+        runService();
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-
-        marker = map.addMarker((new MarkerOptions()).position(new LatLng(0, 0)).title("Me"));
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String authToken = settings.getString(Properties.AUTH_TOKEN, "");
-        final String email = settings.getString(Properties.EMAIL, "");
-
+        map.setMyLocationEnabled(true);
 
         Timer myTimer = new Timer();
         final Handler uiHandler = new Handler();
@@ -78,23 +92,54 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         for (UserLocation following : followings) {
+                            String updatedAt = "";
+                            if (following.getUpdated_at() != null) {
+                                DateTimeFormatter isoFormatter = ISODateTimeFormat.dateTime();
+                                DateTime dateTime = isoFormatter.parseDateTime(following.getUpdated_at());
+
+                                PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
+                                        .appendYears().appendSuffix(" " + getResources().getString(R.string.year), " " + getResources().getString(R.string.years)).appendSeparator(DATE_DELIMITER)
+                                        .appendMonths().appendSuffix(" " + getResources().getString(R.string.month), " " + getResources().getString(R.string.months)).appendSeparator(DATE_DELIMITER)
+                                        .appendWeeks().appendSuffix(" " + getResources().getString(R.string.week), " " + getResources().getString(R.string.weeks)).appendSeparator(DATE_DELIMITER)
+                                        .appendDays().appendSuffix(" " + getResources().getString(R.string.day), " " + getResources().getString(R.string.days)).appendSeparator(DATE_DELIMITER)
+                                        .appendHours().appendSuffix(" " + getResources().getString(R.string.hour), " " + getResources().getString(R.string.hours)).appendSeparator(DATE_DELIMITER)
+                                        .appendMinutes().appendSuffix(" " + getResources().getString(R.string.minute), " " + getResources().getString(R.string.minutes)).appendSeparator(DATE_DELIMITER)
+                                        .appendSeconds().appendSuffix(" " + getResources().getString(R.string.second), " " + getResources().getString(R.string.seconds)).appendSeparator(DATE_DELIMITER)
+                                        .printZeroNever()
+                                        .toFormatter();
+
+                                updatedAt = periodFormatter.print(new Period(dateTime, new DateTime()));
+                                System.out.println("updatedAt = " + updatedAt);
+                                updatedAt = updatedAt.substring(0, updatedAt.indexOf(DATE_DELIMITER)) + " " + getResources().getString(R.string.ago);
+                            }
+                            LatLng latlng = new LatLng(following.getLatitude(), following.getLongitude());
                             Marker marker = usersMarkersMap.get(following.getLogin());
                             if (marker == null) {
                                 marker = map.addMarker(
                                         (new MarkerOptions())
-                                                .position(new LatLng(following.getLatitude(), following.getLongitude()))
+                                                .position(latlng)
                                                 .title(following.getLogin())
+                                                .snippet(updatedAt)
                                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
                                 );
                                 usersMarkersMap.put(following.getLogin(), marker);
                             } else {
-                                marker.setPosition(new LatLng(following.getLatitude(), following.getLongitude()));
+                                marker.setPosition(latlng);
+                                marker.setSnippet(updatedAt);
                             }
                         }
                     }
                 });
             }
         }, 0L, 60L * 1000); // 1 min interval
+    }
+
+    private void runService() {
+        Intent myAlarm = new Intent(getApplicationContext(), UpdateLocationAlarmReceiver.class);
+        PendingIntent recurringAlarm = PendingIntent.getBroadcast(getApplicationContext(), 0, myAlarm, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarms = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        Calendar updateTime = Calendar.getInstance();
+        alarms.setInexactRepeating(AlarmManager.RTC_WAKEUP, updateTime.getTimeInMillis(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, recurringAlarm);
     }
 
 
@@ -115,7 +160,14 @@ public class MainActivity extends Activity {
 
         @Override
         public void onLocationChanged(Location location) {
-            marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+/*
+            LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
+            if (marker == null) {
+                marker = map.addMarker((new MarkerOptions()).position(latlng).title(getResources().getString(R.string.marker_of_me)));
+            } else {
+                marker.setPosition(latlng);
+            }
+*/
 
             if (!initialMapBoundsSet) {
                 CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(

@@ -4,9 +4,9 @@ public class UserLocation {
     private String login;
     private double latitude;
     private double longitude;
+    private String updated_at;
 
-    public UserLocation(String login, double latitude, double longitude) {
-        this.login = login;
+    public UserLocation(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -35,12 +35,21 @@ public class UserLocation {
         this.longitude = longitude;
     }
 
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
     @Override
     public String toString() {
-        return "Following{" +
+        return "UserLocation{" +
                 "login='" + login + '\'' +
-                ", longitude=" + longitude +
                 ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", updated_at='" + updated_at + '\'' +
                 '}';
     }
 }

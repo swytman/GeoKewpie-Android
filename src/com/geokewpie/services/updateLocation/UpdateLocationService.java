@@ -1,4 +1,4 @@
-package com.geokewpie.services;
+package com.geokewpie.services.updateLocation;
 
 import android.app.Service;
 import android.content.Context;
@@ -19,6 +19,7 @@ public class UpdateLocationService extends Service implements LocationListener {
     @Override
     public void onLocationChanged(Location location) {
         System.out.println("!!!!!AHTUNG");
+
         double latitude = location.getLatitude();
         double longitude = location.getLongitude();
 

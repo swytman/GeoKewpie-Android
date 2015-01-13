@@ -23,16 +23,6 @@ public class RegisterActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String authToken = settings.getString(Properties.AUTH_TOKEN, "");
-        System.out.println("authToken = " + authToken);
-
-        if (!"".equals(authToken)) { // todo check if token is not expired
-            Intent i = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(i);
-            finishActivity(0);
-        }
-
         // Set View to register.xml
         setContentView(R.layout.register);
 

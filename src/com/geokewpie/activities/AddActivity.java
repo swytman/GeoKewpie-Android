@@ -31,9 +31,9 @@ public class AddActivity extends Activity {
         Response response = srt.get();
 
         if (response.isSuccessful()) {
-            Toast.makeText(getApplicationContext(), "Request sent", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.request_sent), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Please retry later", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.retry_later), Toast.LENGTH_LONG).show();
         }
     }
 }

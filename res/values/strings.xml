@@ -5,14 +5,38 @@
     <string name="menu_help">Help</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_about">About</string>
-
     <string name="register_form">Register</string>
     <string name="registration.username">Username</string>
     <string name="registration.email">Email</string>
     <string name="registration.password">Password</string>
     <string name="registration.register">Register New Account</string>
-
     <string name="login_form">Login</string>
     <string name="menu_add">Add</string>
     <string name="add_name">Add Kewpie</string>
+    <string name="send_request">Send Request</string>
+    <string name="user">User</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="new_to_geokewpie">New to GeoKewpie? Register here</string>
+    <string name="email">Email</string>
+    <string name="register_new_acc">Register New Account</string>
+    <string name="already_has_acc">Already has account! Login here</string>
+    <string name="year">year</string>
+    <string name="years">years</string>
+    <string name="month">month</string>
+    <string name="months">months</string>
+    <string name="week">week</string>
+    <string name="weeks">weeks</string>
+    <string name="day">day</string>
+    <string name="days">days</string>
+    <string name="hour">hour</string>
+    <string name="hours">hours</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="second">second</string>
+    <string name="seconds">seconds</string>
+    <string name="ago">ago</string>
+    <string name="marker_of_me">Me</string>
+    <string name="request_sent">Request sent</string>
+    <string name="retry_later">Please retry later</string>
 </resources>

@@ -43,7 +43,7 @@
             <TextView android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:textColor="#372c24"
-                      android:text="User"/>
+                      android:text="@string/user"/>
             <EditText android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="5dip"
@@ -54,7 +54,7 @@
             <TextView android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:textColor="#372c24"
-                      android:text="Password"/>
+                      android:text="@string/password"/>
             <EditText android:layout_width="fill_parent"
                       android:layout_height="wrap_content"
                       android:layout_marginTop="5dip"
@@ -66,7 +66,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dip"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:onClick="login"/>
             <!-- Link to Registration Screen -->
             <TextView android:id="@+id/link_to_register"
@@ -74,7 +74,7 @@
                       android:layout_height="wrap_content"
                       android:layout_marginTop="40dip"
                       android:layout_marginBottom="40dip"
-                      android:text="New to GeoKewpie? Register here"
+                      android:text="@string/new_to_geokewpie"
                       android:gravity="center"
                       android:textSize="20sp"
                       android:textColor="#0b84aa"/>

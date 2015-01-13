@@ -29,5 +29,6 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="org.joda:com.springsource.org.joda.time:1.6.2" level="project" />
   </component>
 </module>

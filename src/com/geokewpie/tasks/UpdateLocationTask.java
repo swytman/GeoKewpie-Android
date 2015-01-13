@@ -21,7 +21,7 @@ public class UpdateLocationTask extends AsyncTask<Object, Void, Response> {
 
             String url = MessageFormat.format("https://198.199.109.47:8080/locations?email={0}&auth_token={1}", email, authToken);
 
-            UserLocation userLocation = new UserLocation(null, latitude, longitude);
+            UserLocation userLocation = new UserLocation(latitude, longitude);
 
             return NetworkTools.sendPost(url, new Gson().toJson(userLocation));
         } catch (Exception e) {
