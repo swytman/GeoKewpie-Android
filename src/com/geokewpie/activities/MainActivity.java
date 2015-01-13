@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
         final String email = settings.getString(Properties.EMAIL, "");
         System.out.println("authToken = " + authToken);
 
-        if  ("".equals(authToken)) { // todo check if token is not expired
+        if ("".equals(authToken)) { // todo check if token is not expired
             Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(i);
             finish();
