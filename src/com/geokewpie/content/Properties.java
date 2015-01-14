@@ -1,4 +1,4 @@
-package com.geokewpie;
+package com.geokewpie.content;
 
 public class Properties {
     public static final String EMAIL = "geokewpie_email";

@@ -14,7 +14,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import com.geokewpie.Properties;
+import com.geokewpie.content.Properties;
 import com.geokewpie.R;
 import com.geokewpie.beans.UserLocation;
 import com.geokewpie.services.updateLocation.UpdateLocationAlarmReceiver;
@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         myTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                GetFollowingsTask flt = new GetFollowingsTask();
+                GetFollowingsTask flt = new GetFollowingsTask(getApplicationContext());
                 flt.execute(email, authToken);
 
                 final List<UserLocation> followings;
@@ -91,6 +91,8 @@ public class MainActivity extends Activity {
                 uiHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        if (followings == null) return;
+
                         for (UserLocation following : followings) {
                             String updatedAt = "";
                             if (following.getUpdated_at() != null) {
@@ -188,7 +190,7 @@ public class MainActivity extends Activity {
             String authToken = settings.getString(Properties.AUTH_TOKEN, "");
             String email = settings.getString(Properties.EMAIL, "");
 
-            new UpdateLocationTask().execute(email, authToken, locationLat, locationLng);
+            new UpdateLocationTask(getApplicationContext()).execute(email, authToken, locationLat, locationLng);
         }
 
         @Override

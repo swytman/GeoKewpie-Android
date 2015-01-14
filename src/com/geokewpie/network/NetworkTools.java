@@ -1,5 +1,13 @@
 package com.geokewpie.network;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
+import android.widget.Toast;
+import com.geokewpie.R;
+import com.geokewpie.network.exception.NetworkException;
+
 import javax.net.ssl.*;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -8,6 +16,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.Callable;
 
 public class NetworkTools {
 
@@ -100,4 +109,19 @@ public class NetworkTools {
     public static Response sendGet(String url) throws Exception {
         return sendRequest(url, null, "GET");
     }
+
+    public static Object executeNetworkOperation(Context context, Callable callable) throws Exception {
+        if (isNetworkAvailable(context)) {
+            return callable.call();
+        } else {
+            throw new NetworkException(context.getResources().getString(R.string.network_not_available));
+        }
+    }
+
+    private static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

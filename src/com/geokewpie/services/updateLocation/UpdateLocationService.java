@@ -10,7 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import com.geokewpie.Properties;
+import com.geokewpie.content.Properties;
 import com.geokewpie.tasks.UpdateLocationTask;
 
 public class UpdateLocationService extends Service implements LocationListener {
@@ -27,7 +27,7 @@ public class UpdateLocationService extends Service implements LocationListener {
         String authToken = settings.getString(Properties.AUTH_TOKEN, "");
         String email = settings.getString(Properties.EMAIL, "");
 
-        new UpdateLocationTask().execute(email, authToken, latitude, longitude);
+        new UpdateLocationTask(getApplicationContext()).execute(email, authToken, latitude, longitude);
     }
 
     @Override

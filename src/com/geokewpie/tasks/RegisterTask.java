@@ -1,21 +1,20 @@
 package com.geokewpie.tasks;
 
-import android.os.AsyncTask;
+import android.content.Context;
 import com.geokewpie.beans.User;
 import com.geokewpie.network.NetworkTools;
 import com.geokewpie.network.Response;
 import com.google.gson.Gson;
 
-public class RegisterTask extends AsyncTask<String, Void, Response> {
+public class RegisterTask extends AbstractNetworkTask<String, Void, Response> {
+    public RegisterTask(Context context) {
+        super(context);
+    }
+
     @Override
-    protected Response doInBackground(String... strings) {
+    protected Response doNetworkOperation(String... strings) throws Exception {
+        User user = new User(strings[0], strings[1], strings[2]);
 
-        try {
-            User user = new User(strings[0], strings[1], strings[2]);
-
-            return NetworkTools.sendPost("https://198.199.109.47:8080/users", new Gson().toJson(user));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return NetworkTools.sendPost("https://198.199.109.47:8080/users", new Gson().toJson(user));
     }
 }
