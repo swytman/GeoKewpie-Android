@@ -94,6 +94,7 @@ public class MainActivity extends Activity {
                         for (UserLocation following : followings) {
                             String updatedAt = "";
                             if (following.getUpdated_at() != null) {
+                                System.out.println("updatedAt = " + following.getUpdated_at());
                                 DateTimeFormatter isoFormatter = ISODateTimeFormat.dateTime();
                                 DateTime dateTime = isoFormatter.parseDateTime(following.getUpdated_at());
 
@@ -104,11 +105,11 @@ public class MainActivity extends Activity {
                                         .appendDays().appendSuffix(" " + getResources().getString(R.string.day), " " + getResources().getString(R.string.days)).appendSeparator(DATE_DELIMITER)
                                         .appendHours().appendSuffix(" " + getResources().getString(R.string.hour), " " + getResources().getString(R.string.hours)).appendSeparator(DATE_DELIMITER)
                                         .appendMinutes().appendSuffix(" " + getResources().getString(R.string.minute), " " + getResources().getString(R.string.minutes)).appendSeparator(DATE_DELIMITER)
-                                        .appendSeconds().appendSuffix(" " + getResources().getString(R.string.second), " " + getResources().getString(R.string.seconds)).appendSeparator(DATE_DELIMITER)
+                                        .appendSeconds().appendSuffix(" " + getResources().getString(R.string.second), " " + getResources().getString(R.string.seconds))
                                         .printZeroNever()
                                         .toFormatter();
 
-                                updatedAt = periodFormatter.print(new Period(dateTime, new DateTime()));
+                                updatedAt = periodFormatter.print(new Period(dateTime, new DateTime())) + DATE_DELIMITER;
                                 System.out.println("updatedAt = " + updatedAt);
                                 updatedAt = updatedAt.substring(0, updatedAt.indexOf(DATE_DELIMITER)) + " " + getResources().getString(R.string.ago);
                             }

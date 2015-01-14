@@ -30,5 +30,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="org.joda:com.springsource.org.joda.time:1.6.2" level="project" />
+    <orderEntry type="library" name="acra-4.5.0" level="project" />
   </component>
 </module>

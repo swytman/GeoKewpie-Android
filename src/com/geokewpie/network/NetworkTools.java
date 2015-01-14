@@ -1,6 +1,7 @@
 package com.geokewpie.network;
 
 import javax.net.ssl.*;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
@@ -55,7 +56,14 @@ public class NetworkTools {
         }
 
         Response response = new Response();
-        response.setResultCode(con.getResponseCode());
+
+        int responseCode;
+        try {
+            responseCode = con.getResponseCode();
+        } catch (IOException ioe) { // http://stackoverflow.com/questions/17121213/java-io-ioexception-no-authentication-challenges-found
+            responseCode = con.getResponseCode();
+        }
+        response.setResultCode(responseCode);
 
         Reader reader;
         if (response.isSuccessful()) { // success
