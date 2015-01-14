@@ -7,7 +7,8 @@ import android.content.Intent;
 public class UpdateLocationAlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent myService = new Intent(context, UpdateLocationService.class);
-        context.startService(myService);
+        System.out.println("UpdateLocationAlarmReceiver executed");
+        Intent i = new Intent(context, UpdateLocationService.class);
+        context.startService(i);
     }
 }
