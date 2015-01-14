@@ -169,12 +169,18 @@ public class MainActivity extends Activity {
                 marker.setPosition(latlng);
             }
 */
+            final double locationLat = location.getLatitude();
+            final double locationLng = location.getLongitude();
 
             if (!initialMapBoundsSet) {
-                CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(
-                        new LatLngBounds.Builder().include(new LatLng(location.getLatitude() + INITIAL_MAP_BOUNDS, location.getLongitude() + INITIAL_MAP_BOUNDS)).include(new LatLng(location.getLatitude() - INITIAL_MAP_BOUNDS, location.getLongitude() - INITIAL_MAP_BOUNDS)).build(), 0);
-                map.animateCamera(cu);
-
+                map.setOnMapLoadedCallback(new GoogleMap.OnMapLoadedCallback() {
+                    @Override
+                    public void onMapLoaded() {
+                        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(
+                                new LatLngBounds.Builder().include(new LatLng(locationLat + INITIAL_MAP_BOUNDS, locationLng + INITIAL_MAP_BOUNDS)).include(new LatLng(locationLat - INITIAL_MAP_BOUNDS, locationLng - INITIAL_MAP_BOUNDS)).build(), 0);
+                        map.animateCamera(cu);
+                    }
+                });
                 initialMapBoundsSet = true;
             }
 
@@ -182,7 +188,7 @@ public class MainActivity extends Activity {
             String authToken = settings.getString(Properties.AUTH_TOKEN, "");
             String email = settings.getString(Properties.EMAIL, "");
 
-            new UpdateLocationTask().execute(email, authToken, location.getLatitude(), location.getLongitude());
+            new UpdateLocationTask().execute(email, authToken, locationLat, locationLng);
         }
 
         @Override
