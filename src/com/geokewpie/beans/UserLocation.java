@@ -4,11 +4,13 @@ public class UserLocation {
     private String login;
     private double latitude;
     private double longitude;
+    private float accuracy;
     private String updated_at;
 
-    public UserLocation(double latitude, double longitude) {
+    public UserLocation(double latitude, double longitude, float accuracy) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.accuracy = accuracy;
     }
 
     public String getLogin() {
@@ -35,6 +37,10 @@ public class UserLocation {
         this.longitude = longitude;
     }
 
+    public float getAccuracy() {
+        return accuracy;
+    }
+
     public String getUpdated_at() {
         return updated_at;
     }
@@ -43,12 +49,17 @@ public class UserLocation {
         this.updated_at = updated_at;
     }
 
+    public void setAccuracy(float accuracy) {
+        this.accuracy = accuracy;
+    }
+
     @Override
     public String toString() {
         return "UserLocation{" +
                 "login='" + login + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", accuracy=" + accuracy +
                 ", updated_at='" + updated_at + '\'' +
                 '}';
     }

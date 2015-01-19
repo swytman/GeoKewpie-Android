@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.TextView;
-import com.geokewpie.Properties;
+import com.geokewpie.content.Properties;
 import com.geokewpie.R;
 
 public class LoginActivity extends Activity {
