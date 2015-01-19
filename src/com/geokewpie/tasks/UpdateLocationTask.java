@@ -20,10 +20,11 @@ public class UpdateLocationTask extends AbstractNetworkTask<Object, Void, Respon
         String authToken = (String) objects[1];
         Double latitude = (Double) objects[2];
         Double longitude = (Double) objects[3];
+        Float accuracy = (Float) objects[4];
 
         String url = MessageFormat.format("https://198.199.109.47:8080/locations?email={0}&auth_token={1}", email, authToken);
 
-        UserLocation userLocation = new UserLocation(latitude, longitude);
+        UserLocation userLocation = new UserLocation(latitude, longitude, accuracy);
 
         return NetworkTools.sendPost(url, new Gson().toJson(userLocation));
     }

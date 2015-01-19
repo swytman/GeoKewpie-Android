@@ -31,5 +31,7 @@
     </orderEntry>
     <orderEntry type="library" name="org.joda:com.springsource.org.joda.time:1.6.2" level="project" />
     <orderEntry type="library" name="acra-4.5.0" level="project" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
+    <orderEntry type="module" module-name="LittleFluffyLocationLibrary" />
   </component>
 </module>

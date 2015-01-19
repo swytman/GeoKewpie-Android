@@ -3,9 +3,10 @@ package com.geokewpie.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
-import com.geokewpie.network.NetworkTools;
+import com.geokewpie.R;
 import com.geokewpie.network.exception.NetworkException;
 
+import java.net.ConnectException;
 import java.util.concurrent.Callable;
 
 public abstract class AbstractNetworkTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
@@ -16,13 +17,12 @@ public abstract class AbstractNetworkTask<Params, Progress, Result> extends Asyn
         this.context = context;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected Result doInBackground(Params... params) {
         try {
-            return (Result) NetworkTools.executeNetworkOperation(context, new NetworkCallable(params));
+            return new NetworkCallable(params).call();
         } catch (NetworkException e) {
-            errorMessage = e.getMessage();
+            errorMessage = context.getResources().getString(R.string.network_not_available);
             return null;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -35,6 +35,10 @@ public abstract class AbstractNetworkTask<Params, Progress, Result> extends Asyn
         if (errorMessage != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
         }
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     protected abstract Result doNetworkOperation(Params[] params) throws Exception;

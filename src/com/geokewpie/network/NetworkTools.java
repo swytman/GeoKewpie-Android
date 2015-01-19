@@ -1,11 +1,5 @@
 package com.geokewpie.network;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.AsyncTask;
-import android.widget.Toast;
-import com.geokewpie.R;
 import com.geokewpie.network.exception.NetworkException;
 
 import javax.net.ssl.*;
@@ -13,89 +7,95 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.security.cert.X509Certificate;
-import java.util.concurrent.Callable;
 
 public class NetworkTools {
 
     public static Response sendRequest(String url, String json, String requestMethod) throws Exception {
-        TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
-            public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                return null;
-            }
-
-            public void checkClientTrusted(X509Certificate[] certs, String authType) {
-            }
-
-            public void checkServerTrusted(X509Certificate[] certs, String authType) {
-            }
-        }
-        };
-
-        // Install the all-trusting trust manager
-        SSLContext sc = SSLContext.getInstance("SSL");
-        sc.init(null, trustAllCerts, new java.security.SecureRandom());
-        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
-
-        // Create all-trusting host name verifier
-        HostnameVerifier allHostsValid = new HostnameVerifier() {
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        };
-
-        // Install the all-trusting host verifier
-        HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
-
-        HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
-        con.setRequestMethod(requestMethod);
-
-        if (json != null) {
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("Connection", "close");
-            con.setRequestProperty("Accept", "");
-
-            OutputStreamWriter outputStream = new OutputStreamWriter(con.getOutputStream());
-            outputStream.write(json);
-            outputStream.close();
-        }
-
-        Response response = new Response();
-
-        int responseCode;
         try {
-            responseCode = con.getResponseCode();
-        } catch (IOException ioe) { // http://stackoverflow.com/questions/17121213/java-io-ioexception-no-authentication-challenges-found
-            responseCode = con.getResponseCode();
-        }
-        response.setResultCode(responseCode);
+            TrustManager[] trustAllCerts = new TrustManager[]{new X509TrustManager() {
+                public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                    return null;
+                }
 
-        Reader reader;
-        if (response.isSuccessful()) { // success
-            reader = new InputStreamReader(con.getInputStream());
-        } else {
-            reader = new InputStreamReader(con.getErrorStream());
-        }
+                public void checkClientTrusted(X509Certificate[] certs, String authType) {
+                }
 
-        StringBuilder sb = new StringBuilder();
-        while (true) {
-            int ch = reader.read();
-            if (ch == -1) {
-                break;
+                public void checkServerTrusted(X509Certificate[] certs, String authType) {
+                }
             }
-            sb.append((char) ch);
+            };
+
+            // Install the all-trusting trust manager
+            SSLContext sc = SSLContext.getInstance("SSL");
+            sc.init(null, trustAllCerts, new java.security.SecureRandom());
+            HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
+
+            // Create all-trusting host name verifier
+            HostnameVerifier allHostsValid = new HostnameVerifier() {
+                public boolean verify(String hostname, SSLSession session) {
+                    return true;
+                }
+            };
+
+            // Install the all-trusting host verifier
+            HttpsURLConnection.setDefaultHostnameVerifier(allHostsValid);
+
+            HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
+
+            con.setConnectTimeout(10000); // 10 sec timeout
+            con.setReadTimeout(5000); // 5 sec timeout
+            con.setRequestMethod(requestMethod);
+
+            if (json != null) {
+                con.setDoOutput(true);
+                con.setDoInput(true);
+                con.setRequestProperty("Content-Type", "application/json");
+                con.setRequestProperty("Connection", "close");
+                con.setRequestProperty("Accept", "");
+
+                OutputStreamWriter outputStream = new OutputStreamWriter(con.getOutputStream());
+                outputStream.write(json);
+                outputStream.close();
+            }
+
+            Response response = new Response();
+
+            int responseCode = con.getResponseCode();
+            response.setResultCode(responseCode);
+
+            Reader reader;
+            if (response.isSuccessful()) { // success
+                reader = new InputStreamReader(con.getInputStream());
+            } else {
+                reader = new InputStreamReader(con.getErrorStream());
+            }
+
+            StringBuilder sb = new StringBuilder();
+            while (true) {
+                int ch = reader.read();
+                if (ch == -1) {
+                    break;
+                }
+                sb.append((char) ch);
+            }
+            reader.close();
+
+            response.setBody(sb.toString());
+
+            System.out.println("url = " + url);
+            System.out.println("response = " + response);
+
+            return response;
+        } catch (ConnectException e) {
+            throw new NetworkException();
+        } catch (SocketTimeoutException e) {
+            throw new NetworkException();
         }
-
-        response.setBody(sb.toString());
-
-        System.out.println("url = " + url);
-        System.out.println("response = " + response);
-
-        return response;
     }
 
     public static Response sendPost(String url, String json) throws Exception {
@@ -108,20 +108,6 @@ public class NetworkTools {
 
     public static Response sendGet(String url) throws Exception {
         return sendRequest(url, null, "GET");
-    }
-
-    public static Object executeNetworkOperation(Context context, Callable callable) throws Exception {
-        if (isNetworkAvailable(context)) {
-            return callable.call();
-        } else {
-            throw new NetworkException(context.getResources().getString(R.string.network_not_available));
-        }
-    }
-
-    private static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

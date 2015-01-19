@@ -40,4 +40,6 @@
     <string name="request_sent">Request sent</string>
     <string name="retry_later">Please retry later</string>
     <string name="network_not_available">Network is not available</string>
+    <string name="location_not_available">Location is not available</string>
+    <string name="moments">moments</string>
 </resources>
