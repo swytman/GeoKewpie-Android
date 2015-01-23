@@ -79,6 +79,14 @@ class Champ < ActiveRecord::Base
     ['5x5', '8x8', '11x11']
   end
 
+  def have_ring_stage
+    self.stages.where(stage_type: 'круг').any?
+  end
+
+
+  def have_cup_stage
+    self.stages.where(stage_type: 'плей-офф').any?
+  end
 
 
 

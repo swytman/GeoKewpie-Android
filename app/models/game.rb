@@ -126,12 +126,14 @@ class Game < ActiveRecord::Base
   end
 
   def fill_result
-    if stage.stage_type == 'круг'
-      fill_result_ring
-    end
+      fill_result_common
+      if self.stage.stage_type == 'плей-офф'
+        fill_result_cup
+      end
+
   end
 
-  def fill_result_ring
+  def fill_result_common
     return unless self.status == 'finished'
     if home_scores > visiting_scores
       self.home_points = Game.result_points[:win]
@@ -146,6 +148,21 @@ class Game < ActiveRecord::Base
       self.visiting_points = Game.result_points[:draw]
       self.winner_id = 0
     end
+  end
+
+  def fill_result_cup
+    home_next = Game.find_by(game_home_id: self.id)
+    if home_next.present?
+      home_next.home_id = self.winner_id
+      home_next.save
+    end
+
+    visiting_next = Game.find_by(game_visiting_id: self.id)
+    if visiting_next.present?
+      visiting_next.visiting_id = self.winner_id
+      visiting_next.save
+    end
+
   end
 
   def reset_result

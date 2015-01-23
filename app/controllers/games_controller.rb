@@ -89,6 +89,7 @@ class GamesController < ApplicationController
       Team.calculate_ring(@game.home_id)
       Team.calculate_ring(@game.visiting_id)
     end
+
   end
 
   def set_champ

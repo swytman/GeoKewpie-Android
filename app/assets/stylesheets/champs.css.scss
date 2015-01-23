@@ -76,3 +76,38 @@
 
 }
 
+.cup-container {
+  width: 100%;
+  overflow-y: scroll;
+  .cup-canvas {
+    background-color: darkgrey;
+  }
+
+  .cup-game {
+    width: 200px;
+    border: 1px solid black;
+  }
+  .cup-row {
+    display: table-row;
+    &.winner{
+      font-weight: bolder;
+    }
+  }
+
+  .cup-cell {
+    &.title{
+      width: 170px;
+    }
+    &.score{
+      width: 30px;
+      text-align: center;
+    }
+    border: 1px solid black;
+    padding: 5px;
+    display: table-cell;
+  }
+
+
+}
+
+

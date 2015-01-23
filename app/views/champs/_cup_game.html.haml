@@ -1,0 +1,11 @@
+.cup-game
+  .cup-row{class: ("winner" if game.home_id == game.winner_id) }
+    .cup-cell.title
+      = team_title_with_logo(game.home_team)
+    .cup-cell.score
+      = game.home_scores
+  .cup-row{class: ("winner" if game.visiting_id == game.winner_id) }
+    .cup-cell.title
+      = team_title_with_logo(game.visiting_team)
+    .cup-cell.score
+      = game.visiting_scores

@@ -1,0 +1,6 @@
+= render partial: 'champ_title'
+= render partial: 'champ_tabs'
+
+.cup-container
+  .cup-canvas{style: "width: #{@canvas_width}px; height: #{@canvas_height}px"}
+    = render partial: "cup_game", locals: {game: Game.find(601)}

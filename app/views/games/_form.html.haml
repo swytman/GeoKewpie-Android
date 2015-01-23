@@ -46,14 +46,14 @@
       .col-sm-3
         = f.text_field :game_home_id, class: 'form-control'
       - if @game.game_home_id.present?
-        .col-sm-3
+        .col-sm-6
           = link_to(Game.find(@game.game_home_id).title, edit_champ_stage_game_path(@game.stage.champ, @game.stage, @game.game_home_id))
     .form-group
       %label.col-sm-3 Гости ID игры
       .col-sm-3
         = f.text_field :game_visiting_id, class: 'form-control'
       - if @game.game_visiting_id.present?
-        .col-sm-3
+        .col-sm-6
           = link_to(Game.find(@game.game_visiting_id).title, edit_champ_stage_game_path(@game.stage.champ, @game.stage, @game.game_visiting_id))
 
   - unless @game.new_record?

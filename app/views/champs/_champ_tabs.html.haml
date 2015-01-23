@@ -1,5 +1,8 @@
 %ul.nav.nav-tabs.top20
-  = tab 'Таблица', teams_champ_path(@champ)
+  - if @champ.have_ring_stage
+    = tab 'Таблица', teams_champ_path(@champ)
+  - if @champ.have_cup_stage
+    = tab 'Сетка кубка', cup_champ_path(@champ)
   = tab 'Календарь', schedule_champ_path(@champ)
   = tab 'Статистика игроков', stats_champ_path(@champ)
   = tab 'Дисквалификация', disq_champ_path(@champ)

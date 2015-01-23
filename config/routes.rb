@@ -26,6 +26,7 @@ Footmanager::Application.routes.draw do
       get :archive
     end
     member do
+      get :cup
       get :teams
       get :schedule
       get :stats
