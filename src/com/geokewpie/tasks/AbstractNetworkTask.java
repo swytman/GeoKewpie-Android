@@ -3,28 +3,38 @@ package com.geokewpie.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+import com.geokewpie.CallableWithArguments;
 import com.geokewpie.R;
+import com.geokewpie.beans.User;
 import com.geokewpie.network.exception.NetworkException;
 
-import java.net.ConnectException;
-import java.util.concurrent.Callable;
+import java.util.List;
 
 public abstract class AbstractNetworkTask<Params, Progress, Result> extends AsyncTask<Params, Progress, Result> {
-    private Context context;
-    private String errorMessage;
+    protected Context context;
+    protected String errorMessage;
+    private CallableWithArguments<Void, Result> callable;
 
     public AbstractNetworkTask(Context context) {
         this.context = context;
     }
 
+    public AbstractNetworkTask(Context context, CallableWithArguments<Void, Result> callable) {
+        this.context = context;
+        this.callable = callable;
+    }
+
     @Override
     protected Result doInBackground(Params... params) {
         try {
-            return new NetworkCallable(params).call();
+            System.out.println("ALBA AbstractNetworkTask.doInBackground 0");
+            return doNetworkOperation(params);
         } catch (NetworkException e) {
+            System.out.println("ALBA AbstractNetworkTask.doInBackground 1");
             errorMessage = context.getResources().getString(R.string.network_not_available);
             return null;
         } catch (Exception e) {
+            System.out.println("ALBA AbstractNetworkTask.doInBackground 2");
             throw new RuntimeException(e);
         }
     }
@@ -34,26 +44,14 @@ public abstract class AbstractNetworkTask<Params, Progress, Result> extends Asyn
         super.onPostExecute(result);
         if (errorMessage != null) {
             Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show();
+        } else if (callable != null) {
+            try {
+                callable.call(result);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
-    }
-
-    public Context getContext() {
-        return context;
     }
 
     protected abstract Result doNetworkOperation(Params[] params) throws Exception;
-
-    private class NetworkCallable implements Callable {
-
-        private final Params[] params;
-
-        public NetworkCallable(Params[] params) {
-            this.params = params;
-        }
-
-        @Override
-        public Result call() throws Exception {
-            return doNetworkOperation(params);
-        }
-    }
 }

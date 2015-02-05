@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.GeoKewpie" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
+        <item name="android:background">#696969</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+
+        <!--
+                &lt;!&ndash; Used to for the title of the Toolbar &ndash;&gt;
+                <item name="android:textColorPrimary">#fff</item>
+                &lt;!&ndash; Used to for the title of the Toolbar when parent is Theme.AppCompat.Light &ndash;&gt;
+                <item name="android:textColorPrimaryInverse">#fff</item>
+                &lt;!&ndash; Used to color the text of the action menu icons &ndash;&gt;
+                <item name="android:textColorSecondary">#fff</item>
+                &lt;!&ndash; Used to color the overflow menu icon &ndash;&gt;
+                <item name="actionMenuTextColor">#fff</item>
+                &lt;!&ndash; Color of the Toolbar &ndash;&gt;
+                <item name="android:background">#4f5659</item>
+        -->
+    </style>
+</resources>

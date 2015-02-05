@@ -11,13 +11,21 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <permission android:name="com.geokewpie.permission.C2D_MESSAGE"
+                android:protectionLevel="signature"/>
+    <uses-permission android:name="com.geokewpie.permission.C2D_MESSAGE"/>
 
     <uses-feature android:name="android.hardware.location" android:required="true"/>
     <uses-feature android:name="android.hardware.location.gps" android:required="false"/>
 
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
-                 android:name=".GeoKewpieApplication">
+                 android:name=".GeoKewpieApplication"
+                 android:theme="@style/Theme.GeoKewpie">
 
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
@@ -28,18 +36,15 @@
                 android:value="@integer/google_play_services_version"/>
 
         <activity android:name=".activities.RegisterActivity"
-                  android:label="@string/register_form"
-                  android:screenOrientation="portrait">
+                  android:label="@string/register_form">
         </activity>
 
         <activity android:name=".activities.LoginActivity"
-                  android:label="@string/login_form"
-                  android:screenOrientation="portrait">
+                  android:label="@string/login_form">
         </activity>
 
         <activity android:name=".activities.MainActivity"
-                  android:label="@string/app_name"
-                  android:screenOrientation="portrait">
+                  android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -47,26 +52,50 @@
         </activity>
 
         <activity android:name=".activities.AddActivity"
-                  android:label="@string/add_name"
-                  android:screenOrientation="portrait">
+                  android:parentActivityName=".activities.MainActivity"
+                  android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
+
         </activity>
 
-        <service android:name="com.littlefluffytoys.littlefluffylocationlibrary.LocationBroadcastService"/>
+        <activity android:name=".activities.FollowersActivity"
+                  android:parentActivityName=".activities.MainActivity"
+                  android:launchMode="singleTop"
+                  android:label="@string/followers">
+        </activity>
 
-        <receiver android:name="com.littlefluffytoys.littlefluffylocationlibrary.StartupBroadcastReceiver"
-                  android:exported="true">
+        <activity android:name=".activities.SettingsActivity"
+                  android:parentActivityName=".activities.MainActivity"
+                  android:launchMode="singleTop"
+                  android:label="@string/settings">
+        </activity>
+
+        <activity android:name=".activities.FAQActivity"
+                  android:parentActivityName=".activities.MainActivity"
+                  android:launchMode="singleTop"
+                  android:label="@string/settings">
+        </activity>
+
+        <receiver
+                android:name=".gcm.GcmBroadcastReceiver"
+                android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.geokewpie"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.littlefluffytoys.littlefluffylocationlibrary.PassiveLocationChangedReceiver"
-                  android:exported="true"/>
-        <receiver android:name=".services.updateLocation.UpdateLocationReceiver">
-            <intent-filter>
-                <action android:name="com.geokewpie.littlefluffylocationlibrary.LOCATION_CHANGED"
-                        android:exported="false"/>
-            </intent-filter>
-        </receiver>
+        <service android:name=".services.updateLocation.UpdateLocationService"/>
+
+        <!--
+                <provider
+                        android:name=".providers.KewpiesContentProvider"
+                        android:authorities="com.geokewpie.search_kewpies_provider"
+                        android:syncable="false"/>
+        -->
 
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
 

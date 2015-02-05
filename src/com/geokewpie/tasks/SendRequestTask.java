@@ -1,14 +1,16 @@
 package com.geokewpie.tasks;
 
 import android.content.Context;
+import com.geokewpie.CallableWithArguments;
 import com.geokewpie.network.NetworkTools;
 import com.geokewpie.network.Response;
 
 import java.text.MessageFormat;
 
 public class SendRequestTask extends AbstractNetworkTask<String, Void, Response> {
-    public SendRequestTask(Context context) {
-        super(context);
+
+    public SendRequestTask(Context context, CallableWithArguments<Void, Response> callable) {
+        super(context, callable);
     }
 
     @Override

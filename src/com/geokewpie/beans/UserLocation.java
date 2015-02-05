@@ -1,16 +1,25 @@
 package com.geokewpie.beans;
 
-public class UserLocation {
-    private String login;
-    private double latitude;
-    private double longitude;
-    private float accuracy;
-    private String updated_at;
+import java.util.Collection;
+import java.util.Collections;
 
-    public UserLocation(double latitude, double longitude, float accuracy) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.accuracy = accuracy;
+public class UserLocation {
+    public static final String DATE_DELIMITER = "|";
+
+    private String login;
+    private Collection<DeviceLocation> devices;
+
+    public UserLocation(String login, Collection<DeviceLocation> devices) {
+        this.login = login;
+        this.devices = devices;
+    }
+
+    public Collection<DeviceLocation> getDevices() {
+        return devices == null ? Collections.<DeviceLocation>emptyList() : devices;
+    }
+
+    public void setDevices(Collection<DeviceLocation> devices) {
+        this.devices = devices;
     }
 
     public String getLogin() {
@@ -21,46 +30,12 @@ public class UserLocation {
         this.login = login;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
-    }
-
-    public float getAccuracy() {
-        return accuracy;
-    }
-
-    public String getUpdated_at() {
-        return updated_at;
-    }
-
-    public void setUpdated_at(String updated_at) {
-        this.updated_at = updated_at;
-    }
-
-    public void setAccuracy(float accuracy) {
-        this.accuracy = accuracy;
-    }
-
     @Override
     public String toString() {
         return "UserLocation{" +
                 "login='" + login + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", accuracy=" + accuracy +
-                ", updated_at='" + updated_at + '\'' +
+                ", devices=" + devices +
                 '}';
     }
+
 }

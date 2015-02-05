@@ -6,8 +6,8 @@ import com.geokewpie.network.NetworkTools;
 import com.geokewpie.network.Response;
 import com.google.gson.Gson;
 
-public class RegisterTask extends AbstractNetworkTask<String, Void, Response> {
-    public RegisterTask(Context context) {
+public class RegisterUserTask extends AbstractNetworkTask<String, Void, Response> {
+    public RegisterUserTask(Context context) {
         super(context);
     }
 

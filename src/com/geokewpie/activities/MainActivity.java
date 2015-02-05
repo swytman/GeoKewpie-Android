@@ -1,105 +1,208 @@
 package com.geokewpie.activities;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.*;
+import android.widget.*;
+import com.geokewpie.CallableWithArguments;
 import com.geokewpie.R;
-import com.geokewpie.beans.UserLocation;
+import com.geokewpie.beans.*;
 import com.geokewpie.content.Properties;
-import com.geokewpie.tasks.GetFollowingsTask;
+import com.geokewpie.drawer.GKNavigationAdapter;
+import com.geokewpie.drawer.models.*;
+import com.geokewpie.gcm.RegistrationTools;
+import com.geokewpie.network.NetworkTools;
+import com.geokewpie.network.Response;
+import com.geokewpie.tasks.*;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.*;
-import org.joda.time.DateTime;
-import org.joda.time.Period;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.joda.time.format.PeriodFormatter;
-import org.joda.time.format.PeriodFormatterBuilder;
+import com.google.gson.Gson;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.*;
+import java.util.concurrent.*;
 
-public class MainActivity extends Activity implements LocationListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    public static final String DATE_DELIMITER = "|";
+public class MainActivity extends ActionBarActivity implements GoogleMap.OnMarkerClickListener {
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private final static float INITIAL_ZOOM = 12;
+
+    private static final String TAG = "MainActivity";
+
+    private Context context;
+
+    private ActionBarDrawerToggle toggle;
+    private DrawerLayout drawerLayout;
+    private GKNavigationAdapter navigationAdapter;
+
+    private GoogleCloudMessaging gcm;
+    private String regId;
 
     private GoogleMap map;
-    private GoogleApiClient googleApiClient;
 
-    private Handler uiHandler;
     private ScheduledExecutorService exec;
 
     private String email;
     private String authToken;
 
-    private Marker myMarker;
     private Map<String, Marker> usersMarkersMap = new HashMap<String, Marker>();
     private Map<String, Circle> usersAccuracyMap = new HashMap<String, Circle>();
-    private Map<Marker, DateTime> markerDateTimeMap = new HashMap<Marker, DateTime>();
+    private Map<Marker, DeviceLocation> markerLocationMap = new HashMap<Marker, DeviceLocation>();
+    private List<INavigationItemModel> drawerModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        authToken = settings.getString(Properties.AUTH_TOKEN, "");
-        email = settings.getString(Properties.EMAIL, "");
-
-        if ("".equals(authToken)) { // todo check if token is not expired
-            Intent i = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(i);
-            finish();
+        // Check device for Play Services APK.
+        if (!checkPlayServices()) {
+            return;
         }
 
-        map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        map.setOnMarkerClickListener(this);
+        context = getApplicationContext();
 
-        googleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        googleApiClient.connect();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
 
-        uiHandler = new Handler();
+        email = settings.getString(Properties.EMAIL, "");
+        authToken = settings.getString(Properties.AUTH_TOKEN, "");
+
+        if ("".equals(authToken)) { // todo check if token is not expired
+            Intent i = new Intent(context, RegisterActivity.class);
+            startActivity(i);
+            finish();
+        } else {
+
+            gcm = GoogleCloudMessaging.getInstance(context);
+
+            String regId = RegistrationTools.getRegistrationId(context, settings);
+
+            if (regId.isEmpty()) {
+                registerInBackground();
+            }
+
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            getSupportActionBar().setTitle(settings.getString(Properties.LOGIN, getResources().getString(R.string.app_name)));
+
+            drawerLayout = (DrawerLayout) findViewById(R.id.main_drawer_layout);
+
+            toggle = new ActionBarDrawerToggle(
+                    this,
+                    drawerLayout,
+                    R.string.navigation_drawer_open,
+                    R.string.navigation_drawer_close
+            );
+
+            toggle.setDrawerIndicatorEnabled(true);
+            // Set the drawer toggle as the DrawerListener
+            drawerLayout.setDrawerListener(toggle);
+
+            final ListView drawerList = (ListView) findViewById(R.id.left_drawer);
+
+            drawerModels = new ArrayList<INavigationItemModel>();
+            drawerModels.add(new LabelNavigationItemModel(getResources().getString(R.string.loading)));
+
+            // Set the adapter for the list view
+            navigationAdapter = new GKNavigationAdapter(context, drawerModels);
+            drawerList.setAdapter(navigationAdapter);
+            // Set the list's click listener
+            drawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    INavigationItemModel itemModel = drawerModels.get(position);
+                    if (itemModel instanceof FollowingNavigationItemModel) {
+                        FollowingNavigationItemModel followingNavigationItemModel = (FollowingNavigationItemModel) itemModel;
+                        drawerLayout.closeDrawer((View) drawerList.getParent());
+                        float zoom = map.getCameraPosition().zoom;
+                        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(followingNavigationItemModel.getDeviceLocation().getLatitude(), followingNavigationItemModel.getDeviceLocation().getLongitude()), Math.max(zoom, INITIAL_ZOOM));
+                        map.animateCamera(cameraUpdate);
+
+                        onMarkerClick(getMarkerByDeviceLocation(followingNavigationItemModel.getDeviceLocation()));
+                    }
+                }
+            });
+
+            defineOnClickForDrawerLayouts();
+
+            map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+            map.setOnMarkerClickListener(this);
+            map.setMyLocationEnabled(true);
+            map.getUiSettings().setZoomControlsEnabled(true);
+
+            map.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                @Override
+                public void onMyLocationChange(Location location) {
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(
+                            new LatLng(location.getLatitude(), location.getLongitude()), INITIAL_ZOOM);
+                    map.animateCamera(cameraUpdate);
+                    map.setOnMyLocationChangeListener(null);
+                }
+            });
+        }
     }
 
-    private String timeAgo(DateTime dateTime) {
-        if (dateTime == null) return "";
+    private void defineOnClickForDrawerLayouts() {
+        defineOnClickForDrawerLayout(R.id.add_kewpie_layout, AddActivity.class);
+        defineOnClickForDrawerLayout(R.id.followers_layout, FollowersActivity.class);
+//        defineOnClickForDrawerLayout(R.id.settings_layout, SettingsActivity.class);
+        defineOnClickForDrawerLayout(R.id.faq_layout, FAQActivity.class);
+    }
 
-        PeriodFormatter periodFormatter = new PeriodFormatterBuilder()
-                .appendYears().appendSuffix(" " + getResources().getString(R.string.year), " " + getResources().getString(R.string.years)).appendSeparator(DATE_DELIMITER)
-                .appendMonths().appendSuffix(" " + getResources().getString(R.string.month), " " + getResources().getString(R.string.months)).appendSeparator(DATE_DELIMITER)
-                .appendWeeks().appendSuffix(" " + getResources().getString(R.string.week), " " + getResources().getString(R.string.weeks)).appendSeparator(DATE_DELIMITER)
-                .appendDays().appendSuffix(" " + getResources().getString(R.string.day), " " + getResources().getString(R.string.days)).appendSeparator(DATE_DELIMITER)
-                .appendHours().appendSuffix(" " + getResources().getString(R.string.hour), " " + getResources().getString(R.string.hours)).appendSeparator(DATE_DELIMITER)
-                .appendMinutes().appendSuffix(" " + getResources().getString(R.string.minute), " " + getResources().getString(R.string.minutes)).appendSeparator(DATE_DELIMITER)
-                .appendSeconds().appendSuffix(" " + getResources().getString(R.string.second), " " + getResources().getString(R.string.seconds))
-                .printZeroNever()
-                .toFormatter();
+    private void defineOnClickForDrawerLayout(int layoutId, final Class activityClass) {
+        LinearLayout addKewpieLayout = (LinearLayout) findViewById(layoutId);
+        addKewpieLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, activityClass);
+                startActivity(i);
+            }
+        });
+    }
 
-        String updatedAt = periodFormatter.print(new Period(dateTime, new DateTime())) + DATE_DELIMITER;
-        return (updatedAt.length() == 1 ? getResources().getString(R.string.moments) : updatedAt.substring(0, updatedAt.indexOf(DATE_DELIMITER))) + " " + getResources().getString(R.string.ago);
+    private Marker getMarkerByDeviceLocation(DeviceLocation deviceLocation) {
+        for (Marker marker : markerLocationMap.keySet()) {
+            if (deviceLocation.equals(markerLocationMap.get(marker))) {
+                return marker;
+            }
+        }
+        return null;
+    }
+
+    private void prepareDrawerData(List<UserLocation> userLocations) {
+        drawMarkers(userLocations);
+
+        drawerModels = new ArrayList<INavigationItemModel>();
+//        drawerModels.add(new HeaderNavigationItemModel(getResources().getString(R.string.you_are_following)));
+
+        System.out.println("!!!!! userLocations = " + userLocations);
+        for (UserLocation userLocation : userLocations) {
+            for (DeviceLocation deviceLocation : userLocation.getDevices()) {
+                drawerModels.add(new FollowingNavigationItemModel(userLocation.getLogin(), deviceLocation, context));
+            }
+        }
+
+        if (userLocations.isEmpty()) {
+            drawerModels.add(new LabelNavigationItemModel(getResources().getString(R.string.no_active_followings)));
+        }
+
+        navigationAdapter.clear();
+        navigationAdapter.addAll(drawerModels);
+        navigationAdapter.notifyDataSetChanged();
+
     }
 
     private void drawAccuracyCircle(String login, LatLng latLng, float accuracy) {
@@ -123,12 +226,14 @@ public class MainActivity extends Activity implements LocationListener, GoogleMa
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (toggle.onOptionsItemSelected(item))
+            return true;
+
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.menu_add:
-                Intent i = new Intent(getApplicationContext(), AddActivity.class);
-                startActivity(i);
+            case R.id.menu_refresh:
+                new RequestLocationsRefreshTask(context).execute(email, authToken);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -136,57 +241,19 @@ public class MainActivity extends Activity implements LocationListener, GoogleMa
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-        if (myMarker == null) {
-            myMarker = map.addMarker(
-                    (new MarkerOptions())
-                            .position(latLng)
-                            .title(getResources().getString(R.string.marker_of_me))
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-            );
-
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 10);
-            map.animateCamera(cameraUpdate);
-
-        } else {
-            myMarker.setPosition(latLng);
-        }
-
-        drawAccuracyCircle(getResources().getString(R.string.marker_of_me), latLng, location.getAccuracy());
-    }
-
-    @Override
     public boolean onMarkerClick(Marker marker) {
-        System.out.println("onMarkerClick");
-        marker.setSnippet(timeAgo(markerDateTimeMap.get(marker)));
+        marker.setSnippet(markerLocationMap.get(marker).updatedAgo(context));
         marker.showInfoWindow();
         return true;
     }
 
     @Override
-    public void onConnected(Bundle bundle) {
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(4000);
-        locationRequest.setFastestInterval(1000);
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
+
+        checkPlayServices();
+
+        new RequestLocationsRefreshTask(context).execute(email, authToken);
 
         exec = Executors.newSingleThreadScheduledExecutor();
         exec.scheduleAtFixedRate(new FollowingsLocationsRunnable(), 0, 10, TimeUnit.SECONDS);
@@ -203,51 +270,104 @@ public class MainActivity extends Activity implements LocationListener, GoogleMa
         @Override
         public void run() {
 
-            GetFollowingsTask flt = new GetFollowingsTask(getApplicationContext());
-            flt.execute(email, authToken);
+            new GetFollowingsLocationsTask(context, new CallableWithArguments<Void, List<UserLocation>>() {
+                @Override
+                public Void call(final List<UserLocation> userLocations) throws Exception {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            prepareDrawerData(userLocations);
+                        }
+                    });
 
-            final List<UserLocation> followings;
-            try {
-                followings = flt.get();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
+                    return null;
+                }
+            }).execute(email, authToken);
+        }
+    }
+
+    private void drawMarkers(List<UserLocation> userLocations) {
+        for (UserLocation following : userLocations) {
+            for (DeviceLocation deviceLocation : following.getDevices()) {
+                LatLng latLng = new LatLng(deviceLocation.getLatitude(), deviceLocation.getLongitude());
+                Marker marker = usersMarkersMap.get(following.getLogin());
+                if (marker == null) {
+                    marker = map.addMarker(
+                            (new MarkerOptions())
+                                    .position(latLng)
+                                    .title(following.getLogin())
+                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
+                    );
+                    usersMarkersMap.put(following.getLogin(), marker);
+                } else {
+                    marker.setPosition(latLng);
+                }
+                markerLocationMap.put(marker, deviceLocation);
+                drawAccuracyCircle(following.getLogin(), latLng, deviceLocation.getAccuracy());
+            }
+        }
+    }
+
+    /**
+     * Check the device to make sure it has the Google Play Services APK. If
+     * it doesn't, display a dialog that allows users to download the APK from
+     * the Google Play Store or enable it in the device's system settings.
+     */
+    private boolean checkPlayServices() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                GooglePlayServicesUtil.getErrorDialog(resultCode, this,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
+            } else {
+                Log.i(TAG, getResources().getString(R.string.device_is_not_supported));
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Registers the application with GCM servers asynchronously.
+     * <p/>
+     * Stores the registration ID and app versionCode in the application's
+     * shared preferences.
+     */
+    private void registerInBackground() {
+        new AbstractNetworkTask<Void, Void, String>(context) {
+            @Override
+            protected String doNetworkOperation(Void[] params) throws Exception {
+                try {
+                    if (gcm == null) {
+                        gcm = GoogleCloudMessaging.getInstance(context);
+                    }
+                    regId = gcm.register(RegistrationTools.SENDER_ID);
+
+                    String url = MessageFormat.format("https://198.199.109.47:8080/devices?email={0}&auth_token={1}", email, authToken);
+                    Response response = NetworkTools.sendPost(url, new Gson().toJson(new Device(regId, context)));
+
+                    if (response.isSuccessful()) {
+                        RegistrationTools.storeRegistrationId(context, regId);
+                    }
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                return null;
             }
 
-            uiHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    if (followings == null) return;
+        }.execute(null, null, null);
+    }
 
-                    for (UserLocation following : followings) {
-                        DateTime dateTime = null;
-                        if (following.getUpdated_at() != null) {
-                            DateTimeFormatter isoFormatter = ISODateTimeFormat.dateTime();
-                            try { // todo remove once server issue fixed
-                                dateTime = isoFormatter.parseDateTime(following.getUpdated_at());
-                            } catch (Exception e) {
-                                // do nothing
-                            }
-                        }
-                        LatLng latLng = new LatLng(following.getLatitude(), following.getLongitude());
-                        Marker marker = usersMarkersMap.get(following.getLogin());
-                        if (marker == null) {
-                            marker = map.addMarker(
-                                    (new MarkerOptions())
-                                            .position(latLng)
-                                            .title(following.getLogin())
-                                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))
-                            );
-                            usersMarkersMap.put(following.getLogin(), marker);
-                        } else {
-                            marker.setPosition(latLng);
-                        }
-                        markerDateTimeMap.put(marker, dateTime);
-                        drawAccuracyCircle(following.getLogin(), latLng, following.getAccuracy());
-                    }
-                }
-            });
-        }
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
     }
 }

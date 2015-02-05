@@ -8,11 +8,11 @@ import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.geokewpie.content.Properties;
 import com.geokewpie.R;
 import com.geokewpie.beans.Authorization;
+import com.geokewpie.content.Properties;
 import com.geokewpie.network.Response;
-import com.geokewpie.tasks.RegisterTask;
+import com.geokewpie.tasks.RegisterUserTask;
 import com.google.gson.Gson;
 
 import java.util.concurrent.ExecutionException;
@@ -43,12 +43,12 @@ public class RegisterActivity extends Activity {
         EditText emailText = (EditText) findViewById(R.id.reg_email);
         EditText passwordText = (EditText) findViewById(R.id.reg_password);
 
-        RegisterTask rt = new RegisterTask(getApplicationContext());
-        rt.execute(userText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString());
+        RegisterUserTask rut = new RegisterUserTask(getApplicationContext());
+        rut.execute(userText.getText().toString(), emailText.getText().toString(), passwordText.getText().toString());
 
         try {
-            Response registerResponse = rt.get();
-            System.out.println("registerResponse = " + registerResponse);
+            Response registerResponse = rut.get();
+            System.out.println("registerUserResponse = " + registerResponse);
 
             if (registerResponse != null && registerResponse.isSuccessful()) {
                 Authorization auth = new Gson().fromJson(registerResponse.getBody(), Authorization.class);
@@ -73,4 +73,6 @@ public class RegisterActivity extends Activity {
             throw new RuntimeException(e);
         }
     }
+
+
 }
