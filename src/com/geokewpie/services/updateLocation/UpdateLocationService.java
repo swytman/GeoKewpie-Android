@@ -1,49 +1,23 @@
 package com.geokewpie.services.updateLocation;
 
 import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.os.IBinder;
+import android.os.*;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 import com.geokewpie.content.Properties;
+import com.geokewpie.gcm.GcmBroadcastReceiver;
 import com.geokewpie.tasks.UpdateLocationTask;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.*;
 
-public class UpdateLocationService extends Service implements LocationListener {
-    private LocationManager lm;
+import java.util.Date;
 
-    @Override
-    public void onLocationChanged(Location location) {
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        String authToken = settings.getString(Properties.AUTH_TOKEN, "");
-        String email = settings.getString(Properties.EMAIL, "");
-
-        new UpdateLocationTask(getApplicationContext()).execute(email, authToken, location.getLatitude(), location.getLongitude(), location.getAccuracy());
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 10, 0, this);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 10, 0, this);
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
+public class UpdateLocationService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private GoogleApiClient googleApiClient;
+    private Intent intent;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -52,12 +26,50 @@ public class UpdateLocationService extends Service implements LocationListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! onStartCommand");
-        lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        this.intent = intent;
 
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000 * 10, 0, this);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000 * 10, 0, this);
+        System.out.println("ALBA UpdateLocationService.onStartCommand 0");
+        googleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+        googleApiClient.connect();
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        System.out.println("ALBA UpdateLocationService.onConnected");
+
+        Location location = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+
+        if (location != null) {
+            SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            String authToken = settings.getString(Properties.AUTH_TOKEN, "");
+            String email = settings.getString(Properties.EMAIL, "");
+
+            System.out.println("ALBA UpdateLocationService.onLocationChanged 1");
+
+            new UpdateLocationTask(getApplicationContext()).execute(email, authToken, location.getLatitude(), location.getLongitude(), location.getAccuracy(), new Date(location.getTime()));
+            System.out.println("ALBA UpdateLocationService.onLocationChanged 2");
+        }
+
+        GcmBroadcastReceiver.completeWakefulIntent(intent);
+        System.out.println("ALBA UpdateLocationService.onLocationChanged 3");
+
+        stopSelf();
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        System.out.println("ALBA UpdateLocationService.onConnectionSuspended");
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        System.out.println("ALBA UpdateLocationService.onConnectionFailed");
     }
 }

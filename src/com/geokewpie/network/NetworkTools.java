@@ -110,4 +110,8 @@ public class NetworkTools {
         return sendRequest(url, null, "GET");
     }
 
+    public static Response sendDelete(String url) throws Exception {
+        return sendRequest(url, null, "DELETE");
+    }
+
 }

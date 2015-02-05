@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp">
+    <!-- title -->
+    <TextView
+            android:id="@+id/follower_login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:layout_marginStart="30sp"
+            android:layout_marginLeft="30sp"
+            android:layout_centerVertical="true"/>
+
+    <!--
+        <TextView
+                android:id="@+id/follower_status"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10sp"
+                android:layout_marginRight="10sp"
+                android:gravity="center_vertical|start"/>
+    -->
+
+    <RelativeLayout
+            android:layout_width="120sp"
+            android:layout_height="30sp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20sp"
+            android:layout_marginRight="20sp"
+            android:layout_centerVertical="true"
+            >
+
+        <Button
+                android:id="@+id/follower_accept_btn"
+                android:layout_width="55sp"
+                android:layout_height="fill_parent"
+                android:text="@string/accept"
+                android:textSize="12sp"
+                android:contentDescription="@string/accept"
+                android:background="@android:color/darker_gray"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"/>
+
+        <Button
+                android:id="@+id/follower_delete_btn"
+                android:layout_width="55sp"
+                android:layout_height="fill_parent"
+                android:text="@string/delete"
+                android:textSize="12sp"
+                android:contentDescription="@string/delete"
+                android:background="@android:color/darker_gray"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <!--  divider -->
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#DADADC"/>
+</RelativeLayout>

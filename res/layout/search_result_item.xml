@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="center_vertical">
+    <!-- title -->
+    <TextView
+            android:id="@+id/search_result_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:layout_marginStart="30sp"
+            android:layout_marginLeft="30sp"
+            android:gravity="center_vertical"
+            />
+
+    <RelativeLayout
+            android:layout_width="55sp"
+            android:layout_height="30sp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20sp"
+            android:layout_marginRight="20sp"
+            android:layout_centerVertical="true"
+            >
+
+        <Button
+                android:id="@+id/search_result_add"
+                android:layout_width="55sp"
+                android:layout_height="fill_parent"
+                android:text="@string/add"
+                android:textSize="12sp"
+                android:contentDescription="@string/add_kewpie"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/darker_gray"/>
+
+    </RelativeLayout>
+
+
+    <!--  divider -->
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:layout_marginBottom="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="#DADADC"/>
+</RelativeLayout>

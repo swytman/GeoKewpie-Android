@@ -1,8 +1,6 @@
 package com.geokewpie;
 
-import android.app.AlarmManager;
 import android.app.Application;
-import com.littlefluffytoys.littlefluffylocationlibrary.LocationLibrary;
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
 import org.acra.sender.HttpSender;
@@ -20,6 +18,5 @@ public class GeoKewpieApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ACRA.init(this);
-        LocationLibrary.initialiseLibrary(getBaseContext(), AlarmManager.INTERVAL_FIFTEEN_MINUTES, 0, "com.geokewpie");
     }
 }

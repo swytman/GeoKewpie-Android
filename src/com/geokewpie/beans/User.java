@@ -4,6 +4,7 @@ public class User {
     private String login;
     private String email;
     private String password;
+    private String status;
 
     public User(String login, String email, String password) {
         this.login = login;
@@ -33,5 +34,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
