@@ -1,17 +1,18 @@
 package com.geokewpie.services.updateLocation;
 
 import android.app.Service;
-import android.content.*;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
-import android.location.LocationManager;
-import android.os.*;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.preference.PreferenceManager;
 import com.geokewpie.content.Properties;
 import com.geokewpie.gcm.GcmBroadcastReceiver;
 import com.geokewpie.tasks.UpdateLocationTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.*;
+import com.google.android.gms.location.LocationServices;
 
 import java.util.Date;
 
@@ -26,15 +27,22 @@ public class UpdateLocationService extends Service implements GoogleApiClient.Co
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        this.intent = intent;
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Boolean invisible = settings.getBoolean(Properties.INVISIBLE, Boolean.FALSE);
 
-        System.out.println("ALBA UpdateLocationService.onStartCommand 0");
-        googleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .addApi(LocationServices.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-        googleApiClient.connect();
+        if (Boolean.FALSE.equals(invisible)) {
+
+            this.intent = intent;
+
+            System.out.println("ALBA UpdateLocationService.onStartCommand 0");
+            googleApiClient = new GoogleApiClient.Builder(getApplicationContext())
+                    .addApi(LocationServices.API)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .build();
+            googleApiClient.connect();
+
+        }
 
         return super.onStartCommand(intent, flags, startId);
     }

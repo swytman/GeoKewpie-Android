@@ -3,7 +3,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/main_drawer_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
     <!-- The main content view -->
     <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -37,9 +38,10 @@
                     android:id="@+id/hide_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textOn="Invisible On"
-                    android:textOff="Invisible Off"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:onClick="onInvisibleClick"
+                    android:textOn=""
+                    android:textOff=""/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -47,7 +49,6 @@
                     android:layout_marginStart="16sp"
                     android:layout_marginLeft="16sp"
                     android:textSize="16sp"
-                    android:textStyle="bold"
                     android:text="@string/invisible"
                     android:layout_gravity="center_vertical"/>
 
@@ -58,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:layout_marginBottom="1dp"
-                android:background="#DADADC"
+                android:background="#000000"
                 android:id="@+id/hide_divider"
                 android:layout_below="@+id/hide_switch_layout"/>
 
@@ -75,12 +76,21 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true">
 
+            <!--  divider -->
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.1dp"
+                    android:layout_marginBottom="1dp"
+                    android:background="#000000"
+                    android:id="@+id/functions_divider"/>
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                           android:id="@+id/add_kewpie_layout"
                           android:layout_width="match_parent"
                           android:layout_height="44sp"
                           android:gravity="center_vertical"
-                          android:clickable="true">
+                          android:clickable="true"
+                          android:layout_below="@+id/functions_divider">
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -94,7 +104,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         android:text="@string/add_kewpie"/>
             </LinearLayout>
 
@@ -117,7 +126,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         android:text="@string/followers"/>
             </LinearLayout>
 
@@ -165,7 +173,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:textStyle="bold"
                         android:text="@string/faq"/>
             </LinearLayout>
 
