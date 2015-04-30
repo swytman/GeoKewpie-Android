@@ -47,7 +47,7 @@ public class NetworkTools {
 
             HttpURLConnection con = (HttpURLConnection) new URL(url).openConnection();
 
-            con.setConnectTimeout(10000); // 10 sec timeout
+            con.setConnectTimeout(20000); // 20 sec timeout
             con.setReadTimeout(5000); // 5 sec timeout
             con.setRequestMethod(requestMethod);
 
@@ -92,6 +92,8 @@ public class NetworkTools {
 
             return response;
         } catch (ConnectException e) {
+            throw new NetworkException();
+        } catch (SSLException e) {
             throw new NetworkException();
         } catch (SocketTimeoutException e) {
             throw new NetworkException();

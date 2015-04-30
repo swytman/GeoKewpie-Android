@@ -68,7 +68,7 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMarke
         setContentView(R.layout.main);
 
         // Check device for Play Services APK.
-        if (!checkPlayServices()) {
+         if (!checkPlayServices()) {
             return;
         }
 
@@ -84,7 +84,6 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMarke
             startActivity(i);
             finish();
         } else {
-
             gcm = GoogleCloudMessaging.getInstance(context);
 
             String regId = RegistrationTools.getRegistrationId(context, settings);
@@ -152,6 +151,10 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMarke
                     map.setOnMyLocationChangeListener(null);
                 }
             });
+
+            Switch invisibleSwitch = (Switch) findViewById(R.id.hide_switch);
+
+            invisibleSwitch.setChecked(settings.getBoolean(Properties.INVISIBLE, Boolean.FALSE));
         }
     }
 
@@ -264,6 +267,18 @@ public class MainActivity extends ActionBarActivity implements GoogleMap.OnMarke
         super.onPause();
 
         exec.shutdown();
+    }
+
+    public void onInvisibleClick(View view) {
+        boolean on = ((Switch) view).isChecked();
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = settings.edit();
+        if (on) {
+            editor.putBoolean(Properties.INVISIBLE, Boolean.TRUE);
+        } else {
+            editor.putBoolean(Properties.INVISIBLE, Boolean.FALSE);
+        }
+        editor.apply();
     }
 
     public class FollowingsLocationsRunnable implements Runnable {

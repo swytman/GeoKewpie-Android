@@ -7,4 +7,6 @@ public class Properties {
     public static final String REFRESH_TOKEN = "geokewpie_refresh_token";
     public static final String REGISTRATION_ID = "geokewpie_registration_id";
     public static final String APP_VERSION = "geokewpie_app_version";
+
+    public static final String INVISIBLE = "geokewpie_invisible";
 }

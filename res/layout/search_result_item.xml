@@ -33,8 +33,7 @@
                 android:textSize="12sp"
                 android:contentDescription="@string/add_kewpie"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:background="@android:color/darker_gray"/>
+                android:layout_alignParentEnd="true"/>
 
     </RelativeLayout>
 
@@ -45,5 +44,5 @@
             android:layout_height="0.1dp"
             android:layout_marginBottom="1dp"
             android:layout_alignParentBottom="true"
-            android:background="#DADADC"/>
+            android:background="#FFFFFF"/>
 </RelativeLayout>
